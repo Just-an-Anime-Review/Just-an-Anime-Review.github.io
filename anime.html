@@ -10,28 +10,17 @@ content="width=device-width, initial-scale=1.0">
 
 <title>アニメ一覧 | Just An Anime Review</title>
 
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>アニメ一覧 | Just An Anime Review</title>
-
-<meta name="description"
+<meta
+name="description"
 content="Just An Anime Reviewのアニメ作品一覧。作品名やジャンルからアニメを検索し、作品情報やレビューを確認できます。">
 
-<meta name="robots" content="index, follow">
+<meta
+name="robots"
+content="index, follow">
 
-<link rel="canonical"
+<link
+rel="canonical"
 href="https://just-an-anime-review.github.io/anime.html">
-
-<script
-src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
-
-<style>
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
@@ -172,6 +161,12 @@ outline: none;
 border-color: #555;
 }
 
+.search-help {
+font-size: 13px;
+color: #777;
+margin-top: 8px;
+}
+
 .count {
 margin-bottom: 20px;
 color: #666;
@@ -207,6 +202,13 @@ transform: translateY(-4px);
 
 .anime-card h2 {
 margin-top: 0;
+margin-bottom: 7px;
+}
+
+.english-title {
+color: #777;
+font-size: 14px;
+margin-bottom: 14px;
 }
 
 .genre {
@@ -363,9 +365,13 @@ class="ad-box">
 <input
 type="search"
 id="search"
-placeholder="作品名・ジャンルを検索"
+placeholder="作品名・英語名・ジャンルを検索"
 autocomplete="off"
 >
+
+<div class="search-help">
+日本語タイトル・英語タイトル・ジャンルから検索できます。
+</div>
 
 </div>
 
@@ -420,7 +426,7 @@ class="admin-link">
 <script>
 
 /* =========================
-   Supabase設定
+   Supabase
 ========================= */
 
 const SUPABASE_URL =
@@ -437,7 +443,7 @@ SUPABASE_KEY
 
 
 /* =========================
-   アニメデータ
+   データ
 ========================= */
 
 let animeData = [];
@@ -472,10 +478,8 @@ document.getElementById("anime-list");
 const count =
 document.getElementById("count");
 
-
 count.textContent =
 `${list.length}作品`;
-
 
 if (!list.length) {
 
@@ -493,9 +497,7 @@ return;
 
 }
 
-
 container.innerHTML = "";
-
 
 list.forEach(anime => {
 
@@ -505,10 +507,8 @@ document.createElement("a");
 card.className =
 "anime-card";
 
-
 card.href =
 `anime-detail.html?id=${encodeURIComponent(anime.id)}`;
-
 
 card.innerHTML = `
 
@@ -517,16 +517,24 @@ ${escapeHTML(anime.title)}
 </h2>
 
 ${
+anime.english_title
+?
+`
+<div class="english-title">
+${escapeHTML(anime.english_title)}
+</div>
+`
+:
+""
+}
+
+${
 anime.genre
 ?
 `
-
 <div class="genre">
-
 ${escapeHTML(anime.genre)}
-
 </div>
-
 `
 :
 ""
@@ -536,26 +544,19 @@ ${
 anime.description
 ?
 `
-
 <p class="description">
-
 ${escapeHTML(anime.description)}
-
 </p>
-
 `
 :
 ""
 }
 
 <div class="detail">
-
 詳細を見る →
-
 </div>
 
 `;
-
 
 container.appendChild(card);
 
@@ -573,18 +574,16 @@ async function loadAnime() {
 const container =
 document.getElementById("anime-list");
 
-
 const { data, error } =
 await supabaseClient
 .from("anime")
 .select(
-"id,title,genre,description,review,official_url"
+"id,title,english_title,genre,description,review,official_url"
 )
 .order(
 "id",
 { ascending: true }
 );
-
 
 if (error) {
 
@@ -607,14 +606,188 @@ return;
 
 }
 
-
 animeData =
 data || [];
-
 
 renderAnime(animeData);
 
 }
+
+
+/* =========================
+   検索スコア
+========================= */
+
+function getSearchScore(
+anime,
+keyword
+) {
+
+const title =
+(anime.title || "")
+.toLowerCase();
+
+const english =
+(anime.english_title || "")
+.toLowerCase();
+
+const genre =
+(anime.genre || "")
+.toLowerCase();
+
+const description =
+(anime.description || "")
+.toLowerCase();
+
+
+/*
+完全一致
+*/
+
+if (title === keyword)
+return 1000;
+
+if (english === keyword)
+return 950;
+
+
+/*
+日本語タイトル先頭一致
+*/
+
+if (title.startsWith(keyword))
+return 900;
+
+
+/*
+英語タイトル先頭一致
+*/
+
+if (english.startsWith(keyword))
+return 850;
+
+
+/*
+ジャンル先頭一致
+*/
+
+if (genre.startsWith(keyword))
+return 700;
+
+
+/*
+タイトル部分一致
+*/
+
+if (title.includes(keyword))
+return 600;
+
+if (english.includes(keyword))
+return 550;
+
+
+/*
+ジャンル部分一致
+*/
+
+if (genre.includes(keyword))
+return 400;
+
+
+/*
+説明文
+*/
+
+if (description.includes(keyword))
+return 200;
+
+
+return 0;
+
+}
+
+
+/* =========================
+   検索
+========================= */
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function() {
+
+const keyword =
+this.value
+.trim()
+.toLowerCase();
+
+
+/*
+検索欄が空の場合
+*/
+
+if (!keyword) {
+
+renderAnime(
+animeData
+);
+
+return;
+
+}
+
+
+/*
+スコアをつけて並び替え
+*/
+
+const filtered =
+animeData
+.map(anime => {
+
+return {
+
+anime: anime,
+
+score:
+getSearchScore(
+anime,
+keyword
+)
+
+};
+
+})
+.filter(item =>
+item.score > 0
+)
+.sort((a,b) => {
+
+if (b.score !== a.score) {
+
+return b.score - a.score;
+
+}
+
+/*
+同じスコアならID順
+*/
+
+return (
+Number(a.anime.id) -
+Number(b.anime.id)
+);
+
+})
+.map(item =>
+item.anime
+);
+
+
+renderAnime(filtered);
+
+});
 
 
 /* =========================
@@ -662,8 +835,6 @@ return;
 }
 
 
-/* 広告がなければ非表示 */
-
 if (!data || data.length === 0) {
 
 section.style.display =
@@ -677,11 +848,12 @@ return;
 const ad =
 data[0];
 
-
 let html = "";
 
 
-/* 画像 */
+/*
+画像
+*/
 
 if (ad.image_url) {
 
@@ -689,7 +861,9 @@ html += `
 
 <img
 src="${escapeHTML(ad.image_url)}"
-alt="${escapeHTML(ad.title || "広告")}"
+alt="${escapeHTML(
+ad.title || "広告"
+)}"
 onerror="this.style.display='none';"
 >
 
@@ -698,7 +872,9 @@ onerror="this.style.display='none';"
 }
 
 
-/* 企業名 */
+/*
+企業名
+*/
 
 if (ad.company_name) {
 
@@ -706,7 +882,9 @@ html += `
 
 <div class="ad-company">
 
-${escapeHTML(ad.company_name)}
+${escapeHTML(
+ad.company_name
+)}
 
 </div>
 
@@ -715,7 +893,9 @@ ${escapeHTML(ad.company_name)}
 }
 
 
-/* タイトル */
+/*
+タイトル
+*/
 
 if (ad.title) {
 
@@ -723,7 +903,9 @@ html += `
 
 <div class="ad-title">
 
-${escapeHTML(ad.title)}
+${escapeHTML(
+ad.title
+)}
 
 </div>
 
@@ -732,7 +914,9 @@ ${escapeHTML(ad.title)}
 }
 
 
-/* 説明 */
+/*
+説明
+*/
 
 if (ad.description) {
 
@@ -740,7 +924,9 @@ html += `
 
 <div class="ad-description">
 
-${escapeHTML(ad.description)}
+${escapeHTML(
+ad.description
+)}
 
 </div>
 
@@ -749,7 +935,9 @@ ${escapeHTML(ad.description)}
 }
 
 
-/* リンク */
+/*
+リンク
+*/
 
 if (ad.link_url) {
 
@@ -757,7 +945,9 @@ html += `
 
 <a
 class="ad-button"
-href="${escapeHTML(ad.link_url)}"
+href="${escapeHTML(
+ad.link_url
+)}"
 target="_blank"
 rel="noopener noreferrer">
 
@@ -774,7 +964,9 @@ container.innerHTML =
 html;
 
 
-/* 広告を表示 */
+/*
+広告表示
+*/
 
 section.style.display =
 "block";
@@ -783,51 +975,7 @@ section.style.display =
 
 
 /* =========================
-   検索
-========================= */
-
-document
-.getElementById("search")
-.addEventListener(
-"input",
-function() {
-
-
-const keyword =
-this.value
-.trim()
-.toLowerCase();
-
-
-const filtered =
-animeData.filter(anime => {
-
-
-return (
-
-(anime.title || "")
-.toLowerCase()
-.includes(keyword)
-
-||
-
-(anime.genre || "")
-.toLowerCase()
-.includes(keyword)
-
-);
-
-
-});
-
-
-renderAnime(filtered);
-
-});
-
-
-/* =========================
-   ページ起動
+   起動
 ========================= */
 
 loadAnime();
