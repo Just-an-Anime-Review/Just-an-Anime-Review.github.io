@@ -10,8 +10,10 @@ content="width=device-width, initial-scale=1.0">
 
 <title>アニメ一覧 | Just An Anime Review</title>
 
-<meta name="description"
-content="Just An Anime Reviewのアニメ作品一覧。">
+<meta
+name="description"
+content="Just An Anime Reviewのアニメ作品一覧。"
+>
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
@@ -66,6 +68,75 @@ font-size: 36px;
 color: #666;
 }
 
+
+/* =========================
+   広告
+========================= */
+
+.ad-section {
+display: none;
+margin: 25px 0 30px;
+}
+
+.ad-label {
+text-align: center;
+font-size: 11px;
+color: #999;
+margin-bottom: 8px;
+}
+
+.ad-box {
+background: white;
+border: 1px solid #e5e5e5;
+border-radius: 12px;
+padding: 18px;
+text-align: center;
+box-shadow:
+0 2px 10px rgba(0,0,0,.04);
+}
+
+.ad-box img {
+display: block;
+max-width: 100%;
+max-height: 160px;
+margin: 0 auto 12px;
+border-radius: 8px;
+}
+
+.ad-company {
+font-size: 12px;
+color: #888;
+margin-bottom: 5px;
+}
+
+.ad-title {
+font-size: 17px;
+font-weight: bold;
+margin-bottom: 7px;
+}
+
+.ad-description {
+color: #666;
+font-size: 14px;
+line-height: 1.7;
+}
+
+.ad-button {
+display: inline-block;
+margin-top: 10px;
+padding: 8px 16px;
+background: #111;
+color: white;
+text-decoration: none;
+border-radius: 6px;
+font-size: 13px;
+}
+
+
+/* =========================
+   検索
+========================= */
+
 .search-box {
 margin: 30px 0;
 }
@@ -78,10 +149,20 @@ border: 1px solid #ccc;
 border-radius: 8px;
 }
 
+.search-box input:focus {
+outline: none;
+border-color: #555;
+}
+
 .count {
 margin-bottom: 20px;
 color: #666;
 }
+
+
+/* =========================
+   アニメ一覧
+========================= */
 
 #anime-list {
 display: grid;
@@ -134,6 +215,11 @@ padding: 40px;
 color: #666;
 }
 
+
+/* =========================
+   フッター
+========================= */
+
 footer {
 margin-top: 70px;
 background: #111;
@@ -146,6 +232,11 @@ max-width: 1100px;
 margin: auto;
 }
 
+
+/* =========================
+   管理画面
+========================= */
+
 .admin-link {
 position: fixed;
 right: 12px;
@@ -153,19 +244,50 @@ bottom: 10px;
 font-size: 11px;
 color: #999;
 text-decoration: none;
+opacity: .65;
+z-index: 1000;
+}
+
+.admin-link:hover {
+opacity: 1;
+text-decoration: underline;
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media (max-width: 600px) {
+
+main {
+padding: 35px 15px;
+}
+
+.page-header h1 {
+font-size: 30px;
+}
+
+#anime-list {
+grid-template-columns: 1fr;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="header-inner">
 
-<a href="index.html"
+<a
+href="index.html"
 class="logo">
 
 Just An Anime Review
@@ -178,6 +300,7 @@ Just An Anime Review
 
 
 <main>
+
 
 <section class="page-header">
 
@@ -192,17 +315,45 @@ Just An Anime Review
 </section>
 
 
+<!-- =========================
+     広告
+========================= -->
+
+<section
+id="ad-section"
+class="ad-section">
+
+<div class="ad-label">
+ADVERTISEMENT
+</div>
+
+<div
+id="ad-container"
+class="ad-box">
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     検索
+========================= -->
+
 <div class="search-box">
 
 <input
 type="search"
 id="search"
-placeholder="作品名・ジャンルを検索">
+placeholder="作品名・ジャンルを検索"
+autocomplete="off"
+>
 
 </div>
 
 
-<div id="count"
+<div
+id="count"
 class="count">
 
 読み込み中……
@@ -217,6 +368,7 @@ class="count">
 </div>
 
 </div>
+
 
 </main>
 
@@ -238,7 +390,8 @@ Just An Anime Review
 </footer>
 
 
-<a href="admin.html"
+<a
+href="admin.html"
 class="admin-link">
 
 管理画面
@@ -247,6 +400,10 @@ class="admin-link">
 
 
 <script>
+
+/* =========================
+   Supabase設定
+========================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
@@ -261,8 +418,16 @@ SUPABASE_KEY
 );
 
 
+/* =========================
+   アニメデータ
+========================= */
+
 let animeData = [];
 
+
+/* =========================
+   HTMLエスケープ
+========================= */
 
 function escapeHTML(text) {
 
@@ -277,6 +442,10 @@ return div.innerHTML;
 }
 
 
+/* =========================
+   アニメ表示
+========================= */
+
 function renderAnime(list) {
 
 const container =
@@ -285,6 +454,7 @@ document.getElementById("anime-list");
 const count =
 document.getElementById("count");
 
+
 count.textContent =
 `${list.length}作品`;
 
@@ -292,9 +462,13 @@ count.textContent =
 if (!list.length) {
 
 container.innerHTML = `
+
 <div class="status">
+
 該当する作品がありません。
+
 </div>
+
 `;
 
 return;
@@ -313,8 +487,10 @@ document.createElement("a");
 card.className =
 "anime-card";
 
+
 card.href =
 `anime-detail.html?id=${encodeURIComponent(anime.id)}`;
+
 
 card.innerHTML = `
 
@@ -325,9 +501,15 @@ ${escapeHTML(anime.title)}
 ${
 anime.genre
 ?
-`<div class="genre">
+`
+
+<div class="genre">
+
 ${escapeHTML(anime.genre)}
-</div>`
+
+</div>
+
+`
 :
 ""
 }
@@ -335,18 +517,27 @@ ${escapeHTML(anime.genre)}
 ${
 anime.description
 ?
-`<p class="description">
+`
+
+<p class="description">
+
 ${escapeHTML(anime.description)}
-</p>`
+
+</p>
+
+`
 :
 ""
 }
 
 <div class="detail">
+
 詳細を見る →
+
 </div>
 
 `;
+
 
 container.appendChild(card);
 
@@ -354,6 +545,10 @@ container.appendChild(card);
 
 }
 
+
+/* =========================
+   アニメ取得
+========================= */
 
 async function loadAnime() {
 
@@ -375,12 +570,19 @@ await supabaseClient
 
 if (error) {
 
-console.error(error);
+console.error(
+"アニメ取得エラー:",
+error
+);
 
 container.innerHTML = `
+
 <div class="status">
+
 アニメ情報を取得できませんでした。
+
 </div>
+
 `;
 
 return;
@@ -391,10 +593,180 @@ return;
 animeData =
 data || [];
 
+
 renderAnime(animeData);
 
 }
 
+
+/* =========================
+   広告取得
+========================= */
+
+async function loadAdvertisement() {
+
+const section =
+document.getElementById("ad-section");
+
+const container =
+document.getElementById("ad-container");
+
+
+const { data, error } =
+await supabaseClient
+.from("advertisements")
+.select(
+"id,company_name,title,description,image_url,link_url"
+)
+.eq(
+"is_active",
+true
+)
+.order(
+"id",
+{ ascending: true }
+)
+.limit(1);
+
+
+if (error) {
+
+console.error(
+"広告取得エラー:",
+error
+);
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+/* 広告がなければ非表示 */
+
+if (!data || data.length === 0) {
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+const ad =
+data[0];
+
+
+let html = "";
+
+
+/* 画像 */
+
+if (ad.image_url) {
+
+html += `
+
+<img
+src="${escapeHTML(ad.image_url)}"
+alt="${escapeHTML(ad.title || "広告")}"
+onerror="this.style.display='none';"
+>
+
+`;
+
+}
+
+
+/* 企業名 */
+
+if (ad.company_name) {
+
+html += `
+
+<div class="ad-company">
+
+${escapeHTML(ad.company_name)}
+
+</div>
+
+`;
+
+}
+
+
+/* タイトル */
+
+if (ad.title) {
+
+html += `
+
+<div class="ad-title">
+
+${escapeHTML(ad.title)}
+
+</div>
+
+`;
+
+}
+
+
+/* 説明 */
+
+if (ad.description) {
+
+html += `
+
+<div class="ad-description">
+
+${escapeHTML(ad.description)}
+
+</div>
+
+`;
+
+}
+
+
+/* リンク */
+
+if (ad.link_url) {
+
+html += `
+
+<a
+class="ad-button"
+href="${escapeHTML(ad.link_url)}"
+target="_blank"
+rel="noopener noreferrer">
+
+詳しくはこちら
+
+</a>
+
+`;
+
+}
+
+
+container.innerHTML =
+html;
+
+
+/* 広告を表示 */
+
+section.style.display =
+"block";
+
+}
+
+
+/* =========================
+   検索
+========================= */
 
 document
 .getElementById("search")
@@ -402,13 +774,16 @@ document
 "input",
 function() {
 
+
 const keyword =
 this.value
 .trim()
 .toLowerCase();
 
+
 const filtered =
 animeData.filter(anime => {
+
 
 return (
 
@@ -424,16 +799,25 @@ return (
 
 );
 
+
 });
+
 
 renderAnime(filtered);
 
 });
 
 
+/* =========================
+   ページ起動
+========================= */
+
 loadAnime();
 
+loadAdvertisement();
+
 </script>
+
 
 </body>
 
