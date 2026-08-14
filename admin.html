@@ -10,10 +10,127 @@
 
     <title>管理画面 | Just An Anime Review</title>
 
+
     <link rel="stylesheet" href="style.css">
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+
+    <style>
+
+        body {
+            background: #f7f7f7;
+        }
+
+
+        .admin-container {
+            max-width: 600px;
+
+            margin: 70px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .login-box {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .login-box h1 {
+            margin-top: 0;
+
+            font-size: 30px;
+        }
+
+
+        .login-box p {
+            color: #666;
+
+            line-height: 1.7;
+        }
+
+
+        label {
+            display: block;
+
+            margin-top: 20px;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+        }
+
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+        }
+
+
+        button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #111;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+
+        #message {
+            margin-top: 20px;
+
+            text-align: center;
+        }
+
+
+        .back-link {
+            display: block;
+
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: #666;
+
+            text-decoration: none;
+        }
+
+    </style>
 
 </head>
 
@@ -25,7 +142,10 @@
 
     <div class="header-inner">
 
-        <a href="index.html" class="logo">
+        <a
+            href="index.html"
+            class="logo"
+        >
             Just An Anime Review
         </a>
 
@@ -34,45 +154,30 @@
 </header>
 
 
+
 <main>
 
+    <div class="admin-container">
 
-    <section class="page-header">
-
-        <p class="section-label">
-            ADMIN
-        </p>
-
-        <h1>
-            管理画面
-        </h1>
-
-        <p>
-            Just An Anime Review 管理者ページ
-        </p>
-
-    </section>
+        <div class="login-box">
 
 
-    <section class="section">
+            <h1>
+                管理画面
+            </h1>
 
 
-        <div class="anime-detail">
-
-
-            <h2>
-                管理者ログイン
-            </h2>
+            <p>
+                管理者のみログインできます。
+            </p>
 
 
             <form id="login-form">
 
 
-                <p>
-                    <label for="email">
-                        メールアドレス
-                    </label>
-                </p>
+                <label for="email">
+                    メールアドレス
+                </label>
 
 
                 <input
@@ -83,11 +188,10 @@
                 >
 
 
-                <p>
-                    <label for="password">
-                        パスワード
-                    </label>
-                </p>
+
+                <label for="password">
+                    パスワード
+                </label>
 
 
                 <input
@@ -97,8 +201,6 @@
                     required
                 >
 
-
-                <br><br>
 
 
                 <button type="submit">
@@ -112,34 +214,19 @@
             <p id="message"></p>
 
 
+            <a
+                href="index.html"
+                class="back-link"
+            >
+                ← ホームに戻る
+            </a>
+
+
         </div>
-
-
-    </section>
-
-
-</main>
-
-
-<footer>
-
-    <div class="footer-inner">
-
-        <h2>
-            Just An Anime Review
-        </h2>
-
-        <p>
-            アニメをもっと深く、もっと面白く。
-        </p>
-
-        <p class="copyright">
-            © 2026 Just An Anime Review
-        </p>
 
     </div>
 
-</footer>
+</main>
 
 
 
@@ -151,22 +238,12 @@
 ========================================= */
 
 
-/*
-   ↓↓↓ ここを自分のSupabase情報に変更します ↓↓↓
-*/
-
-
 const SUPABASE_URL =
     "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 
 const SUPABASE_KEY =
     "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
-
-
-/*
-   ↑↑↑ ここまで ↑↑↑
-*/
 
 
 const supabaseClient =
@@ -178,7 +255,7 @@ const supabaseClient =
 
 
 /* =========================================
-   ログイン処理
+   ログイン
 ========================================= */
 
 
@@ -188,7 +265,6 @@ const loginForm =
 
 const message =
     document.getElementById("message");
-
 
 
 loginForm.addEventListener(
@@ -207,31 +283,31 @@ loginForm.addEventListener(
             document.getElementById("password").value;
 
 
-
         message.textContent =
             "ログインしています……";
-
 
 
         const {
             data,
             error
         } =
-            await supabaseClient.auth.signInWithPassword({
+            await supabaseClient.auth
+                .signInWithPassword({
 
-                email: email,
+                    email: email,
 
-                password: password
+                    password: password
 
-            });
-
+                });
 
 
         if (error) {
 
+            console.error(error);
+
 
             message.textContent =
-                "ログインに失敗しました。メールアドレスとパスワードを確認してください。";
+                "ログインに失敗しました。";
 
 
             return;
@@ -239,15 +315,8 @@ loginForm.addEventListener(
         }
 
 
-
         message.textContent =
             "ログインしました。";
-
-
-        /*
-           ログイン成功後に
-           管理画面へ移動
-        */
 
 
         window.location.href =
