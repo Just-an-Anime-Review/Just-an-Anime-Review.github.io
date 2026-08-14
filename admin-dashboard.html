@@ -118,6 +118,11 @@ button:hover {
 opacity: .85;
 }
 
+button:disabled {
+opacity: .5;
+cursor: not-allowed;
+}
+
 .save {
 background: #111;
 color: white;
@@ -156,7 +161,8 @@ flex-wrap: wrap;
 }
 
 #message,
-#ad-message {
+#ad-message,
+#comment-message {
 font-weight: bold;
 margin-top: 20px;
 }
@@ -238,6 +244,31 @@ color: #06c;
 word-break: break-all;
 }
 
+.comment-item {
+border: 1px solid #ddd;
+padding: 20px;
+border-radius: 10px;
+margin-top: 15px;
+}
+
+.comment-meta {
+color: #777;
+font-size: 13px;
+margin-bottom: 10px;
+}
+
+.comment-anime {
+font-weight: bold;
+font-size: 16px;
+margin-bottom: 8px;
+}
+
+.comment-text {
+white-space: pre-wrap;
+word-break: break-word;
+line-height: 1.7;
+}
+
 .help {
 color: #777;
 font-size: 13px;
@@ -276,7 +307,8 @@ padding: 22px;
 
 <div class="header-inner">
 
-<a href="index.html"
+<a
+href="index.html"
 class="logo">
 
 Just An Anime Review
@@ -438,10 +470,45 @@ autocomplete="off"
 <div
 id="count"
 class="count">
-
 </div>
 
 <div id="list"></div>
+
+</div>
+
+
+<!-- =========================
+     コメント管理
+========================= -->
+
+<div class="box">
+
+<h2>
+コメント管理
+</h2>
+
+<p class="help">
+投稿されたコメントを確認・削除できます。
+</p>
+
+<div class="search">
+
+<input
+id="comment-search"
+placeholder="アニメ名・ニックネーム・コメントを検索"
+autocomplete="off"
+>
+
+</div>
+
+<div
+id="comment-count"
+class="count">
+</div>
+
+<div id="comment-list"></div>
+
+<p id="comment-message"></p>
 
 </div>
 
@@ -582,7 +649,6 @@ autocomplete="off"
 <div
 id="ad-count"
 class="count">
-
 </div>
 
 <div id="ad-list"></div>
@@ -620,6 +686,7 @@ SUPABASE_KEY
 
 let animeData = [];
 let advertisementData = [];
+let commentData = [];
 
 let editingId = null;
 let editingAdId = null;
@@ -659,8 +726,19 @@ return div.innerHTML;
 
 async function checkSession() {
 
-const { data } =
+const { data, error } =
 await supabaseClient.auth.getSession();
+
+if (error) {
+
+console.error(error);
+
+loginError.style.display =
+"block";
+
+return;
+
+}
 
 if (!data.session) {
 
@@ -683,6 +761,8 @@ dashboard.style.display =
 await loadAnime();
 
 await loadAdvertisements();
+
+await loadComments();
 
 }
 
@@ -1116,6 +1196,293 @@ b.score - a.score
 .map(item => item.anime);
 
 renderAnime(filtered);
+
+});
+
+
+/* =========================
+   コメント取得
+========================= */
+
+async function loadComments() {
+
+const { data, error } =
+await supabaseClient
+.from("anime_comments")
+.select(
+"id,anime_id,nickname,comment,created_at"
+)
+.order(
+"created_at",
+{
+ascending: false
+}
+);
+
+if (error) {
+
+console.error(
+"コメント取得エラー:",
+error
+);
+
+document.getElementById("comment-message")
+.textContent =
+"コメントの取得に失敗しました。";
+
+return;
+
+}
+
+commentData =
+data || [];
+
+renderComments(commentData);
+
+}
+
+
+/* =========================
+   コメント表示
+========================= */
+
+function renderComments(list) {
+
+const container =
+document.getElementById(
+"comment-list"
+);
+
+const count =
+document.getElementById(
+"comment-count"
+);
+
+count.textContent =
+`${list.length}件`;
+
+container.innerHTML = "";
+
+if (!list.length) {
+
+container.innerHTML =
+"<p>コメントはありません。</p>";
+
+return;
+
+}
+
+list.forEach(comment => {
+
+const item =
+document.createElement("div");
+
+item.className =
+"comment-item";
+
+
+const anime =
+animeData.find(
+anime =>
+String(anime.id) ===
+String(comment.anime_id)
+);
+
+
+const animeTitle =
+anime
+?
+anime.title
+:
+"作品不明";
+
+
+const date =
+comment.created_at
+?
+new Date(
+comment.created_at
+).toLocaleString(
+"ja-JP"
+)
+:
+"";
+
+
+item.innerHTML = `
+
+<div class="comment-anime">
+${escapeHTML(animeTitle)}
+</div>
+
+<div class="comment-meta">
+${escapeHTML(comment.nickname || "名無し")}
+&nbsp;｜&nbsp;
+${escapeHTML(date)}
+</div>
+
+<div class="comment-text">
+${escapeHTML(comment.comment)}
+</div>
+
+<div class="actions">
+
+<button
+class="delete">
+
+コメントを削除
+
+</button>
+
+</div>
+
+`;
+
+item.querySelector(".delete")
+.addEventListener(
+"click",
+() =>
+deleteComment(
+comment.id
+)
+);
+
+container.appendChild(item);
+
+});
+
+}
+
+
+/* =========================
+   コメント削除
+========================= */
+
+async function deleteComment(id) {
+
+const ok =
+confirm(
+"このコメントを削除しますか？\n\n削除すると元に戻せません。"
+);
+
+if (!ok) return;
+
+
+const { error } =
+await supabaseClient
+.from("anime_comments")
+.delete()
+.eq("id", id);
+
+
+if (error) {
+
+console.error(
+"コメント削除エラー:",
+error
+);
+
+document.getElementById(
+"comment-message"
+).textContent =
+"コメントの削除に失敗しました。";
+
+return;
+
+}
+
+
+document.getElementById(
+"comment-message"
+).textContent =
+"コメントを削除しました。";
+
+
+await loadComments();
+
+}
+
+
+/* =========================
+   コメント検索
+========================= */
+
+document.getElementById(
+"comment-search"
+)
+.addEventListener(
+"input",
+function() {
+
+const keyword =
+this.value
+.trim()
+.toLowerCase();
+
+if (!keyword) {
+
+renderComments(
+commentData
+);
+
+return;
+
+}
+
+
+const filtered =
+commentData.filter(
+comment => {
+
+const anime =
+animeData.find(
+anime =>
+String(anime.id) ===
+String(comment.anime_id)
+);
+
+
+const animeTitle =
+(
+anime
+?
+anime.title
+:
+""
+)
+.toLowerCase();
+
+
+const nickname =
+(
+comment.nickname ||
+""
+)
+.toLowerCase();
+
+
+const text =
+(
+comment.comment ||
+""
+)
+.toLowerCase();
+
+
+return (
+
+animeTitle.includes(keyword) ||
+
+nickname.includes(keyword) ||
+
+text.includes(keyword)
+
+);
+
+});
+
+
+renderComments(filtered);
 
 });
 
