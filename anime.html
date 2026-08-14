@@ -11,18 +11,15 @@
     <title>アニメ一覧 | Just An Anime Review</title>
 
     <meta name="description"
-          content="アニメを紹介・レビューするサイト、Just An Anime Review。">
+          content="Just An Anime Reviewのアニメ紹介・レビュー一覧。">
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
     <style>
 
         * {
             box-sizing: border-box;
         }
-
 
         body {
             margin: 0;
@@ -36,19 +33,16 @@
             color: #222;
         }
 
-
         header {
             background: #111;
             color: white;
         }
-
 
         .header-inner {
             max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
-
 
         .logo {
             color: white;
@@ -57,29 +51,24 @@
             font-weight: bold;
         }
 
-
         main {
             max-width: 1100px;
             margin: 0 auto;
             padding: 50px 20px;
         }
 
-
         .page-header {
             margin-bottom: 40px;
         }
-
 
         .page-header h1 {
             margin-bottom: 10px;
             font-size: 38px;
         }
 
-
         .page-header p {
             color: #666;
         }
-
 
         #anime-list {
             display: grid;
@@ -90,8 +79,9 @@
             gap: 25px;
         }
 
-
         .anime-card {
+            display: block;
+
             background: white;
 
             border-radius: 12px;
@@ -101,26 +91,27 @@
             box-shadow:
                 0 3px 15px rgba(0, 0, 0, 0.08);
 
+            text-decoration: none;
+
+            color: #222;
+
             transition:
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
         }
 
-
         .anime-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
 
             box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.12);
+                0 7px 22px rgba(0, 0, 0, 0.12);
         }
-
 
         .anime-card h2 {
             margin-top: 0;
             margin-bottom: 12px;
             font-size: 24px;
         }
-
 
         .anime-genre {
             display: inline-block;
@@ -136,41 +127,21 @@
             font-size: 13px;
         }
 
-
         .anime-description {
             color: #555;
-            line-height: 1.8;
-        }
-
-
-        .anime-review {
-            margin-top: 15px;
-
-            padding-top: 15px;
-
-            border-top: 1px solid #eee;
 
             line-height: 1.8;
         }
 
-
-        .official-link {
+        .detail-link {
             display: inline-block;
 
-            margin-top: 18px;
+            margin-top: 15px;
 
-            color: #0066cc;
-
-            text-decoration: none;
+            color: #06c;
 
             font-weight: bold;
         }
-
-
-        .official-link:hover {
-            text-decoration: underline;
-        }
-
 
         #loading {
             text-align: center;
@@ -180,28 +151,25 @@
             color: #666;
         }
 
-
         #error {
+            display: none;
+
             text-align: center;
 
-            padding: 30px;
+            padding: 50px;
 
             color: #c00;
-
-            display: none;
         }
 
-
         #empty {
+            display: none;
+
             text-align: center;
 
             padding: 50px;
 
             color: #666;
-
-            display: none;
         }
-
 
         footer {
             margin-top: 80px;
@@ -213,13 +181,11 @@
             padding: 40px 20px;
         }
 
-
         .footer-inner {
             max-width: 1100px;
 
             margin: 0 auto;
         }
-
 
         .copyright {
             margin-top: 25px;
@@ -228,7 +194,6 @@
 
             font-size: 14px;
         }
-
 
         @media (max-width: 600px) {
 
@@ -282,28 +247,24 @@
     </section>
 
 
-    <!-- 読み込み中 -->
-
     <div id="loading">
         アニメ情報を読み込んでいます……
     </div>
 
 
-    <!-- エラー -->
-
     <div id="error">
+
         アニメ情報を取得できませんでした。
+
     </div>
 
-
-    <!-- アニメがない場合 -->
 
     <div id="empty">
+
         現在、登録されているアニメはありません。
+
     </div>
 
-
-    <!-- アニメ一覧 -->
 
     <div id="anime-list"></div>
 
@@ -377,24 +338,20 @@ function escapeHTML(text) {
 
 
 /* =========================================
-   アニメ情報取得
+   アニメ一覧取得
 ========================================= */
 
 
 async function loadAnime() {
 
-
     const loading =
         document.getElementById("loading");
-
 
     const error =
         document.getElementById("error");
 
-
     const empty =
         document.getElementById("empty");
-
 
     const animeList =
         document.getElementById("anime-list");
@@ -404,10 +361,8 @@ async function loadAnime() {
 
 
         const {
-
             data,
             error: fetchError
-
         } = await supabaseClient
 
             .from("anime")
@@ -449,123 +404,83 @@ async function loadAnime() {
             "";
 
 
-        data.forEach(
-            function(anime) {
+        data.forEach(function(anime) {
 
 
-                const card =
-                    document.createElement("article");
+            const card =
+                document.createElement("a");
 
 
-                card.className =
-                    "anime-card";
+            card.className =
+                "anime-card";
 
 
-                const title =
-                    escapeHTML(
-                        anime.title
-                    );
+            card.href =
+                `anime-detail.html?id=${encodeURIComponent(anime.id)}`;
 
 
-                const genre =
-                    escapeHTML(
-                        anime.genre
-                    );
-
-
-                const description =
-                    escapeHTML(
-                        anime.description
-                    );
-
-
-                const review =
-                    escapeHTML(
-                        anime.review
-                    );
-
-
-                card.innerHTML = `
-
-                    <h2>
-                        ${title}
-                    </h2>
-
-
-                    ${
-                        genre
-                        ?
-                        `
-                        <div class="anime-genre">
-                            ${genre}
-                        </div>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        description
-                        ?
-                        `
-                        <p class="anime-description">
-                            ${description}
-                        </p>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        review
-                        ?
-                        `
-                        <div class="anime-review">
-
-                            <strong>
-                                レビュー
-                            </strong>
-
-                            <p>
-                                ${review}
-                            </p>
-
-                        </div>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        anime.official_url
-                        ?
-                        `
-                        <a
-                            class="official-link"
-                            href="${escapeHTML(anime.official_url)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            公式サイトを見る →
-                        </a>
-                        `
-                        :
-                        ""
-                    }
-
-                `;
-
-
-                animeList.appendChild(
-                    card
+            const title =
+                escapeHTML(
+                    anime.title
                 );
 
 
-            }
-        );
+            const genre =
+                escapeHTML(
+                    anime.genre
+                );
+
+
+            const description =
+                escapeHTML(
+                    anime.description
+                );
+
+
+            card.innerHTML = `
+
+                <h2>
+                    ${title}
+                </h2>
+
+
+                ${
+                    genre
+                    ?
+                    `
+                    <div class="anime-genre">
+                        ${genre}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${
+                    description
+                    ?
+                    `
+                    <p class="anime-description">
+                        ${description}
+                    </p>
+                    `
+                    :
+                    ""
+                }
+
+
+                <span class="detail-link">
+                    詳細を見る →
+                </span>
+
+            `;
+
+
+            animeList.appendChild(card);
+
+
+        });
 
 
     } catch (err) {
