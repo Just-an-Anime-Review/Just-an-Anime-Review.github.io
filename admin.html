@@ -28,6 +28,7 @@ BlinkMacSystemFont,
 "Segoe UI",
 sans-serif;
 background: #f7f7f7;
+color: #222;
 }
 
 header {
@@ -38,13 +39,14 @@ color: white;
 .header-inner {
 max-width: 800px;
 margin: auto;
-padding: 20px;
+padding: 18px 20px;
 }
 
 .logo {
 color: white;
 text-decoration: none;
 font-weight: bold;
+font-size: 16px;
 }
 
 main {
@@ -63,6 +65,13 @@ box-shadow:
 
 h1 {
 margin-top: 0;
+margin-bottom: 10px;
+}
+
+.description {
+color: #666;
+line-height: 1.7;
+font-size: 14px;
 }
 
 label {
@@ -77,6 +86,12 @@ padding: 12px;
 border: 1px solid #ccc;
 border-radius: 7px;
 font-size: 16px;
+font-family: inherit;
+}
+
+input:focus {
+outline: none;
+border-color: #555;
 }
 
 button {
@@ -95,9 +110,16 @@ button:hover {
 opacity: .8;
 }
 
+button:disabled {
+opacity: .5;
+cursor: not-allowed;
+}
+
 #message {
 text-align: center;
 margin-top: 20px;
+min-height: 20px;
+font-size: 14px;
 }
 
 .back {
@@ -105,19 +127,28 @@ display: block;
 margin-top: 25px;
 text-align: center;
 color: #666;
+text-decoration: none;
+font-size: 14px;
+}
+
+.back:hover {
+text-decoration: underline;
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="header-inner">
 
-<a href="index.html"
+<a
+href="index.html"
 class="logo">
 
 Just An Anime Review
@@ -137,38 +168,46 @@ Just An Anime Review
 管理者ログイン
 </h1>
 
-<p>
+<p class="description">
 管理者のみ利用できます。
 </p>
 
 
 <form id="login-form">
 
-<label>
+
+<label for="email">
 メールアドレス
 </label>
 
 <input
 type="email"
 id="email"
+autocomplete="email"
 required
 >
 
 
-<label>
+<label for="password">
 パスワード
 </label>
 
 <input
 type="password"
 id="password"
+autocomplete="current-password"
 required
 >
 
 
-<button type="submit">
+<button
+type="submit"
+id="login-button">
+
 ログイン
+
 </button>
+
 
 </form>
 
@@ -176,7 +215,8 @@ required
 <p id="message"></p>
 
 
-<a href="index.html"
+<a
+href="index.html"
 class="back">
 
 ← ホームへ戻る
@@ -190,11 +230,16 @@ class="back">
 
 <script>
 
+/* =========================================
+   Supabase設定
+========================================= */
+
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+
 
 const supabaseClient =
 supabase.createClient(
@@ -202,6 +247,39 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
+/* =========================================
+   ログイン済みか確認
+========================================= */
+
+async function checkExistingSession() {
+
+const { data, error } =
+await supabaseClient.auth.getSession();
+
+
+if (error) {
+
+console.error(error);
+
+return;
+
+}
+
+
+if (data.session) {
+
+location.href =
+"admin-dashboard.html";
+
+}
+
+}
+
+
+/* =========================================
+   ログイン
+========================================= */
 
 document
 .getElementById("login-form")
@@ -213,28 +291,44 @@ e.preventDefault();
 
 
 const email =
-document.getElementById("email")
-.value;
+document
+.getElementById("email")
+.value
+.trim();
 
 
 const password =
-document.getElementById("password")
+document
+.getElementById("password")
 .value;
 
 
 const message =
-document.getElementById("message");
+document
+.getElementById("message");
+
+
+const button =
+document
+.getElementById("login-button");
 
 
 message.textContent =
 "ログインしています……";
 
 
+button.disabled =
+true;
+
+
 const { error } =
 await supabaseClient.auth
 .signInWithPassword({
 
+email:
 email,
+
+password:
 password
 
 });
@@ -242,14 +336,23 @@ password
 
 if (error) {
 
-message.textContent =
-"ログインに失敗しました。";
-
 console.error(error);
+
+message.textContent =
+"メールアドレスまたはパスワードが正しくありません。";
+
+button.disabled =
+false;
 
 return;
 
 }
+
+
+/* ログイン成功 */
+
+message.textContent =
+"ログインしました。";
 
 
 location.href =
@@ -257,7 +360,15 @@ location.href =
 
 });
 
+
+/* =========================================
+   起動
+========================================= */
+
+checkExistingSession();
+
 </script>
+
 
 </body>
 
