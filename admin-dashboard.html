@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>管理画面 | Just An Anime Review</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            Just An Anime Review
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="page-header">
+
+        <p class="section-label">
+            ADMIN
+        </p>
+
+        <h1>
+            アニメ管理
+        </h1>
+
+        <p>
+            アニメ情報を追加・編集できます。
+        </p>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="anime-detail">
+
+            <h2>
+                アニメを追加
+            </h2>
+
+
+            <form id="anime-form">
+
+                <p>
+                    <label for="title">
+                        作品名
+                    </label>
+                </p>
+
+                <input
+                    type="text"
+                    id="title"
+                    required
+                >
+
+
+                <p>
+                    <label for="genre">
+                        ジャンル
+                    </label>
+                </p>
+
+                <input
+                    type="text"
+                    id="genre"
+                >
+
+
+                <p>
+                    <label for="description">
+                        あらすじ
+                    </label>
+                </p>
+
+                <textarea
+                    id="description"
+                    rows="6"
+                ></textarea>
+
+
+                <p>
+                    <label for="review">
+                        レビュー
+                    </label>
+                </p>
+
+                <textarea
+                    id="review"
+                    rows="8"
+                ></textarea>
+
+
+                <p>
+                    <label for="official_url">
+                        公式サイト
+                    </label>
+                </p>
+
+                <input
+                    type="url"
+                    id="official_url"
+                    placeholder="https://"
+                >
+
+
+                <br><br>
+
+                <button type="submit">
+                    保存
+                </button>
+
+            </form>
+
+
+            <p id="message"></p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-inner">
+
+        <h2>
+            Just An Anime Review
+        </h2>
+
+        <p>
+            アニメをもっと深く、もっと面白く。
+        </p>
+
+        <p class="copyright">
+            © 2026 Just An Anime Review
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =========================================
+   Supabase設定
+========================================= */
+
+const SUPABASE_URL =
+    "https://bhgdjuwlxvbaeraaivmh.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================
+   ログイン確認
+========================================= */
+
+async function checkLogin() {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+        window.location.href =
+            "admin.html";
+
+    }
+
+}
+
+
+checkLogin();
+
+
+/* =========================================
+   アニメ追加
+========================================= */
+
+const animeForm =
+    document.getElementById("anime-form");
+
+const message =
+    document.getElementById("message");
+
+
+animeForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const title =
+            document.getElementById("title").value;
+
+        const genre =
+            document.getElementById("genre").value;
+
+        const description =
+            document.getElementById("description").value;
+
+        const review =
+            document.getElementById("review").value;
+
+        const official_url =
+            document.getElementById("official_url").value;
+
+
+        message.textContent =
+            "保存しています……";
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("anime")
+                .insert({
+
+                    title: title,
+
+                    genre: genre,
+
+                    description: description,
+
+                    review: review,
+
+                    official_url: official_url
+
+                });
+
+
+        if (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "保存に失敗しました。";
+
+            return;
+
+        }
+
+
+        message.textContent =
+            "アニメを保存しました。";
+
+
+        animeForm.reset();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
