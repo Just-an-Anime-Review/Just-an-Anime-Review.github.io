@@ -5,72 +5,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>アニメ紹介サイト</title>
+    <title>Just An Anime Review | アニメ紹介・レビュー</title>
+
+    <meta name="description"
+        content="Just An Anime Reviewでは、おすすめアニメの紹介やレビュー、ランキング、ジャンル別の作品情報を掲載しています。">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-    <h1>アニメ紹介サイト</h1>
+<header class="site-header">
 
-    <nav>
-        <a href="index.html">ホーム</a>
-        <a href="anime.html">アニメ一覧</a>
-        <a href="ranking.html">ランキング</a>
-    </nav>
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            Just An Anime Review
+        </a>
+
+        <nav class="navigation">
+            <a href="index.html">ホーム</a>
+            <a href="anime.html">アニメ一覧</a>
+            <a href="ranking.html">ランキング</a>
+        </nav>
+
+    </div>
+
 </header>
+
 
 <main>
 
-    <section class="hero">
-        <h2>あなたに合うアニメを見つけよう</h2>
+    <!-- メインビジュアル -->
 
-        <p>
-            おすすめのアニメや作品情報を紹介します。
-        </p>
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-label">
+                ANIME INFORMATION & REVIEW
+            </p>
+
+            <h1>
+                アニメをもっと深く、<br>
+                もっと面白く。
+            </h1>
+
+            <p class="hero-description">
+                おすすめアニメの紹介やレビュー、ランキングなど、
+                アニメを探すための情報を発信しています。
+            </p>
+
+        </div>
+
     </section>
 
-    <section>
-        <h2>おすすめアニメ</h2>
+
+    <!-- おすすめアニメ -->
+
+    <section class="section">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="section-label">RECOMMEND</p>
+                <h2>おすすめアニメ</h2>
+            </div>
+
+            <a href="anime.html" class="more-link">
+                作品一覧 →
+            </a>
+
+        </div>
+
 
         <div class="anime-grid">
 
-            <article class="anime-card">
-                <h3>STEINS;GATE</h3>
-                <p>タイムリープを題材にしたSF作品。</p>
-            </article>
 
             <article class="anime-card">
-                <h3>青春ブタ野郎シリーズ</h3>
-                <p>青春とSF要素を組み合わせた作品。</p>
+
+                <div class="anime-card-image">
+                    <span>SF</span>
+                </div>
+
+                <div class="anime-card-content">
+
+                    <p class="anime-genre">
+                        SCIENCE FICTION
+                    </p>
+
+                    <h3>STEINS;GATE</h3>
+
+                    <p>
+                        タイムリープを題材にしたSF作品。
+                        緻密な伏線と物語構成が魅力です。
+                    </p>
+
+                    <a href="#" class="card-link">
+                        作品を見る →
+                    </a>
+
+                </div>
+
             </article>
 
+
             <article class="anime-card">
-                <h3>86―エイティシックス―</h3>
-                <p>戦争と差別を描いたSF作品。</p>
+
+                <div class="anime-card-image">
+                    <span>青春</span>
+                </div>
+
+                <div class="anime-card-content">
+
+                    <p class="anime-genre">
+                        ROMANCE / SF
+                    </p>
+
+                    <h3>青春ブタ野郎シリーズ</h3>
+
+                    <p>
+                        青春ドラマとSF要素を組み合わせた作品。
+                        個性的なキャラクターも魅力です。
+                    </p>
+
+                    <a href="#" class="card-link">
+                        作品を見る →
+                    </a>
+
+                </div>
+
             </article>
+
+
+            <article class="anime-card">
+
+                <div class="anime-card-image">
+                    <span>SF</span>
+                </div>
+
+                <div class="anime-card-content">
+
+                    <p class="anime-genre">
+                        SCIENCE FICTION / WAR
+                    </p>
+
+                    <h3>86―エイティシックス―</h3>
+
+                    <p>
+                        戦争や差別をテーマに描いたSF作品。
+                        重厚なストーリーが特徴です。
+                    </p>
+
+                    <a href="#" class="card-link">
+                        作品を見る →
+                    </a>
+
+                </div>
+
+            </article>
+
 
         </div>
+
     </section>
 
-    <section>
-        <h2>ジャンル</h2>
 
-        <div class="genres">
-            <a href="#">SF</a>
-            <a href="#">恋愛</a>
-            <a href="#">感動</a>
-            <a href="#">ファンタジー</a>
-            <a href="#">ミステリー</a>
+    <!-- ジャンル -->
+
+    <section class="section">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="section-label">GENRE</p>
+                <h2>ジャンルから探す</h2>
+            </div>
+
         </div>
+
+
+        <div class="genre-grid">
+
+            <a href="#" class="genre-card">
+                <span>SF</span>
+                <small>SCIENCE FICTION</small>
+            </a>
+
+            <a href="#" class="genre-card">
+                <span>恋愛</span>
+                <small>ROMANCE</small>
+            </a>
+
+            <a href="#" class="genre-card">
+                <span>感動</span>
+                <small>EMOTIONAL</small>
+            </a>
+
+            <a href="#" class="genre-card">
+                <span>ファンタジー</span>
+                <small>FANTASY</small>
+            </a>
+
+            <a href="#" class="genre-card">
+                <span>ミステリー</span>
+                <small>MYSTERY</small>
+            </a>
+
+            <a href="#" class="genre-card">
+                <span>青春</span>
+                <small>YOUTH</small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ランキング -->
+
+    <section class="section ranking-section">
+
+        <div class="section-heading">
+
+            <div>
+                <p class="section-label">RANKING</p>
+                <h2>おすすめランキング</h2>
+            </div>
+
+            <a href="ranking.html" class="more-link">
+                ランキングを見る →
+            </a>
+
+        </div>
+
+
+        <div class="ranking-list">
+
+
+            <div class="ranking-item">
+
+                <span class="ranking-number">01</span>
+
+                <div>
+                    <p class="ranking-genre">SF</p>
+                    <h3>STEINS;GATE</h3>
+                </div>
+
+            </div>
+
+
+            <div class="ranking-item">
+
+                <span class="ranking-number">02</span>
+
+                <div>
+                    <p class="ranking-genre">青春 / SF</p>
+                    <h3>青春ブタ野郎シリーズ</h3>
+                </div>
+
+            </div>
+
+
+            <div class="ranking-item">
+
+                <span class="ranking-number">03</span>
+
+                <div>
+                    <p class="ranking-genre">SF / 戦争</p>
+                    <h3>86―エイティシックス―</h3>
+                </div>
+
+            </div>
+
+
+        </div>
+
     </section>
 
 </main>
 
+
 <footer>
-    <p>© アニメ紹介サイト</p>
+
+    <div class="footer-inner">
+
+        <h2>Just An Anime Review</h2>
+
+        <p>
+            アニメをもっと深く、もっと面白く。
+        </p>
+
+        <p class="copyright">
+            © 2026 Just An Anime Review
+        </p>
+
+    </div>
+
 </footer>
 
 </body>
