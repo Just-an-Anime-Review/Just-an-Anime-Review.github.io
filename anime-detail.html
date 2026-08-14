@@ -17,6 +17,7 @@ content="アニメ作品のあらすじ・作品情報・レビューをご紹�
 >
 
 <meta name="robots" content="index, follow">
+
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 </script>
@@ -234,6 +235,10 @@ Just An Anime Review
 アニメをもっと深く、もっと面白く。
 </p>
 
+<p>
+© 2026 Just An Anime Review
+</p>
+
 </div>
 
 </footer>
@@ -277,7 +282,7 @@ await supabaseClient
 .select(
 "id,title,genre,description,review,official_url"
 )
-.eq("id",id)
+.eq("id", id)
 .single();
 
 
@@ -292,29 +297,86 @@ return;
 }
 
 
-document.title =
-`${data.title} | Just An Anime Review`;
+/*
+SEO設定
+作品ごとにページタイトルと
+descriptionを自動的に変更
+*/
 
+document.title =
+`${data.title}｜あらすじ・作品情報・レビュー | Just An Anime Review`;
+
+
+const metaDescription =
+document.getElementById(
+"meta-description"
+);
+
+
+if (metaDescription) {
+
+metaDescription.setAttribute(
+"content",
+`${data.title}のあらすじ、作品情報、ジャンル、レビューを紹介しています。Just An Anime Reviewで作品の魅力をチェックできます。`
+);
+
+}
+
+
+/*
+作品名
+*/
 
 document.getElementById("title")
 .textContent =
 data.title || "";
 
 
-document.getElementById("genre")
-.textContent =
-data.genre || "";
+/*
+ジャンル
+*/
 
+const genre =
+document.getElementById("genre");
+
+
+if (data.genre) {
+
+genre.textContent =
+data.genre;
+
+genre.style.display =
+"inline-block";
+
+} else {
+
+genre.style.display =
+"none";
+
+}
+
+
+/*
+あらすじ
+*/
 
 document.getElementById("description")
 .textContent =
-data.description || "";
+data.description || "あらすじは登録されていません。";
 
+
+/*
+レビュー
+*/
 
 document.getElementById("review")
 .textContent =
-data.review || "";
+data.review || "レビューは登録されていません。";
 
+
+/*
+公式サイト
+*/
 
 const official =
 document.getElementById("official");
@@ -325,6 +387,9 @@ if (data.official_url) {
 official.href =
 data.official_url;
 
+official.style.display =
+"inline-block";
+
 } else {
 
 official.style.display =
@@ -333,10 +398,18 @@ official.style.display =
 }
 
 
+/*
+読み込み画面を非表示
+*/
+
 document.getElementById("loading")
 .style.display =
 "none";
 
+
+/*
+詳細ページを表示
+*/
 
 document.getElementById("detail")
 .style.display =
@@ -344,6 +417,10 @@ document.getElementById("detail")
 
 }
 
+
+/*
+作品が存在しない場合
+*/
 
 function showError() {
 
