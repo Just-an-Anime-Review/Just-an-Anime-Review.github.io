@@ -415,3 +415,20 @@ footer {
     }
 
 }
+/* アニメ一覧ページ */
+
+.page-header {
+    max-width: 1180px;
+    margin: auto;
+    padding: 70px 25px 30px;
+}
+
+.page-header h1 {
+    font-size: 48px;
+    margin: 0 0 10px;
+    letter-spacing: -1px;
+}
+
+.page-header p:last-child {
+    color: #777777;
+}
