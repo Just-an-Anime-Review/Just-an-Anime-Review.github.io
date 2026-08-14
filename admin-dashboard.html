@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>アニメ管理 | Just An Anime Review</title>
+<title>管理画面 | Just An Anime Review</title>
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
@@ -79,6 +79,10 @@ h1 {
 margin-top: 0;
 }
 
+h2 {
+margin-top: 0;
+}
+
 label {
 display: block;
 margin: 18px 0 7px;
@@ -106,6 +110,11 @@ border: none;
 padding: 10px 16px;
 border-radius: 7px;
 cursor: pointer;
+font-size: 14px;
+}
+
+button:hover {
+opacity: .85;
 }
 
 .save {
@@ -115,6 +124,7 @@ color: white;
 
 .cancel {
 background: #e5e5e5;
+color: #222;
 }
 
 .delete {
@@ -124,6 +134,17 @@ color: white;
 
 .edit {
 background: #e5e5e5;
+color: #222;
+}
+
+.toggle-on {
+background: #222;
+color: white;
+}
+
+.toggle-off {
+background: #e5e5e5;
+color: #555;
 }
 
 .actions {
@@ -133,8 +154,10 @@ margin-top: 20px;
 flex-wrap: wrap;
 }
 
-#message {
+#message,
+#ad-message {
 font-weight: bold;
+margin-top: 20px;
 }
 
 .search {
@@ -168,6 +191,45 @@ font-size: 13px;
 color: #666;
 }
 
+.status {
+display: inline-block;
+font-size: 13px;
+padding: 4px 9px;
+border-radius: 15px;
+margin-top: 8px;
+}
+
+.status-on {
+background: #e8f5e9;
+color: #26733a;
+}
+
+.status-off {
+background: #eee;
+color: #777;
+}
+
+.ad-preview {
+margin-top: 15px;
+padding: 15px;
+border: 1px solid #eee;
+border-radius: 8px;
+background: #fafafa;
+}
+
+.ad-preview img {
+display: block;
+max-width: 100%;
+max-height: 180px;
+margin-bottom: 12px;
+border-radius: 6px;
+}
+
+.ad-link {
+color: #06c;
+word-break: break-all;
+}
+
 #dashboard {
 display: none;
 }
@@ -178,11 +240,28 @@ padding: 70px 20px;
 display: none;
 }
 
+.section-title {
+margin-bottom: 10px;
+}
+
+.help {
+color: #777;
+font-size: 13px;
+line-height: 1.7;
+}
+
+hr {
+border: 0;
+border-top: 1px solid #eee;
+margin: 30px 0;
+}
+
 </style>
 
 </head>
 
 <body>
+
 
 <header>
 
@@ -230,14 +309,18 @@ class="logout">
 <main>
 
 
+<!-- =========================
+     アニメ管理
+========================= -->
+
 <div class="box">
 
 <h1 id="form-title">
 アニメを追加
 </h1>
 
-
 <form id="form">
+
 
 <label>
 作品名
@@ -335,7 +418,8 @@ style="display:none;">
 
 <input
 id="search"
-placeholder="作品を検索">
+placeholder="作品名・ジャンルを検索">
+
 </div>
 
 
@@ -353,12 +437,181 @@ class="count">
 </div>
 
 
+
+<!-- =========================
+     広告管理
+========================= -->
+
+<div class="box">
+
+<h1 id="ad-form-title">
+広告を追加
+</h1>
+
+<p class="help">
+ここで登録した広告は、公開サイトで表示・非表示を切り替えられます。
+広告が不要な場合は「非表示」にしてください。
+</p>
+
+
+<form id="ad-form">
+
+
+<label>
+企業名・広告主名
+</label>
+
+<input
+id="company_name"
+placeholder="株式会社○○"
+>
+
+
+<label>
+広告タイトル
+</label>
+
+<input
+id="ad-title"
+placeholder="○○公式サイト"
+>
+
+
+<label>
+広告説明
+</label>
+
+<textarea
+id="ad-description"
+placeholder="広告の説明文">
+</textarea>
+
+
+<label>
+広告画像URL
+</label>
+
+<input
+type="url"
+id="image_url"
+placeholder="https://example.com/image.jpg"
+>
+
+<p class="help">
+画像を使用しない場合は空欄で大丈夫です。
+</p>
+
+
+<label>
+リンク先URL
+</label>
+
+<input
+type="url"
+id="link_url"
+placeholder="https://example.com/"
+>
+
+
+<label>
+広告を表示する
+</label>
+
+<select
+id="is_active"
+style="
+width:100%;
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+font-size:15px;
+">
+
+<option value="true">
+表示する
+</option>
+
+<option value="false">
+非表示
+</option>
+
+</select>
+
+
+<div class="actions">
+
+<button
+class="save"
+type="submit">
+
+広告を保存
+
+</button>
+
+
+<button
+type="button"
+class="cancel"
+id="ad-cancel"
+style="display:none;">
+
+キャンセル
+
+</button>
+
+</div>
+
+
+</form>
+
+
+<p id="ad-message"></p>
+
+</div>
+
+
+
+<div class="box">
+
+<h2>
+登録済み広告
+</h2>
+
+
+<div class="search">
+
+<input
+id="ad-search"
+placeholder="企業名・広告タイトルを検索">
+
+</div>
+
+
+<div
+id="ad-count"
+class="count">
+
+</div>
+
+
+<div id="ad-list">
+
+</div>
+
+</div>
+
+
 </main>
 
 </div>
 
 
+
 <script>
+
+/* =========================================
+   Supabase
+========================================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
@@ -373,9 +626,22 @@ SUPABASE_KEY
 );
 
 
+/* =========================================
+   アニメ関連
+========================================= */
+
 let animeData = [];
 
 let editingId = null;
+
+
+/* =========================================
+   広告関連
+========================================= */
+
+let advertisementData = [];
+
+let editingAdId = null;
 
 
 const dashboard =
@@ -384,6 +650,10 @@ document.getElementById("dashboard");
 const loginError =
 document.getElementById("login-error");
 
+
+/* =========================================
+   HTMLエスケープ
+========================================= */
 
 function escapeHTML(text) {
 
@@ -398,6 +668,10 @@ return div.innerHTML;
 }
 
 
+/* =========================================
+   ログイン確認
+========================================= */
+
 async function checkSession() {
 
 const { data } =
@@ -410,19 +684,31 @@ if (!data.session) {
 loginError.style.display =
 "block";
 
+dashboard.style.display =
+"none";
+
 return;
 
 }
 
 
+loginError.style.display =
+"none";
+
 dashboard.style.display =
 "block";
 
 
-loadAnime();
+await loadAnime();
+
+await loadAdvertisements();
 
 }
 
+
+/* =========================================
+   アニメ読み込み
+========================================= */
 
 async function loadAnime() {
 
@@ -442,6 +728,10 @@ if (error) {
 
 console.error(error);
 
+document.getElementById("message")
+.textContent =
+"アニメ情報の取得に失敗しました。";
+
 return;
 
 }
@@ -454,6 +744,10 @@ renderAnime(animeData);
 
 }
 
+
+/* =========================================
+   アニメ表示
+========================================= */
 
 function renderAnime(list) {
 
@@ -552,6 +846,10 @@ container.appendChild(item);
 }
 
 
+/* =========================================
+   アニメ編集
+========================================= */
+
 function editAnime(anime) {
 
 editingId =
@@ -600,6 +898,10 @@ behavior: "smooth"
 
 }
 
+
+/* =========================================
+   アニメ保存
+========================================= */
 
 document.getElementById("form")
 .addEventListener(
@@ -650,7 +952,7 @@ result =
 await supabaseClient
 .from("anime")
 .update(values)
-.eq("id",editingId);
+.eq("id", editingId);
 
 }
 
@@ -675,10 +977,14 @@ document.getElementById("message")
 
 resetForm();
 
-loadAnime();
+await loadAnime();
 
 });
 
+
+/* =========================================
+   アニメ削除
+========================================= */
 
 async function deleteAnime(id) {
 
@@ -695,7 +1001,7 @@ const { error } =
 await supabaseClient
 .from("anime")
 .delete()
-.eq("id",id);
+.eq("id", id);
 
 
 if (error) {
@@ -716,10 +1022,14 @@ document.getElementById("message")
 "削除しました。";
 
 
-loadAnime();
+await loadAnime();
 
 }
 
+
+/* =========================================
+   アニメフォームリセット
+========================================= */
 
 function resetForm() {
 
@@ -750,6 +1060,10 @@ resetForm
 );
 
 
+/* =========================================
+   アニメ検索
+========================================= */
+
 document.getElementById("search")
 .addEventListener(
 "input",
@@ -776,6 +1090,12 @@ return (
 .toLowerCase()
 .includes(keyword)
 
+||
+
+(anime.description || "")
+.toLowerCase()
+.includes(keyword)
+
 );
 
 });
@@ -785,6 +1105,568 @@ renderAnime(filtered);
 
 });
 
+
+/* =========================================
+   広告読み込み
+========================================= */
+
+async function loadAdvertisements() {
+
+const { data, error } =
+await supabaseClient
+.from("advertisements")
+.select(
+"id,company_name,title,description,image_url,link_url,is_active"
+)
+.order(
+"id",
+{ ascending: true }
+);
+
+
+if (error) {
+
+console.error(error);
+
+document.getElementById("ad-message")
+.textContent =
+"広告情報の取得に失敗しました。";
+
+return;
+
+}
+
+
+advertisementData =
+data || [];
+
+renderAdvertisements(advertisementData);
+
+}
+
+
+/* =========================================
+   広告表示
+========================================= */
+
+function renderAdvertisements(list) {
+
+const container =
+document.getElementById("ad-list");
+
+const count =
+document.getElementById("ad-count");
+
+
+count.textContent =
+`${list.length}件`;
+
+
+container.innerHTML = "";
+
+
+if (!list.length) {
+
+container.innerHTML =
+"<p>登録されている広告はありません。</p>";
+
+return;
+
+}
+
+
+list.forEach(ad => {
+
+const item =
+document.createElement("div");
+
+item.className =
+"item";
+
+
+const statusClass =
+ad.is_active
+?
+"status-on"
+:
+"status-off";
+
+
+const statusText =
+ad.is_active
+?
+"表示中"
+:
+"非表示";
+
+
+item.innerHTML = `
+
+<h3>
+${escapeHTML(ad.company_name || "広告主未設定")}
+</h3>
+
+${
+ad.title
+?
+`<p>
+<strong>
+${escapeHTML(ad.title)}
+</strong>
+</p>`
+:
+""
+}
+
+<div class="status ${statusClass}">
+${statusText}
+</div>
+
+${
+ad.description
+?
+`<p>
+${escapeHTML(ad.description)}
+</p>`
+:
+""
+}
+
+${
+ad.image_url
+?
+`
+<div class="ad-preview">
+
+<img
+src="${escapeHTML(ad.image_url)}"
+alt="広告画像"
+onerror="this.style.display='none';"
+>
+
+</div>
+`
+:
+""
+}
+
+${
+ad.link_url
+?
+`
+<p>
+リンク：
+<a
+class="ad-link"
+href="${escapeHTML(ad.link_url)}"
+target="_blank"
+rel="noopener noreferrer">
+
+${escapeHTML(ad.link_url)}
+
+</a>
+</p>
+`
+:
+""
+}
+
+<div class="actions">
+
+<button class="edit">
+編集
+</button>
+
+<button class="${
+ad.is_active
+?
+"toggle-off"
+:
+"toggle-on"
+}">
+${
+ad.is_active
+?
+"非表示にする"
+:
+"表示する"
+}
+</button>
+
+<button class="delete">
+削除
+</button>
+
+</div>
+
+`;
+
+
+item.querySelector(".edit")
+.addEventListener(
+"click",
+() => editAdvertisement(ad)
+);
+
+
+item.querySelector(
+ad.is_active
+?
+".toggle-off"
+:
+".toggle-on"
+)
+.addEventListener(
+"click",
+() =>
+toggleAdvertisement(
+ad.id,
+!ad.is_active
+)
+);
+
+
+item.querySelector(".delete")
+.addEventListener(
+"click",
+() =>
+deleteAdvertisement(ad.id)
+);
+
+
+container.appendChild(item);
+
+});
+
+}
+
+
+/* =========================================
+   広告編集
+========================================= */
+
+function editAdvertisement(ad) {
+
+editingAdId =
+ad.id;
+
+
+document.getElementById("ad-form-title")
+.textContent =
+"広告を編集";
+
+
+document.getElementById("company_name")
+.value =
+ad.company_name || "";
+
+
+document.getElementById("ad-title")
+.value =
+ad.title || "";
+
+
+document.getElementById("ad-description")
+.value =
+ad.description || "";
+
+
+document.getElementById("image_url")
+.value =
+ad.image_url || "";
+
+
+document.getElementById("link_url")
+.value =
+ad.link_url || "";
+
+
+document.getElementById("is_active")
+.value =
+ad.is_active
+?
+"true"
+:
+"false";
+
+
+document.getElementById("ad-cancel")
+.style.display =
+"inline-block";
+
+
+window.scrollTo({
+top: document.body.scrollHeight,
+behavior: "smooth"
+});
+
+}
+
+
+/* =========================================
+   広告保存
+========================================= */
+
+document.getElementById("ad-form")
+.addEventListener(
+"submit",
+async function(e) {
+
+e.preventDefault();
+
+
+const values = {
+
+company_name:
+document.getElementById("company_name")
+.value.trim(),
+
+title:
+document.getElementById("ad-title")
+.value.trim(),
+
+description:
+document.getElementById("ad-description")
+.value.trim(),
+
+image_url:
+document.getElementById("image_url")
+.value.trim(),
+
+link_url:
+document.getElementById("link_url")
+.value.trim(),
+
+is_active:
+document.getElementById("is_active")
+.value === "true"
+
+};
+
+
+let result;
+
+
+if (editingAdId === null) {
+
+result =
+await supabaseClient
+.from("advertisements")
+.insert(values);
+
+} else {
+
+result =
+await supabaseClient
+.from("advertisements")
+.update(values)
+.eq("id", editingAdId);
+
+}
+
+
+if (result.error) {
+
+console.error(result.error);
+
+document.getElementById("ad-message")
+.textContent =
+"広告の保存に失敗しました。";
+
+return;
+
+}
+
+
+document.getElementById("ad-message")
+.textContent =
+"広告を保存しました。";
+
+
+resetAdvertisementForm();
+
+await loadAdvertisements();
+
+});
+
+
+/* =========================================
+   広告削除
+========================================= */
+
+async function deleteAdvertisement(id) {
+
+const ok =
+confirm(
+"この広告を削除しますか？"
+);
+
+
+if (!ok) return;
+
+
+const { error } =
+await supabaseClient
+.from("advertisements")
+.delete()
+.eq("id", id);
+
+
+if (error) {
+
+console.error(error);
+
+document.getElementById("ad-message")
+.textContent =
+"広告の削除に失敗しました。";
+
+return;
+
+}
+
+
+document.getElementById("ad-message")
+.textContent =
+"広告を削除しました。";
+
+
+await loadAdvertisements();
+
+}
+
+
+/* =========================================
+   広告表示・非表示
+========================================= */
+
+async function toggleAdvertisement(
+id,
+isActive
+) {
+
+const { error } =
+await supabaseClient
+.from("advertisements")
+.update({
+is_active: isActive
+})
+.eq("id", id);
+
+
+if (error) {
+
+console.error(error);
+
+document.getElementById("ad-message")
+.textContent =
+"広告の状態変更に失敗しました。";
+
+return;
+
+}
+
+
+document.getElementById("ad-message")
+.textContent =
+isActive
+?
+"広告を表示しました。"
+:
+"広告を非表示にしました。";
+
+
+await loadAdvertisements();
+
+}
+
+
+/* =========================================
+   広告フォームリセット
+========================================= */
+
+function resetAdvertisementForm() {
+
+editingAdId =
+null;
+
+
+document.getElementById("ad-form")
+.reset();
+
+
+document.getElementById("is_active")
+.value =
+"false";
+
+
+document.getElementById("ad-form-title")
+.textContent =
+"広告を追加";
+
+
+document.getElementById("ad-cancel")
+.style.display =
+"none";
+
+}
+
+
+document.getElementById("ad-cancel")
+.addEventListener(
+"click",
+resetAdvertisementForm
+);
+
+
+/* =========================================
+   広告検索
+========================================= */
+
+document.getElementById("ad-search")
+.addEventListener(
+"input",
+function() {
+
+const keyword =
+this.value
+.trim()
+.toLowerCase();
+
+
+const filtered =
+advertisementData.filter(ad => {
+
+return (
+
+(ad.company_name || "")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(ad.title || "")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(ad.description || "")
+.toLowerCase()
+.includes(keyword)
+
+);
+
+});
+
+
+renderAdvertisements(filtered);
+
+});
+
+
+/* =========================================
+   ログアウト
+========================================= */
 
 document.getElementById("logout")
 .addEventListener(
@@ -799,9 +1681,13 @@ location.href =
 });
 
 
+/* =========================================
+   セッション監視
+========================================= */
+
 supabaseClient.auth
 .onAuthStateChange(
-(event,session) => {
+(event, session) => {
 
 if (!session) {
 
@@ -815,6 +1701,10 @@ dashboard.style.display =
 
 });
 
+
+/* =========================================
+   起動
+========================================= */
 
 checkSession();
 
