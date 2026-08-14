@@ -8,137 +8,574 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>管理画面 | Just An Anime Review</title>
-
-    <link rel="stylesheet" href="style.css">
+    <title>アニメ管理 | Just An Anime Review</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f7f7f7;
+
+            color: #222;
+        }
+
+
+        header {
+            background: #111;
+
+            color: white;
+        }
+
+
+        .header-inner {
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .logo {
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 21px;
+
+            font-weight: bold;
+        }
+
+
+        .logout-button {
+            border: 1px solid #777;
+
+            background: transparent;
+
+            color: white;
+
+            padding: 8px 13px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .logout-button:hover {
+            background: #333;
+        }
+
+
+        main {
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding: 45px 20px 80px;
+        }
+
+
+        .page-header {
+            margin-bottom: 35px;
+        }
+
+
+        .page-header h1 {
+            margin: 0 0 10px;
+
+            font-size: 36px;
+        }
+
+
+        .page-header p {
+            color: #666;
+
+            margin: 0;
+        }
+
+
+        .admin-section {
+            background: white;
+
+            padding: 30px;
+
+            margin-bottom: 30px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.07);
+        }
+
+
+        .admin-section h2 {
+            margin-top: 0;
+
+            margin-bottom: 25px;
+        }
+
+
+        label {
+            display: block;
+
+            margin: 18px 0 7px;
+
+            font-weight: bold;
+        }
+
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            font-family: inherit;
+        }
+
+
+        textarea {
+            min-height: 130px;
+
+            resize: vertical;
+
+            line-height: 1.7;
+        }
+
+
+        .button-row {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .primary-button,
+        .secondary-button,
+        .delete-button,
+        .cancel-button {
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        .primary-button {
+            background: #111;
+
+            color: white;
+        }
+
+
+        .secondary-button {
+            background: #e9e9e9;
+
+            color: #222;
+        }
+
+
+        .delete-button {
+            background: #d33;
+
+            color: white;
+        }
+
+
+        .cancel-button {
+            background: #e9e9e9;
+
+            color: #222;
+        }
+
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+
+        #message {
+            margin-top: 20px;
+
+            font-weight: bold;
+        }
+
+
+        .anime-list {
+            display: grid;
+
+            gap: 15px;
+        }
+
+
+        .anime-item {
+            border: 1px solid #e2e2e2;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            background: #fff;
+        }
+
+
+        .anime-item h3 {
+            margin: 0 0 8px;
+
+            font-size: 22px;
+        }
+
+
+        .anime-item .genre {
+            display: inline-block;
+
+            padding: 4px 9px;
+
+            margin-bottom: 10px;
+
+            background: #eee;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+        }
+
+
+        .anime-item p {
+            line-height: 1.7;
+
+            color: #555;
+        }
+
+
+        .item-buttons {
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-top: 15px;
+        }
+
+
+        .empty-message {
+            color: #777;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+
+        #login-error {
+            display: none;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+
+        #dashboard {
+            display: none;
+        }
+
+
+        footer {
+            background: #111;
+
+            color: white;
+
+            padding: 35px 20px;
+        }
+
+
+        .footer-inner {
+            max-width: 1100px;
+
+            margin: 0 auto;
+        }
+
+
+        .copyright {
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-top: 20px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header-inner {
+                align-items: flex-start;
+            }
+
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+
+            .admin-section {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<header class="site-header">
+
+<header>
 
     <div class="header-inner">
 
-        <a href="index.html" class="logo">
+        <a
+            href="index.html"
+            class="logo"
+        >
             Just An Anime Review
         </a>
+
+
+        <button
+            id="logout-button"
+            class="logout-button"
+        >
+            ログアウト
+        </button>
 
     </div>
 
 </header>
 
 
+
+<!-- ログインしていない場合 -->
+
+<div id="login-error">
+
+    <h1>
+        ログインが必要です
+    </h1>
+
+    <p>
+        管理画面を利用するにはログインしてください。
+    </p>
+
+    <br>
+
+    <a href="admin.html">
+        管理者ログインへ
+    </a>
+
+</div>
+
+
+
+<!-- 管理画面 -->
+
+<div id="dashboard">
+
+
 <main>
 
-    <section class="page-header">
 
-        <p class="section-label">
-            ADMIN
-        </p>
+    <section class="page-header">
 
         <h1>
             アニメ管理
         </h1>
 
         <p>
-            アニメ情報を追加・編集できます。
+            アニメ作品の追加・編集・削除ができます。
         </p>
 
     </section>
 
 
-    <section class="section">
 
-        <div class="anime-detail">
+    <!-- =========================
+         アニメ追加・編集
+    ========================== -->
 
-            <h2>
-                アニメを追加
-            </h2>
+    <section class="admin-section">
+
+        <h2 id="form-title">
+            アニメを追加
+        </h2>
 
 
-            <form id="anime-form">
+        <form id="anime-form">
 
-                <p>
-                    <label for="title">
-                        作品名
-                    </label>
-                </p>
 
-                <input
-                    type="text"
-                    id="title"
-                    required
+            <label for="title">
+                作品名
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="例：STEINS;GATE"
+                required
+            >
+
+
+
+            <label for="genre">
+                ジャンル
+            </label>
+
+            <input
+                type="text"
+                id="genre"
+                placeholder="例：SF・タイムリープ"
+            >
+
+
+
+            <label for="description">
+                あらすじ
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="アニメのあらすじを入力してください。"
+            ></textarea>
+
+
+
+            <label for="review">
+                レビュー
+            </label>
+
+            <textarea
+                id="review"
+                placeholder="作品のレビューを入力してください。"
+            ></textarea>
+
+
+
+            <label for="official_url">
+                公式サイトURL
+            </label>
+
+            <input
+                type="url"
+                id="official_url"
+                placeholder="https://example.com/"
+            >
+
+
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="save-button"
                 >
-
-
-                <p>
-                    <label for="genre">
-                        ジャンル
-                    </label>
-                </p>
-
-                <input
-                    type="text"
-                    id="genre"
-                >
-
-
-                <p>
-                    <label for="description">
-                        あらすじ
-                    </label>
-                </p>
-
-                <textarea
-                    id="description"
-                    rows="6"
-                ></textarea>
-
-
-                <p>
-                    <label for="review">
-                        レビュー
-                    </label>
-                </p>
-
-                <textarea
-                    id="review"
-                    rows="8"
-                ></textarea>
-
-
-                <p>
-                    <label for="official_url">
-                        公式サイト
-                    </label>
-                </p>
-
-                <input
-                    type="url"
-                    id="official_url"
-                    placeholder="https://"
-                >
-
-
-                <br><br>
-
-                <button type="submit">
                     保存
                 </button>
 
-            </form>
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="cancel-button"
+                    style="display: none;"
+                >
+                    編集をキャンセル
+                </button>
+
+            </div>
 
 
-            <p id="message"></p>
+        </form>
+
+
+        <p id="message"></p>
+
+    </section>
+
+
+
+    <!-- =========================
+         登録済みアニメ
+    ========================== -->
+
+    <section class="admin-section">
+
+        <h2>
+            登録済みアニメ
+        </h2>
+
+
+        <div
+            id="anime-list"
+            class="anime-list"
+        >
+
+            <div class="empty-message">
+                読み込んでいます……
+            </div>
 
         </div>
 
     </section>
 
+
 </main>
+
+
+</div>
+
 
 
 <footer>
@@ -162,14 +599,18 @@
 </footer>
 
 
+
 <script>
+
 
 /* =========================================
    Supabase設定
 ========================================= */
 
+
 const SUPABASE_URL =
     "https://bhgdjuwlxvbaeraaivmh.supabase.co";
+
 
 const SUPABASE_KEY =
     "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
@@ -182,112 +623,770 @@ const supabaseClient =
     );
 
 
+
 /* =========================================
-   ログイン確認
+   HTMLエスケープ
 ========================================= */
 
-async function checkLogin() {
 
-    const {
-        data: {
-            session
-        }
-    } = await supabaseClient.auth.getSession();
+function escapeHTML(text) {
 
+    const div =
+        document.createElement("div");
 
-    if (!session) {
+    div.textContent =
+        text ?? "";
 
-        window.location.href =
-            "admin.html";
-
-    }
+    return div.innerHTML;
 
 }
 
 
-checkLogin();
+
+/* =========================================
+   DOM
+========================================= */
+
+
+const dashboard =
+    document.getElementById("dashboard");
+
+
+const loginError =
+    document.getElementById("login-error");
+
+
+const animeForm =
+    document.getElementById("anime-form");
+
+
+const animeList =
+    document.getElementById("anime-list");
+
+
+const message =
+    document.getElementById("message");
+
+
+const formTitle =
+    document.getElementById("form-title");
+
+
+const saveButton =
+    document.getElementById("save-button");
+
+
+const cancelButton =
+    document.getElementById("cancel-button");
+
+
+const logoutButton =
+    document.getElementById("logout-button");
+
+
+
+let editingId = null;
+
+
+
+/* =========================================
+   ログイン確認
+========================================= */
+
+
+async function checkLogin() {
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+        console.error(error);
+
+        showLoginError();
+
+        return;
+
+    }
+
+
+    if (!data.session) {
+
+        showLoginError();
+
+        return;
+
+    }
+
+
+    dashboard.style.display =
+        "block";
+
+
+    loginError.style.display =
+        "none";
+
+
+    loadAnime();
+
+}
+
+
+
+/* =========================================
+   ログインエラー
+========================================= */
+
+
+function showLoginError() {
+
+    dashboard.style.display =
+        "none";
+
+
+    loginError.style.display =
+        "block";
+
+}
+
+
+
+/* =========================================
+   アニメ一覧取得
+========================================= */
+
+
+async function loadAnime() {
+
+
+    animeList.innerHTML = `
+        <div class="empty-message">
+            読み込んでいます……
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from("anime")
+
+            .select(
+                "id,title,genre,description,review,official_url"
+            )
+
+            .order(
+                "id",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+
+        animeList.innerHTML = `
+            <div class="empty-message">
+                アニメ情報を取得できませんでした。
+                <br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+        animeList.innerHTML = `
+            <div class="empty-message">
+                まだアニメが登録されていません。
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    animeList.innerHTML =
+        "";
+
+
+    data.forEach(
+        function(anime) {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "anime-item";
+
+
+            item.innerHTML = `
+
+                <h3>
+                    ${escapeHTML(anime.title)}
+                </h3>
+
+
+                ${
+                    anime.genre
+                    ?
+                    `
+                    <div class="genre">
+                        ${escapeHTML(anime.genre)}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${
+                    anime.description
+                    ?
+                    `
+                    <p>
+                        ${escapeHTML(anime.description)}
+                    </p>
+                    `
+                    :
+                    ""
+                }
+
+
+                <div class="item-buttons">
+
+                    <button
+                        class="secondary-button edit-button"
+                    >
+                        編集
+                    </button>
+
+
+                    <button
+                        class="delete-button delete-anime-button"
+                    >
+                        削除
+                    </button>
+
+                </div>
+
+            `;
+
+
+            const editButton =
+                item.querySelector(
+                    ".edit-button"
+                );
+
+
+            const deleteButton =
+                item.querySelector(
+                    ".delete-anime-button"
+                );
+
+
+            editButton.addEventListener(
+                "click",
+                function() {
+
+                    startEdit(anime);
+
+                }
+            );
+
+
+            deleteButton.addEventListener(
+                "click",
+                function() {
+
+                    deleteAnime(anime.id);
+
+                }
+            );
+
+
+            animeList.appendChild(item);
+
+        }
+    );
+
+}
+
 
 
 /* =========================================
    アニメ追加
 ========================================= */
 
-const animeForm =
-    document.getElementById("anime-form");
 
-const message =
-    document.getElementById("message");
+async function addAnime() {
+
+
+    const title =
+        document.getElementById("title")
+            .value
+            .trim();
+
+
+    const genre =
+        document.getElementById("genre")
+            .value
+            .trim();
+
+
+    const description =
+        document.getElementById("description")
+            .value
+            .trim();
+
+
+    const review =
+        document.getElementById("review")
+            .value
+            .trim();
+
+
+    const official_url =
+        document.getElementById("official_url")
+            .value
+            .trim();
+
+
+    if (!title) {
+
+        message.textContent =
+            "作品名を入力してください。";
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "保存しています……";
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from("anime")
+
+            .insert({
+
+                title: title,
+
+                genre: genre,
+
+                description: description,
+
+                review: review,
+
+                official_url: official_url
+
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            "保存に失敗しました："
+            + error.message;
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "アニメを追加しました。";
+
+
+    resetForm();
+
+
+    await loadAnime();
+
+}
+
+
+
+/* =========================================
+   編集開始
+========================================= */
+
+
+function startEdit(anime) {
+
+
+    editingId =
+        anime.id;
+
+
+    formTitle.textContent =
+        "アニメを編集";
+
+
+    saveButton.textContent =
+        "変更を保存";
+
+
+    cancelButton.style.display =
+        "inline-block";
+
+
+    document.getElementById("title")
+        .value =
+            anime.title || "";
+
+
+    document.getElementById("genre")
+        .value =
+            anime.genre || "";
+
+
+    document.getElementById("description")
+        .value =
+            anime.description || "";
+
+
+    document.getElementById("review")
+        .value =
+            anime.review || "";
+
+
+    document.getElementById("official_url")
+        .value =
+            anime.official_url || "";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* =========================================
+   アニメ編集
+========================================= */
+
+
+async function updateAnime() {
+
+
+    const title =
+        document.getElementById("title")
+            .value
+            .trim();
+
+
+    const genre =
+        document.getElementById("genre")
+            .value
+            .trim();
+
+
+    const description =
+        document.getElementById("description")
+            .value
+            .trim();
+
+
+    const review =
+        document.getElementById("review")
+            .value
+            .trim();
+
+
+    const official_url =
+        document.getElementById("official_url")
+            .value
+            .trim();
+
+
+    if (!title) {
+
+        message.textContent =
+            "作品名を入力してください。";
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "変更を保存しています……";
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from("anime")
+
+            .update({
+
+                title: title,
+
+                genre: genre,
+
+                description: description,
+
+                review: review,
+
+                official_url: official_url
+
+            })
+
+            .eq(
+                "id",
+                editingId
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            "変更に失敗しました："
+            + error.message;
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "変更を保存しました。";
+
+
+    resetForm();
+
+
+    await loadAnime();
+
+}
+
+
+
+/* =========================================
+   削除
+========================================= */
+
+
+async function deleteAnime(id) {
+
+
+    const answer =
+        confirm(
+            "このアニメを削除しますか？"
+        );
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from("anime")
+
+            .delete()
+
+            .eq(
+                "id",
+                id
+            );
+
+
+    if (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            "削除に失敗しました："
+            + error.message;
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "アニメを削除しました。";
+
+
+    await loadAnime();
+
+}
+
+
+
+/* =========================================
+   フォームリセット
+========================================= */
+
+
+function resetForm() {
+
+
+    editingId =
+        null;
+
+
+    animeForm.reset();
+
+
+    formTitle.textContent =
+        "アニメを追加";
+
+
+    saveButton.textContent =
+        "保存";
+
+
+    cancelButton.style.display =
+        "none";
+
+}
+
+
+
+/* =========================================
+   フォーム送信
+========================================= */
 
 
 animeForm.addEventListener(
     "submit",
     async function(event) {
 
+
         event.preventDefault();
 
 
-        const title =
-            document.getElementById("title").value;
+        if (editingId === null) {
 
-        const genre =
-            document.getElementById("genre").value;
+            await addAnime();
 
-        const description =
-            document.getElementById("description").value;
+        } else {
 
-        const review =
-            document.getElementById("review").value;
-
-        const official_url =
-            document.getElementById("official_url").value;
-
-
-        message.textContent =
-            "保存しています……";
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("anime")
-                .insert({
-
-                    title: title,
-
-                    genre: genre,
-
-                    description: description,
-
-                    review: review,
-
-                    official_url: official_url
-
-                });
-
-
-        if (error) {
-
-            console.error(error);
-
-            message.textContent =
-                "保存に失敗しました。";
-
-            return;
+            await updateAnime();
 
         }
-
-
-        message.textContent =
-            "アニメを保存しました。";
-
-
-        animeForm.reset();
 
     }
 );
 
+
+
+/* =========================================
+   編集キャンセル
+========================================= */
+
+
+cancelButton.addEventListener(
+    "click",
+    function() {
+
+        resetForm();
+
+        message.textContent =
+            "";
+
+    }
+);
+
+
+
+/* =========================================
+   ログアウト
+========================================= */
+
+
+logoutButton.addEventListener(
+    "click",
+    async function() {
+
+
+        await supabaseClient.auth.signOut();
+
+
+        window.location.href =
+            "admin.html";
+
+    }
+);
+
+
+
+/* =========================================
+   認証状態の監視
+========================================= */
+
+
+supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+
+        if (!session) {
+
+            showLoginError();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================
+   開始
+========================================= */
+
+
+checkLogin();
+
+
 </script>
+
 
 </body>
 
