@@ -10,8 +10,14 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Just An Anime Review</title>
 
-<meta name="description"
-content="アニメを紹介・レビューするサイト、Just An Anime Review。">
+<meta
+name="description"
+content="アニメを紹介・レビューするサイト、Just An Anime Review。"
+>
+
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 
 <style>
 
@@ -98,19 +104,83 @@ line-height: 1.9;
 color: #555;
 }
 
-/* 管理者ログイン */
+
+/* =========================
+   広告
+========================= */
+
+.ad-section {
+display: none;
+margin-top: 35px;
+}
+
+.ad-label {
+text-align: center;
+font-size: 11px;
+color: #999;
+margin-bottom: 8px;
+}
+
+.ad-box {
+background: white;
+border: 1px solid #e5e5e5;
+border-radius: 12px;
+padding: 20px;
+text-align: center;
+box-shadow:
+0 2px 10px rgba(0,0,0,.04);
+}
+
+.ad-box img {
+display: block;
+max-width: 100%;
+max-height: 180px;
+margin: 0 auto 15px;
+border-radius: 8px;
+}
+
+.ad-company {
+font-size: 12px;
+color: #888;
+margin-bottom: 6px;
+}
+
+.ad-title {
+font-size: 18px;
+font-weight: bold;
+margin-bottom: 8px;
+}
+
+.ad-description {
+color: #666;
+font-size: 14px;
+line-height: 1.7;
+}
+
+.ad-button {
+display: inline-block;
+margin-top: 12px;
+padding: 8px 16px;
+background: #111;
+color: white;
+text-decoration: none;
+border-radius: 6px;
+font-size: 13px;
+}
+
+
+/* =========================
+   管理者ログイン
+========================= */
 
 .admin-login-link {
 position: fixed;
 right: 12px;
 bottom: 10px;
-
 font-size: 11px;
 color: #999;
-
 text-decoration: none;
 opacity: .65;
-
 z-index: 1000;
 }
 
@@ -118,6 +188,7 @@ z-index: 1000;
 opacity: 1;
 text-decoration: underline;
 }
+
 
 footer {
 margin-top: 70px;
@@ -136,17 +207,37 @@ color: #aaa;
 font-size: 13px;
 }
 
+
+@media (max-width: 600px) {
+
+main {
+padding: 35px 15px;
+}
+
+.hero {
+padding: 40px 20px;
+}
+
+.hero h1 {
+font-size: 30px;
+}
+
+}
+
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="header-inner">
 
-<a href="index.html"
+<a
+href="index.html"
 class="logo">
 
 Just An Anime Review
@@ -159,6 +250,7 @@ Just An Anime Review
 
 
 <main>
+
 
 <section class="hero">
 
@@ -174,12 +266,34 @@ Just An Anime Review
 おすすめのアニメ作品を紹介・レビューしています。
 </p>
 
-<a href="anime.html"
+<a
+href="anime.html"
 class="anime-button">
 
 アニメ一覧を見る
 
 </a>
+
+</section>
+
+
+<!-- =========================
+     広告
+========================= -->
+
+<section
+id="ad-section"
+class="ad-section">
+
+<div class="ad-label">
+ADVERTISEMENT
+</div>
+
+<div
+id="ad-container"
+class="ad-box">
+
+</div>
 
 </section>
 
@@ -201,6 +315,7 @@ Just An Anime Reviewでは、
 </p>
 
 </section>
+
 
 </main>
 
@@ -226,10 +341,204 @@ Just An Anime Review
 </footer>
 
 
-<a href="admin.html"
+<a
+href="admin.html"
 class="admin-login-link">
+
 管理者ログイン
+
 </a>
+
+
+<script>
+
+/* =========================
+   Supabase
+========================= */
+
+const SUPABASE_URL =
+"https://bhgdjuwlxvbaeraaivmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================
+   HTMLエスケープ
+========================= */
+
+function escapeHTML(text) {
+
+const div =
+document.createElement("div");
+
+div.textContent =
+text ?? "";
+
+return div.innerHTML;
+
+}
+
+
+/* =========================
+   広告読み込み
+========================= */
+
+async function loadAdvertisement() {
+
+const section =
+document.getElementById("ad-section");
+
+const container =
+document.getElementById("ad-container");
+
+
+const { data, error } =
+await supabaseClient
+.from("advertisements")
+.select(
+"id,company_name,title,description,image_url,link_url"
+)
+.eq(
+"is_active",
+true
+)
+.order(
+"id",
+{ ascending: true }
+)
+.limit(1);
+
+
+if (error) {
+
+console.error(
+"広告の取得に失敗しました:",
+error
+);
+
+return;
+
+}
+
+
+/* 広告がない場合は何も表示しない */
+
+if (!data || data.length === 0) {
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+const ad =
+data[0];
+
+
+let html = "";
+
+
+if (ad.image_url) {
+
+html += `
+
+<img
+src="${escapeHTML(ad.image_url)}"
+alt="${escapeHTML(ad.title || "広告")}"
+onerror="this.style.display='none';"
+>
+
+`;
+
+}
+
+
+if (ad.company_name) {
+
+html += `
+
+<div class="ad-company">
+${escapeHTML(ad.company_name)}
+</div>
+
+`;
+
+}
+
+
+if (ad.title) {
+
+html += `
+
+<div class="ad-title">
+${escapeHTML(ad.title)}
+</div>
+
+`;
+
+}
+
+
+if (ad.description) {
+
+html += `
+
+<div class="ad-description">
+${escapeHTML(ad.description)}
+</div>
+
+`;
+
+}
+
+
+if (ad.link_url) {
+
+html += `
+
+<a
+class="ad-button"
+href="${escapeHTML(ad.link_url)}"
+target="_blank"
+rel="noopener noreferrer">
+
+詳しくはこちら
+
+</a>
+
+`;
+
+}
+
+
+container.innerHTML =
+html;
+
+
+/* 広告が存在するときだけ表示 */
+
+section.style.display =
+"block";
+
+}
+
+
+/* =========================
+   起動
+========================= */
+
+loadAdvertisement();
+
+</script>
 
 
 </body>
