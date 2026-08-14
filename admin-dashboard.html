@@ -90,7 +90,8 @@ font-weight: bold;
 }
 
 input,
-textarea {
+textarea,
+select {
 width: 100%;
 padding: 11px;
 border: 1px solid #ccc;
@@ -179,6 +180,13 @@ margin-top: 15px;
 margin-top: 0;
 }
 
+.english-title {
+color: #777;
+font-size: 14px;
+margin-top: -8px;
+margin-bottom: 12px;
+}
+
 .genre {
 display: inline-block;
 background: #eee;
@@ -230,6 +238,12 @@ color: #06c;
 word-break: break-all;
 }
 
+.help {
+color: #777;
+font-size: 13px;
+line-height: 1.7;
+}
+
 #dashboard {
 display: none;
 }
@@ -240,20 +254,16 @@ padding: 70px 20px;
 display: none;
 }
 
-.section-title {
-margin-bottom: 10px;
+@media (max-width: 600px) {
+
+main {
+padding: 30px 15px;
 }
 
-.help {
-color: #777;
-font-size: 13px;
-line-height: 1.7;
+.box {
+padding: 22px;
 }
 
-hr {
-border: 0;
-border-top: 1px solid #eee;
-margin: 30px 0;
 }
 
 </style>
@@ -261,7 +271,6 @@ margin: 30px 0;
 </head>
 
 <body>
-
 
 <header>
 
@@ -321,17 +330,24 @@ class="logout">
 
 <form id="form">
 
-
 <label>
-作品名
+日本語タイトル
 </label>
 
 <input
 id="title"
 required
-placeholder="STEINS;GATE"
+placeholder="シュタインズ・ゲート"
 >
 
+<label>
+英語タイトル
+</label>
+
+<input
+id="english_title"
+placeholder="STEINS;GATE"
+>
 
 <label>
 ジャンル
@@ -342,7 +358,6 @@ id="genre"
 placeholder="SF・タイムリープ"
 >
 
-
 <label>
 あらすじ
 </label>
@@ -352,7 +367,6 @@ id="description"
 placeholder="あらすじ">
 </textarea>
 
-
 <label>
 レビュー
 </label>
@@ -361,7 +375,6 @@ placeholder="あらすじ">
 id="review"
 placeholder="レビュー">
 </textarea>
-
 
 <label>
 公式サイトURL
@@ -373,7 +386,6 @@ id="official_url"
 placeholder="https://example.com/"
 >
 
-
 <div class="actions">
 
 <button
@@ -383,7 +395,6 @@ type="submit">
 保存
 
 </button>
-
 
 <button
 type="button"
@@ -397,15 +408,16 @@ style="display:none;">
 
 </div>
 
-
 </form>
-
 
 <p id="message"></p>
 
 </div>
 
 
+<!-- =========================
+     アニメ一覧
+========================= -->
 
 <div class="box">
 
@@ -413,15 +425,15 @@ style="display:none;">
 登録済みアニメ
 </h2>
 
-
 <div class="search">
 
 <input
 id="search"
-placeholder="作品名・ジャンルを検索">
+placeholder="日本語名・英語名・ジャンルを検索"
+autocomplete="off"
+>
 
 </div>
-
 
 <div
 id="count"
@@ -429,17 +441,13 @@ class="count">
 
 </div>
 
-
-<div id="list">
-
-</div>
+<div id="list"></div>
 
 </div>
-
 
 
 <!-- =========================
-     広告管理
+     広告追加
 ========================= -->
 
 <div class="box">
@@ -449,13 +457,11 @@ class="count">
 </h1>
 
 <p class="help">
-ここで登録した広告は、公開サイトで表示・非表示を切り替えられます。
-広告が不要な場合は「非表示」にしてください。
+登録した広告は公開サイトに表示できます。
+不要な広告は非表示にできます。
 </p>
 
-
 <form id="ad-form">
-
 
 <label>
 企業名・広告主名
@@ -466,7 +472,6 @@ id="company_name"
 placeholder="株式会社○○"
 >
 
-
 <label>
 広告タイトル
 </label>
@@ -476,7 +481,6 @@ id="ad-title"
 placeholder="○○公式サイト"
 >
 
-
 <label>
 広告説明
 </label>
@@ -485,7 +489,6 @@ placeholder="○○公式サイト"
 id="ad-description"
 placeholder="広告の説明文">
 </textarea>
-
 
 <label>
 広告画像URL
@@ -501,7 +504,6 @@ placeholder="https://example.com/image.jpg"
 画像を使用しない場合は空欄で大丈夫です。
 </p>
 
-
 <label>
 リンク先URL
 </label>
@@ -512,20 +514,11 @@ id="link_url"
 placeholder="https://example.com/"
 >
 
-
 <label>
 広告を表示する
 </label>
 
-<select
-id="is_active"
-style="
-width:100%;
-padding:11px;
-border:1px solid #ccc;
-border-radius:7px;
-font-size:15px;
-">
+<select id="is_active">
 
 <option value="true">
 表示する
@@ -537,7 +530,6 @@ font-size:15px;
 
 </select>
 
-
 <div class="actions">
 
 <button
@@ -547,7 +539,6 @@ type="submit">
 広告を保存
 
 </button>
-
 
 <button
 type="button"
@@ -561,15 +552,16 @@ style="display:none;">
 
 </div>
 
-
 </form>
-
 
 <p id="ad-message"></p>
 
 </div>
 
 
+<!-- =========================
+     広告一覧
+========================= -->
 
 <div class="box">
 
@@ -577,15 +569,15 @@ style="display:none;">
 登録済み広告
 </h2>
 
-
 <div class="search">
 
 <input
 id="ad-search"
-placeholder="企業名・広告タイトルを検索">
+placeholder="企業名・広告タイトルを検索"
+autocomplete="off"
+>
 
 </div>
-
 
 <div
 id="ad-count"
@@ -593,10 +585,7 @@ class="count">
 
 </div>
 
-
-<div id="ad-list">
-
-</div>
+<div id="ad-list"></div>
 
 </div>
 
@@ -606,12 +595,11 @@ class="count">
 </div>
 
 
-
 <script>
 
-/* =========================================
+/* =========================
    Supabase
-========================================= */
+========================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
@@ -626,23 +614,20 @@ SUPABASE_KEY
 );
 
 
-/* =========================================
-   アニメ関連
-========================================= */
+/* =========================
+   データ
+========================= */
 
 let animeData = [];
-
-let editingId = null;
-
-
-/* =========================================
-   広告関連
-========================================= */
-
 let advertisementData = [];
 
+let editingId = null;
 let editingAdId = null;
 
+
+/* =========================
+   要素
+========================= */
 
 const dashboard =
 document.getElementById("dashboard");
@@ -651,9 +636,9 @@ const loginError =
 document.getElementById("login-error");
 
 
-/* =========================================
+/* =========================
    HTMLエスケープ
-========================================= */
+========================= */
 
 function escapeHTML(text) {
 
@@ -668,16 +653,14 @@ return div.innerHTML;
 }
 
 
-/* =========================================
+/* =========================
    ログイン確認
-========================================= */
+========================= */
 
 async function checkSession() {
 
 const { data } =
-await supabaseClient.auth
-.getSession();
-
+await supabaseClient.auth.getSession();
 
 if (!data.session) {
 
@@ -691,13 +674,11 @@ return;
 
 }
 
-
 loginError.style.display =
 "none";
 
 dashboard.style.display =
 "block";
-
 
 await loadAnime();
 
@@ -706,9 +687,9 @@ await loadAdvertisements();
 }
 
 
-/* =========================================
-   アニメ読み込み
-========================================= */
+/* =========================
+   アニメ取得
+========================= */
 
 async function loadAnime() {
 
@@ -716,13 +697,12 @@ const { data, error } =
 await supabaseClient
 .from("anime")
 .select(
-"id,title,genre,description,review,official_url"
+"id,title,english_title,genre,description,review,official_url"
 )
 .order(
 "id",
 { ascending: true }
 );
-
 
 if (error) {
 
@@ -736,7 +716,6 @@ return;
 
 }
 
-
 animeData =
 data || [];
 
@@ -745,9 +724,9 @@ renderAnime(animeData);
 }
 
 
-/* =========================================
+/* =========================
    アニメ表示
-========================================= */
+========================= */
 
 function renderAnime(list) {
 
@@ -757,13 +736,10 @@ document.getElementById("list");
 const count =
 document.getElementById("count");
 
-
 count.textContent =
 `${list.length}作品`;
 
-
 container.innerHTML = "";
-
 
 if (!list.length) {
 
@@ -774,7 +750,6 @@ return;
 
 }
 
-
 list.forEach(anime => {
 
 const item =
@@ -783,7 +758,6 @@ document.createElement("div");
 item.className =
 "item";
 
-
 item.innerHTML = `
 
 <h3>
@@ -791,11 +765,25 @@ ${escapeHTML(anime.title)}
 </h3>
 
 ${
+anime.english_title
+?
+`
+<div class="english-title">
+${escapeHTML(anime.english_title)}
+</div>
+`
+:
+""
+}
+
+${
 anime.genre
 ?
-`<div class="genre">
+`
+<div class="genre">
 ${escapeHTML(anime.genre)}
-</div>`
+</div>
+`
 :
 ""
 }
@@ -803,9 +791,11 @@ ${escapeHTML(anime.genre)}
 ${
 anime.description
 ?
-`<p>
+`
+<p>
 ${escapeHTML(anime.description)}
-</p>`
+</p>
+`
 :
 ""
 }
@@ -824,20 +814,17 @@ ${escapeHTML(anime.description)}
 
 `;
 
-
 item.querySelector(".edit")
 .addEventListener(
 "click",
 () => editAnime(anime)
 );
 
-
 item.querySelector(".delete")
 .addEventListener(
 "click",
 () => deleteAnime(anime.id)
 );
-
 
 container.appendChild(item);
 
@@ -846,50 +833,46 @@ container.appendChild(item);
 }
 
 
-/* =========================================
+/* =========================
    アニメ編集
-========================================= */
+========================= */
 
 function editAnime(anime) {
 
 editingId =
 anime.id;
 
-
 document.getElementById("form-title")
 .textContent =
 "アニメを編集";
-
 
 document.getElementById("title")
 .value =
 anime.title || "";
 
+document.getElementById("english_title")
+.value =
+anime.english_title || "";
 
 document.getElementById("genre")
 .value =
 anime.genre || "";
 
-
 document.getElementById("description")
 .value =
 anime.description || "";
-
 
 document.getElementById("review")
 .value =
 anime.review || "";
 
-
 document.getElementById("official_url")
 .value =
 anime.official_url || "";
 
-
 document.getElementById("cancel")
 .style.display =
 "inline-block";
-
 
 window.scrollTo({
 top: 0,
@@ -899,22 +882,26 @@ behavior: "smooth"
 }
 
 
-/* =========================================
+/* =========================
    アニメ保存
-========================================= */
+========================= */
 
-document.getElementById("form")
+document
+.getElementById("form")
 .addEventListener(
 "submit",
 async function(e) {
 
 e.preventDefault();
 
-
 const values = {
 
 title:
 document.getElementById("title")
+.value.trim(),
+
+english_title:
+document.getElementById("english_title")
 .value.trim(),
 
 genre:
@@ -935,9 +922,7 @@ document.getElementById("official_url")
 
 };
 
-
 let result;
-
 
 if (editingId === null) {
 
@@ -956,24 +941,21 @@ await supabaseClient
 
 }
 
-
 if (result.error) {
+
+console.error(result.error);
 
 document.getElementById("message")
 .textContent =
 "保存に失敗しました。";
 
-console.error(result.error);
-
 return;
 
 }
 
-
 document.getElementById("message")
 .textContent =
 "保存しました。";
-
 
 resetForm();
 
@@ -982,9 +964,9 @@ await loadAnime();
 });
 
 
-/* =========================================
+/* =========================
    アニメ削除
-========================================= */
+========================= */
 
 async function deleteAnime(id) {
 
@@ -993,16 +975,13 @@ confirm(
 "このアニメを削除しますか？"
 );
 
-
 if (!ok) return;
-
 
 const { error } =
 await supabaseClient
 .from("anime")
 .delete()
 .eq("id", id);
-
 
 if (error) {
 
@@ -1016,42 +995,35 @@ return;
 
 }
 
-
 document.getElementById("message")
 .textContent =
 "削除しました。";
-
 
 await loadAnime();
 
 }
 
 
-/* =========================================
+/* =========================
    アニメフォームリセット
-========================================= */
+========================= */
 
 function resetForm() {
 
-editingId =
-null;
-
+editingId = null;
 
 document.getElementById("form")
 .reset();
 
-
 document.getElementById("form-title")
 .textContent =
 "アニメを追加";
-
 
 document.getElementById("cancel")
 .style.display =
 "none";
 
 }
-
 
 document.getElementById("cancel")
 .addEventListener(
@@ -1060,9 +1032,9 @@ resetForm
 );
 
 
-/* =========================================
+/* =========================
    アニメ検索
-========================================= */
+========================= */
 
 document.getElementById("search")
 .addEventListener(
@@ -1074,41 +1046,83 @@ this.value
 .trim()
 .toLowerCase();
 
+if (!keyword) {
+
+renderAnime(animeData);
+
+return;
+
+}
 
 const filtered =
-animeData.filter(anime => {
+animeData
+.map(anime => {
 
-return (
-
+const title =
 (anime.title || "")
-.toLowerCase()
-.includes(keyword)
+.toLowerCase();
 
-||
+const english =
+(anime.english_title || "")
+.toLowerCase();
 
+const genre =
 (anime.genre || "")
-.toLowerCase()
-.includes(keyword)
+.toLowerCase();
 
-||
-
+const description =
 (anime.description || "")
-.toLowerCase()
-.includes(keyword)
+.toLowerCase();
 
-);
+let score = 0;
 
-});
+if (title === keyword)
+score = 100;
 
+else if (title.startsWith(keyword))
+score = 90;
+
+else if (english === keyword)
+score = 80;
+
+else if (english.startsWith(keyword))
+score = 70;
+
+else if (genre.startsWith(keyword))
+score = 50;
+
+else if (
+title.includes(keyword) ||
+english.includes(keyword)
+)
+score = 40;
+
+else if (
+genre.includes(keyword) ||
+description.includes(keyword)
+)
+score = 20;
+
+return {
+anime,
+score
+};
+
+})
+.filter(item => item.score > 0)
+.sort((a, b) =>
+b.score - a.score
+)
+.map(item => item.anime);
 
 renderAnime(filtered);
 
 });
 
 
-/* =========================================
-   広告読み込み
-========================================= */
+/* =========================
+   広告取得
+========================= */
 
 async function loadAdvertisements() {
 
@@ -1123,7 +1137,6 @@ await supabaseClient
 { ascending: true }
 );
 
-
 if (error) {
 
 console.error(error);
@@ -1136,18 +1149,19 @@ return;
 
 }
 
-
 advertisementData =
 data || [];
 
-renderAdvertisements(advertisementData);
+renderAdvertisements(
+advertisementData
+);
 
 }
 
 
-/* =========================================
+/* =========================
    広告表示
-========================================= */
+========================= */
 
 function renderAdvertisements(list) {
 
@@ -1157,13 +1171,10 @@ document.getElementById("ad-list");
 const count =
 document.getElementById("ad-count");
 
-
 count.textContent =
 `${list.length}件`;
 
-
 container.innerHTML = "";
-
 
 if (!list.length) {
 
@@ -1174,7 +1185,6 @@ return;
 
 }
 
-
 list.forEach(ad => {
 
 const item =
@@ -1183,14 +1193,12 @@ document.createElement("div");
 item.className =
 "item";
 
-
 const statusClass =
 ad.is_active
 ?
 "status-on"
 :
 "status-off";
-
 
 const statusText =
 ad.is_active
@@ -1199,21 +1207,25 @@ ad.is_active
 :
 "非表示";
 
-
 item.innerHTML = `
 
 <h3>
-${escapeHTML(ad.company_name || "広告主未設定")}
+${escapeHTML(
+ad.company_name ||
+"広告主未設定"
+)}
 </h3>
 
 ${
 ad.title
 ?
-`<p>
+`
+<p>
 <strong>
 ${escapeHTML(ad.title)}
 </strong>
-</p>`
+</p>
+`
 :
 ""
 }
@@ -1225,9 +1237,11 @@ ${statusText}
 ${
 ad.description
 ?
-`<p>
+`
+<p>
 ${escapeHTML(ad.description)}
-</p>`
+</p>
+`
 :
 ""
 }
@@ -1277,13 +1291,15 @@ ${escapeHTML(ad.link_url)}
 編集
 </button>
 
-<button class="${
+<button
+class="${
 ad.is_active
 ?
 "toggle-off"
 :
 "toggle-on"
 }">
+
 ${
 ad.is_active
 ?
@@ -1291,6 +1307,7 @@ ad.is_active
 :
 "表示する"
 }
+
 </button>
 
 <button class="delete">
@@ -1301,13 +1318,11 @@ ad.is_active
 
 `;
 
-
 item.querySelector(".edit")
 .addEventListener(
 "click",
 () => editAdvertisement(ad)
 );
-
 
 item.querySelector(
 ad.is_active
@@ -1325,14 +1340,12 @@ ad.id,
 )
 );
 
-
 item.querySelector(".delete")
 .addEventListener(
 "click",
 () =>
 deleteAdvertisement(ad.id)
 );
-
 
 container.appendChild(item);
 
@@ -1341,45 +1354,38 @@ container.appendChild(item);
 }
 
 
-/* =========================================
+/* =========================
    広告編集
-========================================= */
+========================= */
 
 function editAdvertisement(ad) {
 
 editingAdId =
 ad.id;
 
-
 document.getElementById("ad-form-title")
 .textContent =
 "広告を編集";
-
 
 document.getElementById("company_name")
 .value =
 ad.company_name || "";
 
-
 document.getElementById("ad-title")
 .value =
 ad.title || "";
-
 
 document.getElementById("ad-description")
 .value =
 ad.description || "";
 
-
 document.getElementById("image_url")
 .value =
 ad.image_url || "";
 
-
 document.getElementById("link_url")
 .value =
 ad.link_url || "";
-
 
 document.getElementById("is_active")
 .value =
@@ -1389,11 +1395,9 @@ ad.is_active
 :
 "false";
 
-
 document.getElementById("ad-cancel")
 .style.display =
 "inline-block";
-
 
 window.scrollTo({
 top: document.body.scrollHeight,
@@ -1403,17 +1407,17 @@ behavior: "smooth"
 }
 
 
-/* =========================================
+/* =========================
    広告保存
-========================================= */
+========================= */
 
-document.getElementById("ad-form")
+document
+.getElementById("ad-form")
 .addEventListener(
 "submit",
 async function(e) {
 
 e.preventDefault();
-
 
 const values = {
 
@@ -1443,9 +1447,7 @@ document.getElementById("is_active")
 
 };
 
-
 let result;
-
 
 if (editingAdId === null) {
 
@@ -1464,7 +1466,6 @@ await supabaseClient
 
 }
 
-
 if (result.error) {
 
 console.error(result.error);
@@ -1477,11 +1478,9 @@ return;
 
 }
 
-
 document.getElementById("ad-message")
 .textContent =
 "広告を保存しました。";
-
 
 resetAdvertisementForm();
 
@@ -1490,9 +1489,9 @@ await loadAdvertisements();
 });
 
 
-/* =========================================
+/* =========================
    広告削除
-========================================= */
+========================= */
 
 async function deleteAdvertisement(id) {
 
@@ -1501,16 +1500,13 @@ confirm(
 "この広告を削除しますか？"
 );
 
-
 if (!ok) return;
-
 
 const { error } =
 await supabaseClient
 .from("advertisements")
 .delete()
 .eq("id", id);
-
 
 if (error) {
 
@@ -1524,20 +1520,18 @@ return;
 
 }
 
-
 document.getElementById("ad-message")
 .textContent =
 "広告を削除しました。";
-
 
 await loadAdvertisements();
 
 }
 
 
-/* =========================================
-   広告表示・非表示
-========================================= */
+/* =========================
+   広告ON/OFF
+========================= */
 
 async function toggleAdvertisement(
 id,
@@ -1552,7 +1546,6 @@ is_active: isActive
 })
 .eq("id", id);
 
-
 if (error) {
 
 console.error(error);
@@ -1565,7 +1558,6 @@ return;
 
 }
 
-
 document.getElementById("ad-message")
 .textContent =
 isActive
@@ -1574,42 +1566,35 @@ isActive
 :
 "広告を非表示にしました。";
 
-
 await loadAdvertisements();
 
 }
 
 
-/* =========================================
+/* =========================
    広告フォームリセット
-========================================= */
+========================= */
 
 function resetAdvertisementForm() {
 
-editingAdId =
-null;
-
+editingAdId = null;
 
 document.getElementById("ad-form")
 .reset();
-
 
 document.getElementById("is_active")
 .value =
 "false";
 
-
 document.getElementById("ad-form-title")
 .textContent =
 "広告を追加";
-
 
 document.getElementById("ad-cancel")
 .style.display =
 "none";
 
 }
-
 
 document.getElementById("ad-cancel")
 .addEventListener(
@@ -1618,9 +1603,9 @@ resetAdvertisementForm
 );
 
 
-/* =========================================
+/* =========================
    広告検索
-========================================= */
+========================= */
 
 document.getElementById("ad-search")
 .addEventListener(
@@ -1632,6 +1617,15 @@ this.value
 .trim()
 .toLowerCase();
 
+if (!keyword) {
+
+renderAdvertisements(
+advertisementData
+);
+
+return;
+
+}
 
 const filtered =
 advertisementData.filter(ad => {
@@ -1658,15 +1652,16 @@ return (
 
 });
 
-
-renderAdvertisements(filtered);
+renderAdvertisements(
+filtered
+);
 
 });
 
 
-/* =========================================
+/* =========================
    ログアウト
-========================================= */
+========================= */
 
 document.getElementById("logout")
 .addEventListener(
@@ -1681,9 +1676,9 @@ location.href =
 });
 
 
-/* =========================================
+/* =========================
    セッション監視
-========================================= */
+========================= */
 
 supabaseClient.auth
 .onAuthStateChange(
@@ -1702,9 +1697,9 @@ dashboard.style.display =
 });
 
 
-/* =========================================
+/* =========================
    起動
-========================================= */
+========================= */
 
 checkSession();
 
