@@ -16,7 +16,8 @@ name="description"
 content="アニメ作品のあらすじ・作品情報・レビューをご紹介します。"
 >
 
-<meta name="robots"
+<meta
+name="robots"
 content="index, follow">
 
 <link
@@ -25,41 +26,38 @@ rel="canonical"
 href="https://just-an-anime-review.github.io/anime-detail.html"
 >
 
+
 <!-- OGP -->
 
 <meta
 property="og:type"
-content="article"
->
+content="article">
 
 <meta
 property="og:site_name"
-content="Just An Anime Review"
->
+content="Just An Anime Review">
 
 <meta
 id="og-title"
 property="og:title"
-content="アニメ詳細 | Just An Anime Review"
->
+content="アニメ詳細 | Just An Anime Review">
 
 <meta
 id="og-description"
 property="og:description"
-content="アニメ作品のあらすじ・作品情報・レビューをご紹介します。"
->
+content="アニメ作品のあらすじ・作品情報・レビューをご紹介します。">
 
 <meta
 id="og-url"
 property="og:url"
-content="https://just-an-anime-review.github.io/anime-detail.html"
->
+content="https://just-an-anime-review.github.io/anime-detail.html">
 
 <meta
 property="og:locale"
-content="ja_JP"
->
+content="ja_JP">
 
+
+<!-- Supabase -->
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
@@ -81,6 +79,9 @@ font-family:
 -apple-system,
 BlinkMacSystemFont,
 "Segoe UI",
+"Hiragino Kaku Gothic ProN",
+"Yu Gothic",
+Meiryo,
 sans-serif;
 
 background: #f7f7f7;
@@ -392,6 +393,262 @@ text-decoration: underline;
 
 
 /* =========================
+   いいね・コメント
+========================= */
+
+.interaction-section {
+
+margin-top: 45px;
+
+padding-top: 30px;
+
+border-top: 2px solid #eee;
+
+}
+
+
+.like-area {
+
+display: flex;
+
+align-items: center;
+
+gap: 12px;
+
+}
+
+
+.like-button {
+
+border: 1px solid #ddd;
+
+background: white;
+
+color: #333;
+
+padding: 10px 18px;
+
+border-radius: 8px;
+
+cursor: pointer;
+
+font-size: 15px;
+
+}
+
+
+.like-button:hover {
+
+background: #f5f5f5;
+
+}
+
+
+.like-button.liked {
+
+background: #111;
+
+color: white;
+
+border-color: #111;
+
+}
+
+
+.like-button:disabled {
+
+opacity: .5;
+
+cursor: not-allowed;
+
+}
+
+
+.like-count {
+
+color: #666;
+
+font-size: 14px;
+
+}
+
+
+.comment-form {
+
+margin-top: 30px;
+
+}
+
+
+.comment-form label {
+
+display: block;
+
+margin: 15px 0 7px;
+
+font-weight: bold;
+
+}
+
+
+.comment-form input,
+.comment-form textarea {
+
+width: 100%;
+
+padding: 11px;
+
+border: 1px solid #ccc;
+
+border-radius: 7px;
+
+font-size: 15px;
+
+font-family: inherit;
+
+}
+
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+
+outline: none;
+
+border-color: #555;
+
+}
+
+
+.comment-form textarea {
+
+min-height: 110px;
+
+resize: vertical;
+
+line-height: 1.7;
+
+}
+
+
+.comment-submit {
+
+margin-top: 15px;
+
+padding: 10px 18px;
+
+border: none;
+
+border-radius: 7px;
+
+background: #111;
+
+color: white;
+
+cursor: pointer;
+
+font-size: 14px;
+
+}
+
+
+.comment-submit:hover {
+
+opacity: .85;
+
+}
+
+
+.comment-submit:disabled {
+
+opacity: .5;
+
+cursor: not-allowed;
+
+}
+
+
+.comment-message {
+
+margin-top: 12px;
+
+color: #666;
+
+font-size: 14px;
+
+}
+
+
+.comments {
+
+margin-top: 35px;
+
+}
+
+
+.comment-item {
+
+padding: 18px 0;
+
+border-bottom: 1px solid #eee;
+
+}
+
+
+.comment-item:first-child {
+
+border-top: 1px solid #eee;
+
+}
+
+
+.comment-header {
+
+display: flex;
+
+justify-content: space-between;
+
+gap: 15px;
+
+margin-bottom: 8px;
+
+}
+
+
+.comment-nickname {
+
+font-weight: bold;
+
+}
+
+
+.comment-date {
+
+color: #999;
+
+font-size: 12px;
+
+}
+
+
+.comment-text {
+
+white-space: pre-wrap;
+
+color: #444;
+
+word-break: break-word;
+
+}
+
+
+.no-comments {
+
+color: #888;
+
+}
+
+
+/* =========================
    読み込み・エラー
 ========================= */
 
@@ -533,6 +790,15 @@ font-size: 21px;
 .ad-box {
 
 padding: 15px;
+
+}
+
+
+.comment-header {
+
+flex-direction: column;
+
+gap: 2px;
 
 }
 
@@ -678,6 +944,120 @@ id="review">
 </section>
 
 
+<!-- =========================
+     いいね・コメント
+========================= -->
+
+<section
+class="interaction-section">
+
+<h2>
+みんなの反応
+</h2>
+
+
+<div class="like-area">
+
+<button
+type="button"
+id="like-button"
+class="like-button">
+
+♡ いいね
+
+</button>
+
+<span
+id="like-count"
+class="like-count">
+
+0件
+
+</span>
+
+</div>
+
+
+<div class="comment-form">
+
+<h2>
+コメント
+</h2>
+
+
+<label
+for="comment-nickname">
+
+ニックネーム
+
+</label>
+
+<input
+type="text"
+id="comment-nickname"
+maxlength="30"
+autocomplete="nickname"
+placeholder="ニックネーム">
+
+
+<label
+for="comment-text">
+
+コメント
+
+</label>
+
+<textarea
+id="comment-text"
+maxlength="1000"
+placeholder="この作品についてコメントしてください。"></textarea>
+
+
+<button
+type="button"
+id="comment-submit"
+class="comment-submit">
+
+コメントを投稿
+
+</button>
+
+
+<p
+id="comment-message"
+class="comment-message">
+</p>
+
+</div>
+
+
+<div class="comments">
+
+<h2>
+コメント一覧
+</h2>
+
+<div
+id="comment-list">
+
+<p class="no-comments">
+
+コメントを読み込んでいます……
+
+</p>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+<!-- =========================
+     公式サイト
+========================= -->
+
 <div
 id="official-wrapper">
 
@@ -794,17 +1174,54 @@ function showError() {
 
 document
 .getElementById("loading")
-.style.display = "none";
+.style.display =
+"none";
 
 
 document
 .getElementById("detail")
-.style.display = "none";
+.style.display =
+"none";
 
 
 document
 .getElementById("error")
-.style.display = "block";
+.style.display =
+"block";
+
+}
+
+
+/* =========================
+   広告URL安全確認
+========================= */
+
+function isSafeURL(url) {
+
+if (!url) {
+
+return false;
+
+}
+
+try {
+
+const parsed =
+new URL(
+url,
+window.location.origin
+);
+
+return (
+parsed.protocol === "http:" ||
+parsed.protocol === "https:"
+);
+
+} catch {
+
+return false;
+
+}
 
 }
 
@@ -816,11 +1233,24 @@ document
 async function loadAdvertisement() {
 
 const section =
-document.getElementById("ad-section");
+document.getElementById(
+"ad-section"
+);
 
 const container =
-document.getElementById("ad-container");
+document.getElementById(
+"ad-container"
+);
 
+
+section.style.display =
+"none";
+
+container.innerHTML =
+"";
+
+
+try {
 
 const { data, error } =
 await supabaseClient
@@ -853,9 +1283,6 @@ console.error(
 error
 );
 
-section.style.display =
-"none";
-
 return;
 
 }
@@ -865,9 +1292,6 @@ if (
 !data ||
 data.length === 0
 ) {
-
-section.style.display =
-"none";
 
 return;
 
@@ -883,7 +1307,10 @@ let html = "";
 
 /* 画像 */
 
-if (ad.image_url) {
+if (
+ad.image_url &&
+isSafeURL(ad.image_url)
+) {
 
 html += `
 
@@ -892,8 +1319,8 @@ src="${escapeHTML(ad.image_url)}"
 alt="${escapeHTML(
 ad.title || "広告"
 )}"
-onerror="this.style.display='none';"
->
+loading="lazy"
+onerror="this.style.display='none';">
 
 `;
 
@@ -959,17 +1386,18 @@ ad.description
 
 /* リンク */
 
-if (ad.link_url) {
+if (
+ad.link_url &&
+isSafeURL(ad.link_url)
+) {
 
 html += `
 
 <a
 class="ad-button"
-href="${escapeHTML(
-ad.link_url
-)}"
+href="${escapeHTML(ad.link_url)}"
 target="_blank"
-rel="noopener noreferrer">
+rel="noopener noreferrer nofollow">
 
 詳しくはこちら
 
@@ -980,10 +1408,7 @@ rel="noopener noreferrer">
 }
 
 
-if (!html) {
-
-section.style.display =
-"none";
+if (!html.trim()) {
 
 return;
 
@@ -993,9 +1418,18 @@ return;
 container.innerHTML =
 html;
 
-
 section.style.display =
 "block";
+
+
+} catch (error) {
+
+console.error(
+"広告読み込みエラー:",
+error
+);
+
+}
 
 }
 
@@ -1051,19 +1485,23 @@ return;
 ========================= */
 
 const title =
-data.title || "アニメ作品";
+data.title ||
+"アニメ作品";
 
 
 const genre =
-data.genre || "";
+data.genre ||
+"";
 
 
 const description =
-data.description || "";
+data.description ||
+"";
 
 
 const review =
-data.review || "";
+data.review ||
+"";
 
 
 /* =========================
@@ -1098,7 +1536,9 @@ metaDescription =
 
 
 document
-.getElementById("meta-description")
+.getElementById(
+"meta-description"
+)
 .setAttribute(
 "content",
 metaDescription
@@ -1113,7 +1553,9 @@ const canonicalUrl =
 window.location.origin +
 window.location.pathname +
 "?id=" +
-encodeURIComponent(data.id);
+encodeURIComponent(
+data.id
+);
 
 
 document
@@ -1163,7 +1605,9 @@ title;
 
 
 const genreElement =
-document.getElementById("genre");
+document.getElementById(
+"genre"
+);
 
 
 if (genre) {
@@ -1212,7 +1656,10 @@ document.getElementById(
 );
 
 
-if (data.official_url) {
+if (
+data.official_url &&
+isSafeURL(data.official_url)
+) {
 
 official.href =
 data.official_url;
@@ -1286,7 +1733,9 @@ oldSchema.remove();
 
 
 const schemaScript =
-document.createElement("script");
+document.createElement(
+"script"
+);
 
 
 schemaScript.type =
@@ -1323,7 +1772,671 @@ document
 .style.display =
 "block";
 
+
+/* =========================
+   いいね・コメント開始
+========================= */
+
+initializeInteractions();
+
 }
+
+
+/* =========================
+   閲覧者ID
+========================= */
+
+function getVisitorId() {
+
+let visitorId =
+localStorage.getItem(
+"anime_review_visitor_id"
+);
+
+
+if (!visitorId) {
+
+visitorId =
+crypto.randomUUID();
+
+localStorage.setItem(
+"anime_review_visitor_id",
+visitorId
+);
+
+}
+
+
+return visitorId;
+
+}
+
+
+/* =========================
+   いいね数
+========================= */
+
+async function loadLikeCount() {
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+const { count, error } =
+await supabaseClient
+
+.from("anime_likes")
+
+.select(
+"*",
+{
+count: "exact",
+head: true
+}
+)
+
+.eq(
+"anime_id",
+currentAnimeId
+);
+
+
+if (error) {
+
+console.error(
+"いいね数取得エラー:",
+error
+);
+
+return;
+
+}
+
+
+document
+.getElementById("like-count")
+.textContent =
+`${count || 0}件`;
+
+}
+
+
+/* =========================
+   いいね済み確認
+========================= */
+
+async function checkLiked() {
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+const visitorId =
+getVisitorId();
+
+
+const { data, error } =
+await supabaseClient
+
+.from("anime_likes")
+
+.select("id")
+
+.eq(
+"anime_id",
+currentAnimeId
+)
+
+.eq(
+"visitor_id",
+visitorId
+)
+
+.maybeSingle();
+
+
+if (error) {
+
+console.error(
+"いいね状態取得エラー:",
+error
+);
+
+return;
+
+}
+
+
+const button =
+document.getElementById(
+"like-button"
+);
+
+
+if (data) {
+
+button.classList.add(
+"liked"
+);
+
+button.textContent =
+"♥ いいね済み";
+
+button.disabled =
+true;
+
+} else {
+
+button.classList.remove(
+"liked"
+);
+
+button.textContent =
+"♡ いいね";
+
+}
+
+}
+
+
+/* =========================
+   いいね
+========================= */
+
+async function toggleLike() {
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+const button =
+document.getElementById(
+"like-button"
+);
+
+
+const visitorId =
+getVisitorId();
+
+
+button.disabled =
+true;
+
+
+const { data, error } =
+await supabaseClient
+
+.from("anime_likes")
+
+.select("id")
+
+.eq(
+"anime_id",
+currentAnimeId
+)
+
+.eq(
+"visitor_id",
+visitorId
+)
+
+.maybeSingle();
+
+
+if (error) {
+
+console.error(
+error
+);
+
+button.disabled =
+false;
+
+return;
+
+}
+
+
+/* すでにいいね済み */
+
+if (data) {
+
+button.classList.add(
+"liked"
+);
+
+button.textContent =
+"♥ いいね済み";
+
+button.disabled =
+true;
+
+return;
+
+}
+
+
+/* いいね追加 */
+
+const { error: insertError } =
+await supabaseClient
+
+.from("anime_likes")
+
+.insert({
+
+anime_id:
+currentAnimeId,
+
+visitor_id:
+visitorId
+
+});
+
+
+if (insertError) {
+
+console.error(
+"いいね追加エラー:",
+insertError
+);
+
+
+/*
+   同時操作などで
+   unique制約に引っかかった場合も
+   いいね済みとして扱う
+*/
+
+await loadLikeCount();
+
+await checkLiked();
+
+return;
+
+}
+
+
+await loadLikeCount();
+
+await checkLiked();
+
+}
+
+
+/* =========================
+   コメント取得
+========================= */
+
+async function loadComments() {
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+const container =
+document.getElementById(
+"comment-list"
+);
+
+
+const { data, error } =
+await supabaseClient
+
+.from("anime_comments")
+
+.select(
+"id,nickname,comment,created_at"
+)
+
+.eq(
+"anime_id",
+currentAnimeId
+)
+
+.order(
+"created_at",
+{
+ascending: false
+}
+);
+
+
+if (error) {
+
+console.error(
+"コメント取得エラー:",
+error
+);
+
+
+container.innerHTML = `
+
+<p class="no-comments">
+
+コメントを取得できませんでした。
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+if (
+!data ||
+data.length === 0
+) {
+
+container.innerHTML = `
+
+<p class="no-comments">
+
+まだコメントはありません。
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+"";
+
+
+data.forEach(
+comment => {
+
+const item =
+document.createElement(
+"div"
+);
+
+
+item.className =
+"comment-item";
+
+
+const date =
+new Date(
+comment.created_at
+)
+.toLocaleString(
+"ja-JP"
+);
+
+
+item.innerHTML = `
+
+<div class="comment-header">
+
+<span class="comment-nickname">
+
+${escapeHTML(
+comment.nickname
+)}
+
+</span>
+
+<span class="comment-date">
+
+${escapeHTML(
+date
+)}
+
+</span>
+
+</div>
+
+
+<div class="comment-text">
+
+${escapeHTML(
+comment.comment
+)}
+
+</div>
+
+`;
+
+
+container.appendChild(
+item
+);
+
+});
+
+}
+
+
+/* =========================
+   コメント投稿
+========================= */
+
+async function submitComment() {
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+const nickname =
+document
+.getElementById(
+"comment-nickname"
+)
+.value
+.trim();
+
+
+const comment =
+document
+.getElementById(
+"comment-text"
+)
+.value
+.trim();
+
+
+const message =
+document.getElementById(
+"comment-message"
+);
+
+
+const button =
+document.getElementById(
+"comment-submit"
+);
+
+
+if (!nickname) {
+
+message.textContent =
+"ニックネームを入力してください。";
+
+return;
+
+}
+
+
+if (nickname.length > 30) {
+
+message.textContent =
+"ニックネームは30文字以内で入力してください。";
+
+return;
+
+}
+
+
+if (!comment) {
+
+message.textContent =
+"コメントを入力してください。";
+
+return;
+
+}
+
+
+if (comment.length > 1000) {
+
+message.textContent =
+"コメントは1000文字以内で入力してください。";
+
+return;
+
+}
+
+
+button.disabled =
+true;
+
+
+message.textContent =
+"投稿しています……";
+
+
+const { error } =
+await supabaseClient
+
+.from("anime_comments")
+
+.insert({
+
+anime_id:
+currentAnimeId,
+
+nickname:
+nickname,
+
+comment:
+comment
+
+});
+
+
+if (error) {
+
+console.error(
+"コメント投稿エラー:",
+error
+);
+
+message.textContent =
+"コメントの投稿に失敗しました。";
+
+button.disabled =
+false;
+
+return;
+
+}
+
+
+/* 入力欄をクリア */
+
+document
+.getElementById(
+"comment-nickname"
+)
+.value =
+"";
+
+
+document
+.getElementById(
+"comment-text"
+)
+.value =
+"";
+
+
+message.textContent =
+"コメントを投稿しました。";
+
+
+await loadComments();
+
+
+button.disabled =
+false;
+
+}
+
+
+/* =========================
+   インタラクション初期化
+========================= */
+
+let currentAnimeId =
+null;
+
+
+async function initializeInteractions() {
+
+currentAnimeId =
+id;
+
+
+if (!currentAnimeId) {
+
+return;
+
+}
+
+
+await loadLikeCount();
+
+await checkLiked();
+
+await loadComments();
+
+}
+
+
+/* =========================
+   イベント
+========================= */
+
+document
+.getElementById(
+"like-button"
+)
+.addEventListener(
+"click",
+toggleLike
+);
+
+
+document
+.getElementById(
+"comment-submit"
+)
+.addEventListener(
+"click",
+submitComment
+);
 
 
 /* =========================
