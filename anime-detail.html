@@ -16,11 +16,55 @@ name="description"
 content="アニメ作品のあらすじ・作品情報・レビューをご紹介します。"
 >
 
-<meta name="robots" content="index, follow">
+<meta name="robots"
+content="index, follow">
+
+<link
+id="canonical"
+rel="canonical"
+href="https://just-an-anime-review.github.io/anime-detail.html"
+>
+
+<!-- OGP -->
+
+<meta
+property="og:type"
+content="article"
+>
+
+<meta
+property="og:site_name"
+content="Just An Anime Review"
+>
+
+<meta
+id="og-title"
+property="og:title"
+content="アニメ詳細 | Just An Anime Review"
+>
+
+<meta
+id="og-description"
+property="og:description"
+content="アニメ作品のあらすじ・作品情報・レビューをご紹介します。"
+>
+
+<meta
+id="og-url"
+property="og:url"
+content="https://just-an-anime-review.github.io/anime-detail.html"
+>
+
+<meta
+property="og:locale"
+content="ja_JP"
+>
+
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 </script>
+
 
 <style>
 
@@ -28,118 +72,486 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 box-sizing: border-box;
 }
 
+
 body {
+
 margin: 0;
+
 font-family:
 -apple-system,
 BlinkMacSystemFont,
 "Segoe UI",
 sans-serif;
+
 background: #f7f7f7;
+
 color: #222;
+
+line-height: 1.7;
+
 }
+
+
+/* =========================
+   ヘッダー
+========================= */
 
 header {
+
 background: #111;
+
 color: white;
+
 }
+
 
 .header-inner {
+
 max-width: 1000px;
+
 margin: auto;
+
 padding: 20px;
+
 }
+
 
 .logo {
+
 color: white;
+
 text-decoration: none;
+
 font-size: 21px;
+
 font-weight: bold;
+
 }
+
+
+/* =========================
+   メイン
+========================= */
 
 main {
+
 max-width: 900px;
+
 margin: auto;
-padding: 50px 20px;
+
+padding: 45px 20px;
+
 }
+
+
+/* =========================
+   広告
+========================= */
+
+.ad-section {
+
+display: none;
+
+margin-bottom: 30px;
+
+}
+
+
+.ad-label {
+
+text-align: center;
+
+font-size: 11px;
+
+color: #999;
+
+margin-bottom: 8px;
+
+letter-spacing: .5px;
+
+}
+
+
+.ad-box {
+
+background: white;
+
+border: 1px solid #e5e5e5;
+
+border-radius: 12px;
+
+padding: 18px;
+
+text-align: center;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.04);
+
+}
+
+
+.ad-box img {
+
+display: block;
+
+max-width: 100%;
+
+max-height: 180px;
+
+margin: 0 auto 12px;
+
+border-radius: 8px;
+
+}
+
+
+.ad-company {
+
+font-size: 12px;
+
+color: #888;
+
+margin-bottom: 4px;
+
+}
+
+
+.ad-title {
+
+font-size: 17px;
+
+font-weight: bold;
+
+margin-bottom: 6px;
+
+}
+
+
+.ad-description {
+
+color: #666;
+
+font-size: 14px;
+
+line-height: 1.7;
+
+}
+
+
+.ad-button {
+
+display: inline-block;
+
+margin-top: 10px;
+
+padding: 8px 16px;
+
+background: #111;
+
+color: white;
+
+text-decoration: none;
+
+border-radius: 6px;
+
+font-size: 13px;
+
+}
+
+
+.ad-button:hover {
+
+opacity: .8;
+
+}
+
+
+/* =========================
+   詳細
+========================= */
 
 .detail-box {
+
 background: white;
-padding: 35px;
+
+padding: 40px;
+
 border-radius: 12px;
+
 box-shadow:
 0 3px 15px rgba(0,0,0,.08);
+
 }
+
 
 h1 {
+
 font-size: 40px;
+
+line-height: 1.3;
+
 margin-top: 0;
+
+margin-bottom: 15px;
+
 }
+
 
 .genre {
+
 display: inline-block;
+
 background: #eee;
-padding: 6px 12px;
+
+padding: 5px 11px;
+
 border-radius: 20px;
+
+font-size: 13px;
+
+color: #555;
+
 }
+
 
 section {
-margin-top: 35px;
+
+margin-top: 40px;
+
 }
+
 
 section h2 {
+
+font-size: 23px;
+
 border-bottom: 2px solid #eee;
+
 padding-bottom: 10px;
+
 }
+
 
 section p {
+
 white-space: pre-wrap;
+
 line-height: 2;
+
 color: #444;
+
 }
+
 
 .official {
+
 display: inline-block;
-margin-top: 20px;
-color: #06c;
+
+margin-top: 15px;
+
+padding: 10px 16px;
+
+background: #111;
+
+color: white;
+
+text-decoration: none;
+
+border-radius: 7px;
+
 font-weight: bold;
+
 }
+
+
+.official:hover {
+
+opacity: .8;
+
+}
+
 
 .back {
+
 display: inline-block;
+
 margin-top: 30px;
+
 color: #666;
+
+text-decoration: none;
+
 }
+
+
+.back:hover {
+
+text-decoration: underline;
+
+}
+
+
+/* =========================
+   読み込み・エラー
+========================= */
 
 .status {
+
 text-align: center;
-padding: 50px;
+
+padding: 60px 20px;
+
 color: #666;
+
 }
+
+
+.error-box {
+
+background: white;
+
+padding: 40px;
+
+border-radius: 12px;
+
+text-align: center;
+
+box-shadow:
+0 3px 15px rgba(0,0,0,.08);
+
+}
+
+
+.error-box h1 {
+
+font-size: 28px;
+
+}
+
+
+/* =========================
+   フッター
+========================= */
 
 footer {
+
 margin-top: 70px;
+
 background: #111;
+
 color: white;
+
 padding: 35px 20px;
+
 }
 
+
 .footer-inner {
+
 max-width: 900px;
+
 margin: auto;
+
+}
+
+
+.footer-inner p {
+
+color: #bbb;
+
+}
+
+
+/* =========================
+   管理画面
+========================= */
+
+.admin-link {
+
+position: fixed;
+
+right: 12px;
+
+bottom: 10px;
+
+font-size: 11px;
+
+color: #999;
+
+text-decoration: none;
+
+opacity: .65;
+
+z-index: 1000;
+
+}
+
+
+.admin-link:hover {
+
+opacity: 1;
+
+text-decoration: underline;
+
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media (max-width: 600px) {
+
+main {
+
+padding: 30px 15px;
+
+}
+
+
+.detail-box {
+
+padding: 25px 20px;
+
+}
+
+
+h1 {
+
+font-size: 30px;
+
+}
+
+
+section h2 {
+
+font-size: 21px;
+
+}
+
+
+.ad-box {
+
+padding: 15px;
+
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="header-inner">
 
-<a href="index.html"
+<a
+href="index.html"
 class="logo">
 
 Just An Anime Review
@@ -153,24 +565,90 @@ Just An Anime Review
 
 <main>
 
-<div id="loading"
-class="status">
 
-読み込んでいます……
+<!-- =========================
+     広告
+========================= -->
+
+<section
+id="ad-section"
+class="ad-section">
+
+<div class="ad-label">
+
+ADVERTISEMENT
 
 </div>
 
+<div
+id="ad-container"
+class="ad-box">
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     読み込み
+========================= -->
+
+<div
+id="loading"
+class="status">
+
+アニメ情報を読み込んでいます……
+
+</div>
+
+
+<!-- =========================
+     エラー
+========================= -->
+
+<div
+id="error"
+class="error-box"
+style="display:none;">
+
+<h1>
+作品が見つかりません
+</h1>
+
+<p>
+指定されたアニメ作品は存在しないか、
+削除された可能性があります。
+</p>
+
+<a
+href="anime.html"
+class="back">
+
+← アニメ一覧へ戻る
+
+</a>
+
+</div>
+
+
+<!-- =========================
+     アニメ詳細
+========================= -->
 
 <article
 id="detail"
 class="detail-box"
 style="display:none;">
 
-<h1 id="title"></h1>
+<h1
+id="title">
+</h1>
+
 
 <div
 id="genre"
-class="genre">
+class="genre"
+style="display:none;">
 </div>
 
 
@@ -180,7 +658,9 @@ class="genre">
 あらすじ
 </h2>
 
-<p id="description"></p>
+<p
+id="description">
+</p>
 
 </section>
 
@@ -191,10 +671,15 @@ class="genre">
 レビュー
 </h2>
 
-<p id="review"></p>
+<p
+id="review">
+</p>
 
 </section>
 
+
+<div
+id="official-wrapper">
 
 <a
 id="official"
@@ -206,11 +691,11 @@ rel="noopener noreferrer">
 
 </a>
 
+</div>
 
-<br>
 
-
-<a href="anime.html"
+<a
+href="anime.html"
 class="back">
 
 ← アニメ一覧へ戻る
@@ -244,13 +729,28 @@ Just An Anime Review
 </footer>
 
 
+<a
+href="admin.html"
+class="admin-link">
+
+管理画面
+
+</a>
+
+
 <script>
+
+/* =========================
+   Supabase
+========================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+
 
 const supabaseClient =
 supabase.createClient(
@@ -259,11 +759,250 @@ SUPABASE_KEY
 );
 
 
+/* =========================
+   HTMLエスケープ
+========================= */
+
+function escapeHTML(text) {
+
+const div =
+document.createElement("div");
+
+div.textContent =
+text ?? "";
+
+return div.innerHTML;
+
+}
+
+
+/* =========================
+   URLパラメータ
+========================= */
+
 const id =
 new URLSearchParams(
-location.search
+window.location.search
 ).get("id");
 
+
+/* =========================
+   エラー表示
+========================= */
+
+function showError() {
+
+document
+.getElementById("loading")
+.style.display = "none";
+
+
+document
+.getElementById("detail")
+.style.display = "none";
+
+
+document
+.getElementById("error")
+.style.display = "block";
+
+}
+
+
+/* =========================
+   広告取得
+========================= */
+
+async function loadAdvertisement() {
+
+const section =
+document.getElementById("ad-section");
+
+const container =
+document.getElementById("ad-container");
+
+
+const { data, error } =
+await supabaseClient
+
+.from("advertisements")
+
+.select(
+"id,company_name,title,description,image_url,link_url"
+)
+
+.eq(
+"is_active",
+true
+)
+
+.order(
+"id",
+{
+ascending: true
+}
+)
+
+.limit(1);
+
+
+if (error) {
+
+console.error(
+"広告取得エラー:",
+error
+);
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+if (
+!data ||
+data.length === 0
+) {
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+const ad =
+data[0];
+
+
+let html = "";
+
+
+/* 画像 */
+
+if (ad.image_url) {
+
+html += `
+
+<img
+src="${escapeHTML(ad.image_url)}"
+alt="${escapeHTML(
+ad.title || "広告"
+)}"
+onerror="this.style.display='none';"
+>
+
+`;
+
+}
+
+
+/* 企業名 */
+
+if (ad.company_name) {
+
+html += `
+
+<div class="ad-company">
+
+${escapeHTML(
+ad.company_name
+)}
+
+</div>
+
+`;
+
+}
+
+
+/* タイトル */
+
+if (ad.title) {
+
+html += `
+
+<div class="ad-title">
+
+${escapeHTML(
+ad.title
+)}
+
+</div>
+
+`;
+
+}
+
+
+/* 説明 */
+
+if (ad.description) {
+
+html += `
+
+<div class="ad-description">
+
+${escapeHTML(
+ad.description
+)}
+
+</div>
+
+`;
+
+}
+
+
+/* リンク */
+
+if (ad.link_url) {
+
+html += `
+
+<a
+class="ad-button"
+href="${escapeHTML(
+ad.link_url
+)}"
+target="_blank"
+rel="noopener noreferrer">
+
+詳しくはこちら
+
+</a>
+
+`;
+
+}
+
+
+if (!html) {
+
+section.style.display =
+"none";
+
+return;
+
+}
+
+
+container.innerHTML =
+html;
+
+
+section.style.display =
+"block";
+
+}
+
+
+/* =========================
+   アニメ取得
+========================= */
 
 async function loadAnime() {
 
@@ -278,17 +1017,27 @@ return;
 
 const { data, error } =
 await supabaseClient
+
 .from("anime")
+
 .select(
 "id,title,genre,description,review,official_url"
 )
-.eq("id", id)
+
+.eq(
+"id",
+id
+)
+
 .single();
 
 
 if (error || !data) {
 
-console.error(error);
+console.error(
+"アニメ取得エラー:",
+error
+);
 
 showError();
 
@@ -297,89 +1046,170 @@ return;
 }
 
 
-/*
-SEO設定
-作品ごとにページタイトルと
-descriptionを自動的に変更
-*/
+/* =========================
+   基本情報
+========================= */
+
+const title =
+data.title || "アニメ作品";
+
+
+const genre =
+data.genre || "";
+
+
+const description =
+data.description || "";
+
+
+const review =
+data.review || "";
+
+
+/* =========================
+   title
+========================= */
 
 document.title =
-`${data.title}｜あらすじ・作品情報・レビュー | Just An Anime Review`;
+`${title} | Just An Anime Review`;
 
 
-const metaDescription =
-document.getElementById(
-"meta-description"
-);
+/* =========================
+   description
+========================= */
+
+let metaDescription;
 
 
-if (metaDescription) {
+if (description) {
 
-metaDescription.setAttribute(
-"content",
-`${data.title}のあらすじ、作品情報、ジャンル、レビューを紹介しています。Just An Anime Reviewで作品の魅力をチェックできます。`
-);
+metaDescription =
+description
+.replace(/\s+/g, " ")
+.trim()
+.slice(0, 155);
+
+} else {
+
+metaDescription =
+`${title}のあらすじ・作品情報・レビューを紹介しています。`;
 
 }
 
 
-/*
-作品名
-*/
+document
+.getElementById("meta-description")
+.setAttribute(
+"content",
+metaDescription
+);
 
-document.getElementById("title")
+
+/* =========================
+   canonical
+========================= */
+
+const canonicalUrl =
+window.location.origin +
+window.location.pathname +
+"?id=" +
+encodeURIComponent(data.id);
+
+
+document
+.getElementById("canonical")
+.setAttribute(
+"href",
+canonicalUrl
+);
+
+
+/* =========================
+   OGP
+========================= */
+
+document
+.getElementById("og-title")
+.setAttribute(
+"content",
+`${title} | Just An Anime Review`
+);
+
+
+document
+.getElementById("og-description")
+.setAttribute(
+"content",
+metaDescription
+);
+
+
+document
+.getElementById("og-url")
+.setAttribute(
+"content",
+canonicalUrl
+);
+
+
+/* =========================
+   表示
+========================= */
+
+document
+.getElementById("title")
 .textContent =
-data.title || "";
+title;
 
 
-/*
-ジャンル
-*/
-
-const genre =
+const genreElement =
 document.getElementById("genre");
 
 
-if (data.genre) {
+if (genre) {
 
-genre.textContent =
-data.genre;
+genreElement.textContent =
+genre;
 
-genre.style.display =
+genreElement.style.display =
 "inline-block";
 
 } else {
 
-genre.style.display =
+genreElement.style.display =
 "none";
 
 }
 
 
-/*
-あらすじ
-*/
-
-document.getElementById("description")
+document
+.getElementById("description")
 .textContent =
-data.description || "あらすじは登録されていません。";
+description ||
+"あらすじは登録されていません。";
 
 
-/*
-レビュー
-*/
-
-document.getElementById("review")
+document
+.getElementById("review")
 .textContent =
-data.review || "レビューは登録されていません。";
+review ||
+"レビューは登録されていません。";
 
 
-/*
-公式サイト
-*/
+/* =========================
+   公式サイト
+========================= */
+
+const officialWrapper =
+document.getElementById(
+"official-wrapper"
+);
+
 
 const official =
-document.getElementById("official");
+document.getElementById(
+"official"
+);
 
 
 if (data.official_url) {
@@ -387,66 +1217,125 @@ if (data.official_url) {
 official.href =
 data.official_url;
 
-official.style.display =
-"inline-block";
+officialWrapper.style.display =
+"block";
 
 } else {
 
-official.style.display =
+officialWrapper.style.display =
 "none";
 
 }
 
 
-/*
-読み込み画面を非表示
-*/
+/* =========================
+   構造化データ
+========================= */
 
-document.getElementById("loading")
+const structuredData = {
+
+"@context":
+"https://schema.org",
+
+"@type":
+"Article",
+
+"headline":
+title,
+
+"description":
+metaDescription,
+
+"url":
+canonicalUrl,
+
+"mainEntityOfPage": {
+
+"@type":
+"WebPage",
+
+"@id":
+canonicalUrl
+
+},
+
+"publisher": {
+
+"@type":
+"Organization",
+
+"name":
+"Just An Anime Review"
+
+}
+
+};
+
+
+const oldSchema =
+document.getElementById(
+"anime-structured-data"
+);
+
+
+if (oldSchema) {
+
+oldSchema.remove();
+
+}
+
+
+const schemaScript =
+document.createElement("script");
+
+
+schemaScript.type =
+"application/ld+json";
+
+
+schemaScript.id =
+"anime-structured-data";
+
+
+schemaScript.textContent =
+JSON.stringify(
+structuredData
+);
+
+
+document.head.appendChild(
+schemaScript
+);
+
+
+/* =========================
+   表示切り替え
+========================= */
+
+document
+.getElementById("loading")
 .style.display =
 "none";
 
 
-/*
-詳細ページを表示
-*/
-
-document.getElementById("detail")
+document
+.getElementById("detail")
 .style.display =
 "block";
 
 }
 
 
-/*
-作品が存在しない場合
-*/
-
-function showError() {
-
-document.getElementById("loading")
-.innerHTML = `
-
-<h2>
-作品が見つかりません
-</h2>
-
-<p>
-指定されたアニメは存在しません。
-</p>
-
-<a href="anime.html">
-アニメ一覧へ戻る
-</a>
-
-`;
-
-}
-
+/* =========================
+   起動
+========================= */
 
 loadAnime();
 
+loadAdvertisement();
+
 </script>
+
 
 </body>
 
