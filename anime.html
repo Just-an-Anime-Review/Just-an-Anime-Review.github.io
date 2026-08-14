@@ -3,519 +3,437 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>アニメ一覧 | Just An Anime Review</title>
-
-    <meta name="description"
-          content="Just An Anime Reviewのアニメ紹介・レビュー一覧。">
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            background: #f7f7f7;
-            color: #222;
-        }
-
-        header {
-            background: #111;
-            color: white;
-        }
-
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .logo {
-            color: white;
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 50px 20px;
-        }
-
-        .page-header {
-            margin-bottom: 40px;
-        }
-
-        .page-header h1 {
-            margin-bottom: 10px;
-            font-size: 38px;
-        }
-
-        .page-header p {
-            color: #666;
-        }
-
-        #anime-list {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(280px, 1fr));
-
-            gap: 25px;
-        }
-
-        .anime-card {
-            display: block;
-
-            background: white;
-
-            border-radius: 12px;
-
-            padding: 25px;
-
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, 0.08);
-
-            text-decoration: none;
-
-            color: #222;
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .anime-card:hover {
-            transform: translateY(-4px);
-
-            box-shadow:
-                0 7px 22px rgba(0, 0, 0, 0.12);
-        }
-
-        .anime-card h2 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-size: 24px;
-        }
-
-        .anime-genre {
-            display: inline-block;
-
-            margin-bottom: 15px;
-
-            padding: 5px 10px;
-
-            background: #eee;
-
-            border-radius: 20px;
-
-            font-size: 13px;
-        }
-
-        .anime-description {
-            color: #555;
-
-            line-height: 1.8;
-        }
-
-        .detail-link {
-            display: inline-block;
-
-            margin-top: 15px;
-
-            color: #06c;
-
-            font-weight: bold;
-        }
-
-        #loading {
-            text-align: center;
-
-            padding: 50px;
-
-            color: #666;
-        }
-
-        #error {
-            display: none;
-
-            text-align: center;
-
-            padding: 50px;
-
-            color: #c00;
-        }
-
-        #empty {
-            display: none;
-
-            text-align: center;
-
-            padding: 50px;
-
-            color: #666;
-        }
-
-        footer {
-            margin-top: 80px;
-
-            background: #111;
-
-            color: white;
-
-            padding: 40px 20px;
-        }
-
-        .footer-inner {
-            max-width: 1100px;
-
-            margin: 0 auto;
-        }
-
-        .copyright {
-            margin-top: 25px;
-
-            color: #aaa;
-
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-
-            .page-header h1 {
-                font-size: 30px;
-            }
-
-            #anime-list {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>アニメ一覧 | Just An Anime Review</title>
+
+<meta name="description"
+content="Just An Anime Reviewのアニメ作品一覧。">
+
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+<style>
+
+* {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+background: #f7f7f7;
+color: #222;
+}
+
+header {
+background: #111;
+color: white;
+}
+
+.header-inner {
+max-width: 1100px;
+margin: auto;
+padding: 20px;
+}
+
+.logo {
+color: white;
+text-decoration: none;
+font-weight: bold;
+font-size: 21px;
+}
+
+main {
+max-width: 1100px;
+margin: auto;
+padding: 45px 20px;
+}
+
+.page-header h1 {
+font-size: 36px;
+}
+
+.page-header p {
+color: #666;
+}
+
+.search-box {
+margin: 30px 0;
+}
+
+.search-box input {
+width: 100%;
+padding: 14px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 8px;
+}
+
+.count {
+margin-bottom: 20px;
+color: #666;
+}
+
+#anime-list {
+display: grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap: 22px;
+}
+
+.anime-card {
+display: block;
+background: white;
+padding: 25px;
+border-radius: 12px;
+text-decoration: none;
+color: #222;
+box-shadow:
+0 3px 15px rgba(0,0,0,.07);
+transition: .2s;
+}
+
+.anime-card:hover {
+transform: translateY(-4px);
+}
+
+.anime-card h2 {
+margin-top: 0;
+}
+
+.genre {
+display: inline-block;
+background: #eee;
+padding: 5px 10px;
+border-radius: 20px;
+font-size: 13px;
+}
+
+.description {
+color: #555;
+line-height: 1.8;
+}
+
+.detail {
+color: #06c;
+font-weight: bold;
+}
+
+.status {
+text-align: center;
+padding: 40px;
+color: #666;
+}
+
+footer {
+margin-top: 70px;
+background: #111;
+color: white;
+padding: 35px 20px;
+}
+
+.footer-inner {
+max-width: 1100px;
+margin: auto;
+}
+
+.admin-link {
+position: fixed;
+right: 12px;
+bottom: 10px;
+font-size: 11px;
+color: #999;
+text-decoration: none;
+}
+
+</style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <div class="header-inner">
+<div class="header-inner">
 
-        <a
-            href="index.html"
-            class="logo"
-        >
-            Just An Anime Review
-        </a>
+<a href="index.html"
+class="logo">
 
-    </div>
+Just An Anime Review
+
+</a>
+
+</div>
 
 </header>
 
 
 <main>
 
+<section class="page-header">
 
-    <section class="page-header">
+<h1>
+アニメ一覧
+</h1>
 
-        <h1>
-            アニメ一覧
-        </h1>
+<p>
+登録されているアニメ作品をご覧いただけます。
+</p>
 
-        <p>
-            Just An Anime Reviewで紹介しているアニメ作品
-        </p>
-
-    </section>
-
-
-    <div id="loading">
-        アニメ情報を読み込んでいます……
-    </div>
+</section>
 
 
-    <div id="error">
+<div class="search-box">
 
-        アニメ情報を取得できませんでした。
+<input
+type="search"
+id="search"
+placeholder="作品名・ジャンルを検索">
 
-    </div>
-
-
-    <div id="empty">
-
-        現在、登録されているアニメはありません。
-
-    </div>
+</div>
 
 
-    <div id="anime-list"></div>
+<div id="count"
+class="count">
 
+読み込み中……
+
+</div>
+
+
+<div id="anime-list">
+
+<div class="status">
+アニメ情報を読み込んでいます……
+</div>
+
+</div>
 
 </main>
 
 
 <footer>
 
-    <div class="footer-inner">
+<div class="footer-inner">
 
-        <h2>
-            Just An Anime Review
-        </h2>
+<h2>
+Just An Anime Review
+</h2>
 
-        <p>
-            アニメをもっと深く、もっと面白く。
-        </p>
+<p>
+アニメをもっと深く、もっと面白く。
+</p>
 
-        <p class="copyright">
-            © 2026 Just An Anime Review
-        </p>
-
-    </div>
+</div>
 
 </footer>
 
 
+<a href="admin.html"
+class="admin-link">
+
+管理画面
+
+</a>
+
 
 <script>
 
-
-/* =========================================
-   Supabase設定
-========================================= */
-
-
 const SUPABASE_URL =
-    "https://bhgdjuwlxvbaeraaivmh.supabase.co";
-
+"ここにProject URL";
 
 const SUPABASE_KEY =
-    "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
-
+"ここにPublishable key";
 
 const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 
-
-/* =========================================
-   HTMLエスケープ
-========================================= */
+let animeData = [];
 
 
 function escapeHTML(text) {
 
-    const div =
-        document.createElement("div");
+const div =
+document.createElement("div");
 
-    div.textContent =
-        text ?? "";
+div.textContent =
+text ?? "";
 
-    return div.innerHTML;
+return div.innerHTML;
 
 }
 
 
+function renderAnime(list) {
 
-/* =========================================
-   アニメ一覧取得
-========================================= */
+const container =
+document.getElementById("anime-list");
+
+const count =
+document.getElementById("count");
+
+count.textContent =
+`${list.length}作品`;
+
+
+if (!list.length) {
+
+container.innerHTML = `
+<div class="status">
+該当する作品がありません。
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+list.forEach(anime => {
+
+const card =
+document.createElement("a");
+
+card.className =
+"anime-card";
+
+card.href =
+`anime-detail.html?id=${encodeURIComponent(anime.id)}`;
+
+card.innerHTML = `
+
+<h2>
+${escapeHTML(anime.title)}
+</h2>
+
+${
+anime.genre
+?
+`<div class="genre">
+${escapeHTML(anime.genre)}
+</div>`
+:
+""
+}
+
+${
+anime.description
+?
+`<p class="description">
+${escapeHTML(anime.description)}
+</p>`
+:
+""
+}
+
+<div class="detail">
+詳細を見る →
+</div>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
 
 
 async function loadAnime() {
 
-    const loading =
-        document.getElementById("loading");
-
-    const error =
-        document.getElementById("error");
-
-    const empty =
-        document.getElementById("empty");
-
-    const animeList =
-        document.getElementById("anime-list");
+const container =
+document.getElementById("anime-list");
 
 
-    try {
+const { data, error } =
+await supabaseClient
+.from("anime")
+.select(
+"id,title,genre,description,review,official_url"
+)
+.order(
+"id",
+{ ascending: true }
+);
 
 
-        const {
-            data,
-            error: fetchError
-        } = await supabaseClient
+if (error) {
 
-            .from("anime")
+console.error(error);
 
-            .select(
-                "id,title,genre,description,review,official_url"
-            )
+container.innerHTML = `
+<div class="status">
+アニメ情報を取得できませんでした。
+</div>
+`;
 
-            .order(
-                "id",
-                {
-                    ascending: true
-                }
-            );
-
-
-        if (fetchError) {
-
-            throw fetchError;
-
-        }
-
-
-        loading.style.display =
-            "none";
-
-
-        if (!data || data.length === 0) {
-
-            empty.style.display =
-                "block";
-
-            return;
-
-        }
-
-
-        animeList.innerHTML =
-            "";
-
-
-        data.forEach(function(anime) {
-
-
-            const card =
-                document.createElement("a");
-
-
-            card.className =
-                "anime-card";
-
-
-            card.href =
-                `anime-detail.html?id=${encodeURIComponent(anime.id)}`;
-
-
-            const title =
-                escapeHTML(
-                    anime.title
-                );
-
-
-            const genre =
-                escapeHTML(
-                    anime.genre
-                );
-
-
-            const description =
-                escapeHTML(
-                    anime.description
-                );
-
-
-            card.innerHTML = `
-
-                <h2>
-                    ${title}
-                </h2>
-
-
-                ${
-                    genre
-                    ?
-                    `
-                    <div class="anime-genre">
-                        ${genre}
-                    </div>
-                    `
-                    :
-                    ""
-                }
-
-
-                ${
-                    description
-                    ?
-                    `
-                    <p class="anime-description">
-                        ${description}
-                    </p>
-                    `
-                    :
-                    ""
-                }
-
-
-                <span class="detail-link">
-                    詳細を見る →
-                </span>
-
-            `;
-
-
-            animeList.appendChild(card);
-
-
-        });
-
-
-    } catch (err) {
-
-
-        console.error(
-            "Supabase error:",
-            err
-        );
-
-
-        loading.style.display =
-            "none";
-
-
-        error.style.display =
-            "block";
-
-
-    }
+return;
 
 }
 
 
+animeData =
+data || [];
 
-/* =========================================
-   実行
-========================================= */
+renderAnime(animeData);
+
+}
+
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function() {
+
+const keyword =
+this.value
+.trim()
+.toLowerCase();
+
+const filtered =
+animeData.filter(anime => {
+
+return (
+
+(anime.title || "")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(anime.genre || "")
+.toLowerCase()
+.includes(keyword)
+
+);
+
+});
+
+renderAnime(filtered);
+
+});
 
 
 loadAnime();
 
-
 </script>
-
 
 </body>
 
