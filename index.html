@@ -3,335 +3,228 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Just An Anime Review</title>
-
-    <meta name="description"
-          content="アニメを紹介・レビューするサイト、Just An Anime Review。">
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-            margin: 0;
-
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            background: #f7f7f7;
-
-            color: #222;
-        }
-
-
-        header {
-            background: #111;
-
-            color: white;
-        }
-
-
-        .header-inner {
-            max-width: 1100px;
-
-            margin: 0 auto;
-
-            padding: 20px;
-        }
-
-
-        .logo {
-            color: white;
-
-            text-decoration: none;
-
-            font-size: 22px;
-
-            font-weight: bold;
-        }
-
-
-        main {
-            max-width: 1100px;
-
-            margin: 0 auto;
-
-            padding: 70px 20px;
-        }
-
-
-        .hero {
-            background: white;
-
-            border-radius: 15px;
-
-            padding: 60px 35px;
-
-            text-align: center;
-
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, 0.08);
-        }
-
-
-        .hero h1 {
-            margin-top: 0;
-
-            font-size: 42px;
-        }
-
-
-        .hero p {
-            color: #666;
-
-            line-height: 1.8;
-        }
-
-
-        .anime-button {
-            display: inline-block;
-
-            margin-top: 25px;
-
-            padding: 12px 25px;
-
-            background: #111;
-
-            color: white;
-
-            border-radius: 8px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-        }
-
-
-        .anime-button:hover {
-            opacity: 0.8;
-        }
-
-
-        .about {
-            margin-top: 40px;
-
-            background: white;
-
-            border-radius: 15px;
-
-            padding: 35px;
-
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, 0.08);
-        }
-
-
-        .about h2 {
-            margin-top: 0;
-        }
-
-
-        .about p {
-            line-height: 1.9;
-
-            color: #555;
-        }
-
-
-        footer {
-            margin-top: 80px;
-
-            background: #111;
-
-            color: white;
-
-            padding: 40px 20px;
-        }
-
-
-        .footer-inner {
-            max-width: 1100px;
-
-            margin: 0 auto;
-        }
-
-
-        .copyright {
-            margin-top: 25px;
-
-            color: #aaa;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           管理画面リンク
-        ========================= */
-
-        .admin-link {
-            position: fixed;
-
-            right: 12px;
-
-            bottom: 10px;
-
-            font-size: 11px;
-
-            color: #999;
-
-            text-decoration: none;
-
-            opacity: 0.7;
-
-            z-index: 9999;
-        }
-
-
-        .admin-link:hover {
-            color: #555;
-
-            opacity: 1;
-        }
-
-
-        @media (max-width: 600px) {
-
-            .hero {
-                padding: 45px 25px;
-            }
-
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Just An Anime Review</title>
+
+<meta name="description"
+content="アニメを紹介・レビューするサイト、Just An Anime Review。">
+
+<style>
+
+* {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+background: #f7f7f7;
+color: #222;
+}
+
+header {
+background: #111;
+color: white;
+}
+
+.header-inner {
+max-width: 1100px;
+margin: auto;
+padding: 20px;
+}
+
+.logo {
+color: white;
+text-decoration: none;
+font-size: 21px;
+font-weight: bold;
+}
+
+main {
+max-width: 1100px;
+margin: auto;
+padding: 60px 20px;
+}
+
+.hero {
+background: white;
+border-radius: 15px;
+padding: 60px 30px;
+text-align: center;
+box-shadow:
+0 3px 15px rgba(0,0,0,.08);
+}
+
+.hero h1 {
+font-size: 42px;
+margin-top: 0;
+}
+
+.hero p {
+color: #666;
+line-height: 1.8;
+}
+
+.anime-button {
+display: inline-block;
+margin-top: 20px;
+padding: 12px 25px;
+background: #111;
+color: white;
+border-radius: 8px;
+text-decoration: none;
+font-weight: bold;
+}
+
+.about {
+margin-top: 35px;
+background: white;
+padding: 30px;
+border-radius: 15px;
+box-shadow:
+0 3px 15px rgba(0,0,0,.08);
+}
+
+.about p {
+line-height: 1.9;
+color: #555;
+}
+
+.admin-link {
+position: fixed;
+right: 12px;
+bottom: 10px;
+font-size: 11px;
+color: #999;
+text-decoration: none;
+opacity: .7;
+}
+
+.admin-link:hover {
+opacity: 1;
+}
+
+footer {
+margin-top: 70px;
+background: #111;
+color: white;
+padding: 35px 20px;
+}
+
+.footer-inner {
+max-width: 1100px;
+margin: auto;
+}
+
+.copyright {
+color: #aaa;
+font-size: 13px;
+}
+
+</style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <div class="header-inner">
+<div class="header-inner">
 
-        <a
-            href="index.html"
-            class="logo"
-        >
-            Just An Anime Review
-        </a>
+<a href="index.html"
+class="logo">
 
-    </div>
+Just An Anime Review
+
+</a>
+
+</div>
 
 </header>
 
 
 <main>
 
+<section class="hero">
 
-    <section class="hero">
+<h1>
+Just An Anime Review
+</h1>
 
-        <h1>
-            Just An Anime Review
-        </h1>
+<p>
+アニメをもっと深く、もっと面白く。
+</p>
 
+<p>
+おすすめのアニメ作品を紹介・レビューしています。
+</p>
 
-        <p>
-            アニメをもっと深く、もっと面白く。
-        </p>
+<a href="anime.html"
+class="anime-button">
 
+アニメ一覧を見る
 
-        <p>
-            おすすめのアニメ作品を紹介・レビューしています。
-        </p>
+</a>
 
-
-        <a
-            href="anime.html"
-            class="anime-button"
-        >
-            アニメを見る
-        </a>
-
-    </section>
+</section>
 
 
+<section class="about">
 
-    <section class="about">
+<h2>
+このサイトについて
+</h2>
 
-        <h2>
-            このサイトについて
-        </h2>
+<p>
+Just An Anime Reviewでは、
+アニメ作品の紹介やレビューを掲載しています。
+</p>
 
+<p>
+気になる作品を見つけたら、
+詳細ページから作品情報をご覧ください。
+</p>
 
-        <p>
-            Just An Anime Reviewでは、
-            アニメ作品の紹介やレビューなどを掲載しています。
-        </p>
-
-
-        <p>
-            気になる作品があれば、
-            アニメ一覧から詳細をご覧ください。
-        </p>
-
-    </section>
-
+</section>
 
 </main>
 
 
 <footer>
 
-    <div class="footer-inner">
+<div class="footer-inner">
 
-        <h2>
-            Just An Anime Review
-        </h2>
+<h2>
+Just An Anime Review
+</h2>
 
+<p>
+アニメをもっと深く、もっと面白く。
+</p>
 
-        <p>
-            アニメをもっと深く、もっと面白く。
-        </p>
+<p class="copyright">
+© 2026 Just An Anime Review
+</p>
 
-
-        <p class="copyright">
-            © 2026 Just An Anime Review
-        </p>
-
-    </div>
+</div>
 
 </footer>
 
 
+<a href="admin.html"
+class="admin-link">
 
-<!-- 管理画面へのリンク -->
+管理画面
 
-<a
-    href="admin.html"
-    class="admin-link"
->
-    管理画面
 </a>
-
 
 </body>
 
