@@ -1,129 +1,163 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>アニメ一覧 | Just An Anime Review</title>
 
 <meta
-name="description"
-content="Just An Anime Reviewのアニメ作品一覧。日本語タイトル・英語タイトル・ジャンルからアニメを検索し、作品情報やレビューを確認できます。">
+    name="description"
+    content="Just An Anime Reviewのアニメ作品一覧。日本語タイトル・英語タイトル・ジャンルからアニメを検索し、作品情報やレビューを確認できます。"
+>
 
 <meta
-name="robots"
-content="index, follow">
+    name="robots"
+    content="index, follow"
+>
 
 <link
-rel="canonical"
-href="https://just-an-anime-review.github.io/anime.html">
+    rel="canonical"
+    href="https://just-an-anime-review.github.io/anime.html"
+>
 
 <meta
-property="og:type"
-content="website">
+    property="og:type"
+    content="website"
+>
 
 <meta
-property="og:title"
-content="アニメ一覧 | Just An Anime Review">
+    property="og:title"
+    content="アニメ一覧 | Just An Anime Review"
+>
 
 <meta
-property="og:description"
-content="アニメ作品を日本語タイトル・英語タイトル・ジャンルから検索できます。">
+    property="og:description"
+    content="アニメ作品を日本語タイトル・英語タイトル・ジャンルから検索できます。"
+>
 
 <meta
-property="og:url"
-content="https://just-an-anime-review.github.io/anime.html">
+    property="og:url"
+    content="https://just-an-anime-review.github.io/anime.html"
+>
 
 <meta
-property="og:site_name"
-content="Just An Anime Review">
+    property="og:site_name"
+    content="Just An Anime Review"
+>
 
 <script
-type="application/ld+json"
-id="item-list-schema">
+    type="application/ld+json"
+    id="item-list-schema"
+>
 {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "アニメ一覧 | Just An Anime Review",
-  "description": "Just An Anime Reviewのアニメ作品一覧。",
-  "url": "https://just-an-anime-review.github.io/anime.html"
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "アニメ一覧 | Just An Anime Review",
+    "description": "Just An Anime Reviewのアニメ作品一覧。",
+    "url": "https://just-an-anime-review.github.io/anime.html"
 }
 </script>
 
 <script
-src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
 <style>
 
+/* =========================
+   基本設定
+========================= */
+
 * {
-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-margin: 0;
-font-family:
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-"Hiragino Kaku Gothic ProN",
-"Yu Gothic",
-sans-serif;
-background: #f7f7f7;
-color: #222;
-line-height: 1.7;
+    margin: 0;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        Meiryo,
+        sans-serif;
+
+    background: #f7f7f7;
+    color: #222;
+
+    line-height: 1.7;
+
+    -webkit-text-size-adjust: 100%;
 }
 
+
+/* =========================
+   ヘッダー
+========================= */
+
 header {
-background: #111;
-color: white;
+    background: #111;
+    color: #fff;
 }
 
 .header-inner {
-max-width: 1100px;
-margin: auto;
-padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .logo {
-color: white;
-text-decoration: none;
-font-weight: bold;
-font-size: 21px;
+    display: inline-block;
+
+    color: #fff;
+    text-decoration: none;
+
+    font-size: 21px;
+    font-weight: bold;
 }
 
 .logo:hover {
-opacity: .85;
+    opacity: .85;
 }
 
+
+/* =========================
+   メイン
+========================= */
+
 main {
-max-width: 1100px;
-margin: auto;
-padding: 45px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 45px 20px;
 }
 
 .page-header {
-margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .page-header h1 {
-font-size: 36px;
-margin: 0 0 8px;
-line-height: 1.3;
+    margin: 0 0 8px;
+
+    font-size: 36px;
+    line-height: 1.3;
 }
 
 .page-header p {
-margin: 0;
-color: #666;
+    margin: 0;
+    color: #666;
 }
 
 
@@ -132,68 +166,90 @@ color: #666;
 ========================= */
 
 .ad-section {
-display: none;
-margin: 25px 0 30px;
+    display: none;
+    margin: 25px 0 30px;
 }
 
 .ad-label {
-text-align: center;
-font-size: 11px;
-color: #999;
-margin-bottom: 8px;
-letter-spacing: .05em;
+    margin-bottom: 8px;
+
+    text-align: center;
+
+    color: #999;
+
+    font-size: 11px;
+    letter-spacing: .05em;
 }
 
 .ad-box {
-background: white;
-border: 1px solid #e5e5e5;
-border-radius: 12px;
-padding: 18px;
-text-align: center;
-box-shadow:
-0 2px 10px rgba(0,0,0,.04);
+    overflow: hidden;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, .04);
 }
 
 .ad-box img {
-display: block;
-max-width: 100%;
-max-height: 160px;
-margin: 0 auto 12px;
-border-radius: 8px;
-object-fit: contain;
+    display: block;
+
+    max-width: 100%;
+    max-height: 220px;
+
+    margin: 0 auto 12px;
+
+    border-radius: 8px;
+
+    object-fit: contain;
 }
 
 .ad-company {
-font-size: 12px;
-color: #888;
-margin-bottom: 5px;
+    margin-bottom: 5px;
+
+    color: #888;
+
+    font-size: 12px;
 }
 
 .ad-title {
-font-size: 17px;
-font-weight: bold;
-margin-bottom: 7px;
+    margin-bottom: 7px;
+
+    font-size: 17px;
+    font-weight: bold;
 }
 
 .ad-description {
-color: #666;
-font-size: 14px;
-line-height: 1.7;
+    color: #666;
+
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .ad-button {
-display: inline-block;
-margin-top: 10px;
-padding: 8px 16px;
-background: #111;
-color: white;
-text-decoration: none;
-border-radius: 6px;
-font-size: 13px;
+    display: inline-block;
+
+    margin-top: 10px;
+    padding: 8px 16px;
+
+    background: #111;
+    color: #fff;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 13px;
 }
 
 .ad-button:hover {
-opacity: .85;
+    opacity: .85;
 }
 
 
@@ -202,67 +258,89 @@ opacity: .85;
 ========================= */
 
 .search-box {
-margin: 30px 0 20px;
+    margin: 30px 0 20px;
 }
 
 .search-label {
-display: block;
-font-weight: bold;
-margin-bottom: 8px;
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
 }
 
 .search-input-wrap {
-position: relative;
+    position: relative;
 }
 
 .search-box input {
-width: 100%;
-padding: 14px 45px 14px 15px;
-font-size: 16px;
-border: 1px solid #ccc;
-border-radius: 8px;
-background: white;
-color: #222;
+    width: 100%;
+
+    padding: 14px 45px 14px 15px;
+
+    background: #fff;
+    color: #222;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 16px;
 }
 
 .search-box input:focus {
-outline: none;
-border-color: #555;
-box-shadow: 0 0 0 2px rgba(0,0,0,.05);
+    outline: none;
+
+    border-color: #555;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 0, 0, .05);
 }
 
 .search-clear {
-display: none;
-position: absolute;
-right: 10px;
-top: 50%;
-transform: translateY(-50%);
-border: none;
-background: #eee;
-color: #555;
-width: 28px;
-height: 28px;
-border-radius: 50%;
-cursor: pointer;
-font-size: 16px;
-line-height: 28px;
-padding: 0;
+    display: none;
+
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+
+    background: #eee;
+    color: #555;
+
+    border: none;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    line-height: 28px;
 }
 
 .search-clear:hover {
-background: #ddd;
+    background: #ddd;
 }
 
 .search-help {
-font-size: 13px;
-color: #777;
-margin-top: 8px;
+    margin-top: 8px;
+
+    color: #777;
+
+    font-size: 13px;
 }
 
 .count {
-margin-bottom: 20px;
-color: #666;
-font-size: 14px;
+    margin-bottom: 20px;
+
+    color: #666;
+
+    font-size: 14px;
 }
 
 
@@ -271,88 +349,118 @@ font-size: 14px;
 ========================= */
 
 #anime-list {
-display: grid;
-grid-template-columns:
-repeat(auto-fit, minmax(280px, 1fr));
-gap: 22px;
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 22px;
 }
 
 .anime-card {
-display: block;
-background: white;
-padding: 25px;
-border-radius: 12px;
-text-decoration: none;
-color: #222;
-box-shadow:
-0 3px 15px rgba(0,0,0,.07);
-transition:
-transform .2s ease,
-box-shadow .2s ease;
+    display: block;
+
+    padding: 25px;
+
+    background: #fff;
+    color: #222;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, .07);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
 }
 
 .anime-card:hover {
-transform: translateY(-4px);
-box-shadow:
-0 7px 20px rgba(0,0,0,.11);
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, .11);
 }
 
 .anime-card:focus {
-outline: 2px solid #555;
-outline-offset: 3px;
+    outline: 2px solid #555;
+    outline-offset: 3px;
 }
 
 .anime-card h2 {
-margin: 0 0 7px;
-font-size: 21px;
-line-height: 1.4;
+    margin: 0 0 7px;
+
+    font-size: 21px;
+    line-height: 1.4;
 }
 
 .english-title {
-color: #777;
-font-size: 14px;
-margin-bottom: 14px;
+    margin-bottom: 14px;
+
+    color: #777;
+
+    font-size: 14px;
 }
 
 .genre-list {
-display: flex;
-flex-wrap: wrap;
-gap: 6px;
-margin-bottom: 14px;
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-bottom: 14px;
 }
 
 .genre {
-display: inline-block;
-background: #eee;
-padding: 4px 9px;
-border-radius: 20px;
-font-size: 13px;
-color: #444;
+    display: inline-block;
+
+    padding: 4px 9px;
+
+    background: #eee;
+    color: #444;
+
+    border-radius: 20px;
+
+    font-size: 13px;
 }
 
 .description {
-color: #555;
-line-height: 1.8;
-margin: 12px 0;
-display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp: 4;
-overflow: hidden;
+    display: -webkit-box;
+
+    margin: 12px 0;
+
+    color: #555;
+
+    line-height: 1.8;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+
+    overflow: hidden;
 }
 
 .detail {
-color: #06c;
-font-weight: bold;
-margin-top: 12px;
+    margin-top: 12px;
+
+    color: #06c;
+
+    font-weight: bold;
 }
 
 .status {
-grid-column: 1 / -1;
-text-align: center;
-padding: 50px 20px;
-color: #666;
-background: white;
-border-radius: 12px;
+    grid-column: 1 / -1;
+
+    padding: 50px 20px;
+
+    background: #fff;
+    color: #666;
+
+    border-radius: 12px;
+
+    text-align: center;
 }
 
 
@@ -361,72 +469,61 @@ border-radius: 12px;
 ========================= */
 
 footer {
-margin-top: 70px;
-background: #111;
-color: white;
-padding: 35px 20px;
+    margin-top: 70px;
+
+    padding: 35px 20px;
+
+    background: #111;
+    color: #fff;
 }
 
 .footer-inner {
-max-width: 1100px;
-margin: auto;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .footer-inner h2 {
-margin-top: 0;
+    margin-top: 0;
 }
 
 .footer-inner p {
-color: #ccc;
+    color: #ccc;
 }
 
 
 /* =========================
-   管理画面
-========================= */
-
-.admin-link {
-position: fixed;
-right: 12px;
-bottom: 10px;
-font-size: 11px;
-color: #999;
-text-decoration: none;
-opacity: .65;
-z-index: 1000;
-}
-
-.admin-link:hover {
-opacity: 1;
-text-decoration: underline;
-}
-
-
-/* =========================
-   スマホ
+   スマートフォン
 ========================= */
 
 @media (max-width: 600px) {
 
-main {
-padding: 35px 15px;
-}
+    main {
+        padding: 35px 15px;
+    }
 
-.page-header h1 {
-font-size: 30px;
-}
+    .page-header h1 {
+        font-size: 30px;
+    }
 
-#anime-list {
-grid-template-columns: 1fr;
-}
+    #anime-list {
+        grid-template-columns: 1fr;
+    }
 
-.anime-card {
-padding: 22px;
-}
+    .anime-card {
+        padding: 22px;
+    }
 
-.anime-card h2 {
-font-size: 19px;
-}
+    .anime-card h2 {
+        font-size: 19px;
+    }
+
+    .ad-box {
+        padding: 14px;
+    }
+
+    .ad-box img {
+        max-height: 180px;
+    }
 
 }
 
@@ -434,146 +531,157 @@ font-size: 19px;
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     ヘッダー
+========================= -->
 
 <header>
 
-<div class="header-inner">
+    <div class="header-inner">
 
-<a
-href="index.html"
-class="logo">
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Just An Anime Review
+        </a>
 
-Just An Anime Review
-
-</a>
-
-</div>
+    </div>
 
 </header>
 
+
+<!-- =========================
+     メイン
+========================= -->
+
 <main>
 
-<section class="page-header">
 
-<h1>
-アニメ一覧
-</h1>
+    <section class="page-header">
 
-<p>
-登録されているアニメ作品をご覧いただけます。
-</p>
+        <h1>
+            アニメ一覧
+        </h1>
 
-</section>
+        <p>
+            登録されているアニメ作品をご覧いただけます。
+        </p>
 
-<!-- =========================
-     広告
-========================= -->
+    </section>
 
-<section
-id="ad-section"
-class="ad-section"
-aria-label="広告">
 
-<div class="ad-label">
-ADVERTISEMENT
-</div>
+    <!-- =========================
+         広告
+    ========================= -->
 
-<div
-id="ad-container"
-class="ad-box">
+    <section
+        id="ad-section"
+        class="ad-section"
+        aria-label="広告"
+    >
 
-</div>
+        <div class="ad-label">
+            ADVERTISEMENT
+        </div>
 
-</section>
+        <div
+            id="ad-container"
+            class="ad-box"
+        ></div>
 
-<!-- =========================
-     検索
-========================= -->
+    </section>
 
-<div class="search-box">
 
-<label
-class="search-label"
-for="search">
+    <!-- =========================
+         検索
+    ========================= -->
 
-アニメを検索
+    <div class="search-box">
 
-</label>
+        <label
+            class="search-label"
+            for="search"
+        >
+            アニメを検索
+        </label>
 
-<div class="search-input-wrap">
+        <div class="search-input-wrap">
 
-<input
-type="search"
-id="search"
-placeholder="作品名・英語名・ジャンルを検索"
-autocomplete="off"
-aria-label="アニメを検索">
+            <input
+                type="search"
+                id="search"
+                placeholder="作品名・英語名・ジャンルを検索"
+                autocomplete="off"
+                aria-label="アニメを検索"
+            >
 
-<button
-type="button"
-id="search-clear"
-class="search-clear"
-aria-label="検索をクリア">
+            <button
+                type="button"
+                id="search-clear"
+                class="search-clear"
+                aria-label="検索をクリア"
+            >
+                ×
+            </button>
 
-×
+        </div>
 
-</button>
+        <div class="search-help">
+            日本語タイトル・英語タイトル・ジャンル・作品説明から検索できます。
+        </div>
 
-</div>
+    </div>
 
-<div class="search-help">
 
-日本語タイトル・英語タイトル・ジャンル・作品説明から検索できます。
+    <div
+        id="count"
+        class="count"
+        aria-live="polite"
+    >
+        読み込み中……
+    </div>
 
-</div>
 
-</div>
+    <div
+        id="anime-list"
+        aria-live="polite"
+    >
 
-<div
-id="count"
-class="count"
-aria-live="polite">
+        <div class="status">
+            アニメ情報を読み込んでいます……
+        </div>
 
-読み込み中……
+    </div>
 
-</div>
-
-<div
-id="anime-list"
-aria-live="polite">
-
-<div class="status">
-アニメ情報を読み込んでいます……
-</div>
-
-</div>
 
 </main>
 
+
+<!-- =========================
+     フッター
+========================= -->
+
 <footer>
 
-<div class="footer-inner">
+    <div class="footer-inner">
 
-<h2>
-Just An Anime Review
-</h2>
+        <h2>
+            Just An Anime Review
+        </h2>
 
-<p>
-アニメをもっと深く、もっと面白く。
-</p>
+        <p>
+            アニメをもっと深く、もっと面白く。
+        </p>
 
-</div>
+    </div>
 
 </footer>
 
-<a
-href="admin.html"
-class="admin-link">
-
-管理画面
-
-</a>
 
 <script>
 
@@ -582,16 +690,16 @@ class="admin-link">
 ========================= */
 
 const SUPABASE_URL =
-"https://bhgdjuwlxvbaeraaivmh.supabase.co";
+    "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+    "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
 
 const supabaseClient =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================
@@ -607,14 +715,13 @@ let animeData = [];
 
 function escapeHTML(text) {
 
-const div =
-document.createElement("div");
+    const div =
+        document.createElement("div");
 
-div.textContent =
-text ?? "";
+    div.textContent =
+        text ?? "";
 
-return div.innerHTML;
-
+    return div.innerHTML;
 }
 
 
@@ -624,47 +731,48 @@ return div.innerHTML;
 
 function normalizeText(text) {
 
-return String(text ?? "")
-.normalize("NFKC")
-.toLocaleLowerCase("ja-JP")
-.trim()
-.replace(/\s+/g, " ");
-
+    return String(text ?? "")
+        .normalize("NFKC")
+        .toLocaleLowerCase("ja-JP")
+        .trim()
+        .replace(/\s+/g, " ");
 }
 
 
 /* =========================
-   URL安全性チェック
+   安全なURLのみ許可
 ========================= */
 
 function getSafeURL(url) {
 
-if (!url) {
-return "";
-}
+    if (!url) {
+        return "";
+    }
 
-try {
+    try {
 
-const parsed =
-new URL(url, window.location.origin);
+        const parsed =
+            new URL(
+                url,
+                window.location.origin
+            );
 
-if (
-parsed.protocol === "https:" ||
-parsed.protocol === "http:"
-) {
+        if (
+            parsed.protocol === "https:" ||
+            parsed.protocol === "http:"
+        ) {
 
-return parsed.href;
+            return parsed.href;
 
-}
+        }
 
-return "";
+        return "";
 
-} catch {
+    } catch {
 
-return "";
+        return "";
 
-}
-
+    }
 }
 
 
@@ -674,20 +782,14 @@ return "";
 
 function getGenres(genre) {
 
-if (!genre) {
-return [];
-}
+    if (!genre) {
+        return [];
+    }
 
-/*
-   「,」「、」「/」「・」「|」などで
-   複数ジャンルが登録されている場合にも対応
-*/
-
-return String(genre)
-.split(/[,、/・|]/)
-.map(item => item.trim())
-.filter(Boolean);
-
+    return String(genre)
+        .split(/[,、/・|]/)
+        .map(item => item.trim())
+        .filter(Boolean);
 }
 
 
@@ -697,89 +799,79 @@ return String(genre)
 
 function createAnimeCard(anime) {
 
-const card =
-document.createElement("a");
+    const card =
+        document.createElement("a");
 
-card.className =
-"anime-card";
+    card.className =
+        "anime-card";
 
-card.href =
-`anime-detail.html?id=${encodeURIComponent(anime.id)}`;
+    card.href =
+        `anime-detail.html?id=${encodeURIComponent(anime.id)}`;
 
-const title =
-escapeHTML(anime.title);
+    const title =
+        escapeHTML(anime.title);
 
-const englishTitle =
-escapeHTML(anime.english_title);
+    const englishTitle =
+        escapeHTML(anime.english_title);
 
-const description =
-escapeHTML(anime.description);
+    const description =
+        escapeHTML(anime.description);
 
-let genresHTML = "";
+    const genres =
+        getGenres(anime.genre);
 
-const genres =
-getGenres(anime.genre);
+    let genresHTML = "";
 
-if (genres.length) {
+    if (genres.length) {
 
-genresHTML = `
+        genresHTML = `
+            <div class="genre-list">
 
-<div class="genre-list">
+                ${genres.map(genre => `
+                    <span class="genre">
+                        ${escapeHTML(genre)}
+                    </span>
+                `).join("")}
 
-${genres.map(genre => `
+            </div>
+        `;
+    }
 
-<span class="genre">
-${escapeHTML(genre)}
-</span>
+    card.innerHTML = `
 
-`).join("")}
+        <h2>
+            ${title}
+        </h2>
 
-</div>
+        ${
+            englishTitle
+                ? `
+                    <div class="english-title">
+                        ${englishTitle}
+                    </div>
+                `
+                : ""
+        }
 
-`;
+        ${genresHTML}
 
-}
+        ${
+            description
+                ? `
+                    <p class="description">
+                        ${description}
+                    </p>
+                `
+                : ""
+        }
 
-card.innerHTML = `
+        <div class="detail">
+            詳細を見る →
+        </div>
 
-<h2>
-${title}
-</h2>
+    `;
 
-${
-englishTitle
-?
-`
-<div class="english-title">
-${englishTitle}
-</div>
-`
-:
-""
-}
-
-${genresHTML}
-
-${
-description
-?
-`
-<p class="description">
-${description}
-</p>
-`
-:
-""
-}
-
-<div class="detail">
-詳細を見る →
-</div>
-
-`;
-
-return card;
-
+    return card;
 }
 
 
@@ -789,54 +881,49 @@ return card;
 
 function renderAnime(list) {
 
-const container =
-document.getElementById("anime-list");
+    const container =
+        document.getElementById("anime-list");
 
-const count =
-document.getElementById("count");
+    const count =
+        document.getElementById("count");
 
-count.textContent =
-`${list.length}作品`;
+    count.textContent =
+        `${list.length}作品`;
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
-if (!list.length) {
+    if (!list.length) {
 
-const status =
-document.createElement("div");
+        const status =
+            document.createElement("div");
 
-status.className =
-"status";
+        status.className =
+            "status";
 
-status.textContent =
-"該当する作品がありません。";
+        status.textContent =
+            "該当する作品がありません。";
 
-container.appendChild(status);
+        container.appendChild(status);
 
-return;
+        updateStructuredData([]);
 
-}
+        return;
+    }
 
-const fragment =
-document.createDocumentFragment();
+    const fragment =
+        document.createDocumentFragment();
 
-list.forEach(anime => {
+    list.forEach(anime => {
 
-fragment.appendChild(
-createAnimeCard(anime)
-);
+        fragment.appendChild(
+            createAnimeCard(anime)
+        );
 
-});
+    });
 
-container.appendChild(fragment);
+    container.appendChild(fragment);
 
-
-/*
-   検索結果に応じて構造化データを更新
-*/
-
-updateStructuredData(list);
-
+    updateStructuredData(list);
 }
 
 
@@ -846,52 +933,50 @@ updateStructuredData(list);
 
 function updateStructuredData(list) {
 
-const schemaElement =
-document.getElementById(
-"item-list-schema"
-);
+    const schemaElement =
+        document.getElementById(
+            "item-list-schema"
+        );
 
-if (!schemaElement) {
-return;
-}
+    if (!schemaElement) {
+        return;
+    }
 
-const items =
-list.map((anime, index) => {
+    const items =
+        list.map((anime, index) => {
 
-const item = {
+            return {
+                "@type": "ListItem",
 
-"@type": "ListItem",
+                "position": index + 1,
 
-"position": index + 1,
+                "name":
+                    anime.title || "",
 
-"name": anime.title || "",
+                "url":
+                    `${window.location.origin}/anime-detail.html?id=${encodeURIComponent(anime.id)}`
+            };
 
-"url":
-`${window.location.origin}/anime-detail.html?id=${encodeURIComponent(anime.id)}`
+        });
 
-};
+    const schema = {
 
-return item;
+        "@context":
+            "https://schema.org",
 
-});
+        "@type":
+            "ItemList",
 
-const schema = {
+        "name":
+            "Just An Anime Review アニメ一覧",
 
-"@context": "https://schema.org",
+        "itemListElement":
+            items
 
-"@type": "ItemList",
+    };
 
-"name":
-"Just An Anime Review アニメ一覧",
-
-"itemListElement":
-items
-
-};
-
-schemaElement.textContent =
-JSON.stringify(schema);
-
+    schemaElement.textContent =
+        JSON.stringify(schema);
 }
 
 
@@ -901,61 +986,67 @@ JSON.stringify(schema);
 
 async function loadAnime() {
 
-const container =
-document.getElementById("anime-list");
+    const container =
+        document.getElementById(
+            "anime-list"
+        );
 
-const count =
-document.getElementById("count");
+    const count =
+        document.getElementById(
+            "count"
+        );
 
+    try {
 
-const { data, error } =
-await supabaseClient
-.from("anime")
-.select(
-"id,title,english_title,genre,description,review,official_url"
-)
-.order(
-"id",
-{ ascending: true }
-);
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("anime")
+                .select(
+                    "id,title,english_title,genre,description,review,official_url"
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
 
+        if (error) {
+            throw error;
+        }
 
-if (error) {
+        animeData =
+            Array.isArray(data)
+                ? data
+                : [];
 
-console.error(
-"アニメ取得エラー:",
-error
-);
+        renderAnime(animeData);
 
-count.textContent =
-"読み込みエラー";
+    } catch (error) {
 
-container.innerHTML = `
+        console.error(
+            "アニメ取得エラー:",
+            error
+        );
 
-<div class="status">
+        count.textContent =
+            "読み込みエラー";
 
-アニメ情報を取得できませんでした。<br>
-時間をおいて再度お試しください。
+        container.innerHTML = `
 
-</div>
+            <div class="status">
 
-`;
+                アニメ情報を取得できませんでした。<br>
 
-return;
+                時間をおいて再度お試しください。
 
-}
+            </div>
 
-
-animeData =
-Array.isArray(data)
-?
-data
-:
-[];
-
-
-renderAnime(animeData);
-
+        `;
+    }
 }
 
 
@@ -964,90 +1055,85 @@ renderAnime(animeData);
 ========================= */
 
 function getSearchScore(
-anime,
-keyword
+    anime,
+    keyword
 ) {
 
-const title =
-normalizeText(anime.title);
+    const title =
+        normalizeText(anime.title);
 
-const english =
-normalizeText(anime.english_title);
+    const english =
+        normalizeText(anime.english_title);
 
-const genre =
-normalizeText(anime.genre);
+    const genre =
+        normalizeText(anime.genre);
 
-const description =
-normalizeText(anime.description);
-
-
-/*
-   完全一致
-*/
-
-if (title === keyword)
-return 1000;
-
-if (english === keyword)
-return 950;
-
-if (genre === keyword)
-return 900;
+    const description =
+        normalizeText(anime.description);
 
 
-/*
-   日本語タイトル先頭一致
-*/
+    /* 完全一致 */
 
-if (title.startsWith(keyword))
-return 850;
+    if (title === keyword) {
+        return 1000;
+    }
 
+    if (english === keyword) {
+        return 950;
+    }
 
-/*
-   英語タイトル先頭一致
-*/
-
-if (english.startsWith(keyword))
-return 800;
-
-
-/*
-   ジャンル先頭一致
-*/
-
-if (genre.startsWith(keyword))
-return 700;
+    if (genre === keyword) {
+        return 900;
+    }
 
 
-/*
-   タイトル部分一致
-*/
+    /* 日本語タイトル先頭一致 */
 
-if (title.includes(keyword))
-return 600;
-
-if (english.includes(keyword))
-return 550;
+    if (title.startsWith(keyword)) {
+        return 850;
+    }
 
 
-/*
-   ジャンル部分一致
-*/
+    /* 英語タイトル先頭一致 */
 
-if (genre.includes(keyword))
-return 400;
-
-
-/*
-   説明文
-*/
-
-if (description.includes(keyword))
-return 200;
+    if (english.startsWith(keyword)) {
+        return 800;
+    }
 
 
-return 0;
+    /* ジャンル先頭一致 */
 
+    if (genre.startsWith(keyword)) {
+        return 700;
+    }
+
+
+    /* タイトル部分一致 */
+
+    if (title.includes(keyword)) {
+        return 600;
+    }
+
+    if (english.includes(keyword)) {
+        return 550;
+    }
+
+
+    /* ジャンル部分一致 */
+
+    if (genre.includes(keyword)) {
+        return 400;
+    }
+
+
+    /* 説明文 */
+
+    if (description.includes(keyword)) {
+        return 200;
+    }
+
+
+    return 0;
 }
 
 
@@ -1057,75 +1143,73 @@ return 0;
 
 function searchAnime(keyword) {
 
-const normalizedKeyword =
-normalizeText(keyword);
+    const normalizedKeyword =
+        normalizeText(keyword);
 
 
-/*
-   検索欄が空の場合
-*/
+    /* 検索欄が空 */
 
-if (!normalizedKeyword) {
+    if (!normalizedKeyword) {
 
-renderAnime(animeData);
+        renderAnime(animeData);
 
-return;
-
-}
+        return;
+    }
 
 
-/*
-   スコアをつけて並び替え
-*/
+    const filtered =
+        animeData
 
-const filtered =
-animeData
-.map(anime => {
+            .map(anime => {
 
-return {
+                return {
 
-anime: anime,
+                    anime: anime,
 
-score:
-getSearchScore(
-anime,
-normalizedKeyword
-)
+                    score:
+                        getSearchScore(
+                            anime,
+                            normalizedKeyword
+                        )
 
-};
+                };
 
-})
-.filter(item =>
-item.score > 0
-)
-.sort((a, b) => {
+            })
 
-if (b.score !== a.score) {
+            .filter(item =>
+                item.score > 0
+            )
 
-return b.score - a.score;
+            .sort((a, b) => {
 
-}
+                if (
+                    b.score !==
+                    a.score
+                ) {
+
+                    return (
+                        b.score -
+                        a.score
+                    );
+                }
+
+                return normalizeText(
+                    a.anime.title
+                ).localeCompare(
+                    normalizeText(
+                        b.anime.title
+                    ),
+                    "ja"
+                );
+
+            })
+
+            .map(item =>
+                item.anime
+            );
 
 
-/*
-   同じスコアならタイトル順
-*/
-
-return normalizeText(
-a.anime.title
-).localeCompare(
-normalizeText(b.anime.title),
-"ja"
-);
-
-})
-.map(item =>
-item.anime
-);
-
-
-renderAnime(filtered);
-
+    renderAnime(filtered);
 }
 
 
@@ -1134,42 +1218,48 @@ renderAnime(filtered);
 ========================= */
 
 const searchInput =
-document.getElementById("search");
+    document.getElementById(
+        "search"
+    );
 
 const searchClear =
-document.getElementById("search-clear");
+    document.getElementById(
+        "search-clear"
+    );
 
 
 searchInput.addEventListener(
-"input",
-function() {
+    "input",
+    function () {
 
-searchAnime(this.value);
+        searchAnime(
+            this.value
+        );
 
-searchClear.style.display =
-this.value
-?
-"block"
-:
-"none";
+        searchClear.style.display =
+            this.value
+                ? "block"
+                : "none";
 
-});
+    }
+);
 
 
 searchClear.addEventListener(
-"click",
-function() {
+    "click",
+    function () {
 
-searchInput.value = "";
+        searchInput.value = "";
 
-searchAnime("");
+        searchAnime("");
 
-this.style.display =
-"none";
+        this.style.display =
+            "none";
 
-searchInput.focus();
+        searchInput.focus();
 
-});
+    }
+);
 
 
 /* =========================
@@ -1178,203 +1268,205 @@ searchInput.focus();
 
 async function loadAdvertisement() {
 
-const section =
-document.getElementById("ad-section");
+    const section =
+        document.getElementById(
+            "ad-section"
+        );
 
-const container =
-document.getElementById("ad-container");
+    const container =
+        document.getElementById(
+            "ad-container"
+        );
 
 
-const { data, error } =
-await supabaseClient
-.from("advertisements")
-.select(
-"id,company_name,title,description,image_url,link_url"
-)
-.eq(
-"is_active",
-true
-)
-.order(
-"id",
-{ ascending: true }
-)
-.limit(1);
+    try {
 
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("advertisements")
+                .select(
+                    "id,company_name,title,description,image_url,link_url"
+                )
+                .eq(
+                    "is_active",
+                    true
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                )
+                .limit(1);
 
-if (error) {
 
-console.error(
-"広告取得エラー:",
-error
-);
+        if (error) {
+            throw error;
+        }
 
-section.style.display =
-"none";
 
-return;
+        if (
+            !data ||
+            data.length === 0
+        ) {
 
-}
+            section.style.display =
+                "none";
 
+            return;
+        }
 
-if (
-!data ||
-data.length === 0
-) {
 
-section.style.display =
-"none";
+        const ad =
+            data[0];
 
-return;
+        let html = "";
 
-}
 
+        /* =========================
+           広告画像
+        ========================= */
 
-const ad =
-data[0];
+        if (ad.image_url) {
 
-let html = "";
+            const imageURL =
+                getSafeURL(
+                    ad.image_url
+                );
 
+            if (imageURL) {
 
-/*
-   画像
-*/
+                html += `
 
-if (ad.image_url) {
+                    <img
+                        src="${escapeHTML(imageURL)}"
+                        alt="${escapeHTML(
+                            ad.title || "広告"
+                        )}"
+                        loading="lazy"
+                        onerror="this.remove();"
+                    >
 
-const imageURL =
-getSafeURL(ad.image_url);
+                `;
+            }
+        }
 
-if (imageURL) {
 
-html += `
+        /* =========================
+           企業名
+        ========================= */
 
-<img
-src="${escapeHTML(imageURL)}"
-alt="${escapeHTML(
-ad.title || "広告"
-)}"
-loading="lazy"
-onerror="this.style.display='none';"
->
+        if (ad.company_name) {
 
-`;
+            html += `
 
-}
+                <div class="ad-company">
+                    ${escapeHTML(
+                        ad.company_name
+                    )}
+                </div>
 
-}
+            `;
+        }
 
 
-/*
-   企業名
-*/
+        /* =========================
+           広告タイトル
+        ========================= */
 
-if (ad.company_name) {
+        if (ad.title) {
 
-html += `
+            html += `
 
-<div class="ad-company">
-${escapeHTML(
-ad.company_name
-)}
-</div>
+                <div class="ad-title">
+                    ${escapeHTML(
+                        ad.title
+                    )}
+                </div>
 
-`;
+            `;
+        }
 
-}
 
+        /* =========================
+           広告説明
+        ========================= */
 
-/*
-   タイトル
-*/
+        if (ad.description) {
 
-if (ad.title) {
+            html += `
 
-html += `
+                <div class="ad-description">
+                    ${escapeHTML(
+                        ad.description
+                    )}
+                </div>
 
-<div class="ad-title">
-${escapeHTML(
-ad.title
-)}
-</div>
+            `;
+        }
 
-`;
 
-}
+        /* =========================
+           広告リンク
+        ========================= */
 
+        const safeLink =
+            getSafeURL(
+                ad.link_url
+            );
 
-/*
-   説明
-*/
+        if (safeLink) {
 
-if (ad.description) {
+            html += `
 
-html += `
+                <a
+                    class="ad-button"
+                    href="${escapeHTML(
+                        safeLink
+                    )}"
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                >
+                    詳しくはこちら
+                </a>
 
-<div class="ad-description">
-${escapeHTML(
-ad.description
-)}
-</div>
+            `;
+        }
 
-`;
 
-}
+        /* =========================
+           広告内容がない場合
+        ========================= */
 
+        if (!html.trim()) {
 
-/*
-   リンク
-*/
+            section.style.display =
+                "none";
 
-const safeLink =
-getSafeURL(ad.link_url);
+            return;
+        }
 
-if (safeLink) {
 
-html += `
+        container.innerHTML =
+            html;
 
-<a
-class="ad-button"
-href="${escapeHTML(
-safeLink
-)}"
-target="_blank"
-rel="noopener noreferrer nofollow">
 
-詳しくはこちら
+        section.style.display =
+            "block";
 
-</a>
+    } catch (error) {
 
-`;
+        console.error(
+            "広告取得エラー:",
+            error
+        );
 
-}
-
-
-/*
-   内容が空の場合は広告を表示しない
-*/
-
-if (!html.trim()) {
-
-section.style.display =
-"none";
-
-return;
-
-}
-
-
-container.innerHTML =
-html;
-
-
-/*
-   広告表示
-*/
-
-section.style.display =
-"block";
-
+        section.style.display =
+            "none";
+    }
 }
 
 
@@ -1383,14 +1475,15 @@ section.style.display =
 ========================= */
 
 document.addEventListener(
-"DOMContentLoaded",
-function() {
+    "DOMContentLoaded",
+    function () {
 
-loadAnime();
+        loadAnime();
 
-loadAdvertisement();
+        loadAdvertisement();
 
-});
+    }
+);
 
 </script>
 
