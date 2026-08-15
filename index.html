@@ -58,11 +58,9 @@ content="Just An Anime Review｜アニメレビュー・作品紹介">
 name="twitter:description"
 content="アニメ作品のあらすじ・作品情報・レビューを紹介しています。">
 
-
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 </script>
-
 
 <script type="application/ld+json">
 {
@@ -79,7 +77,6 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 }
 </script>
 
-
 <style>
 
 * {
@@ -88,7 +85,6 @@ box-sizing: border-box;
 
 html {
 scroll-behavior: smooth;
-scroll-padding-top: 80px;
 }
 
 body {
@@ -165,11 +161,6 @@ nav a:hover {
 color: white;
 }
 
-
-/* =========================================================
-   メイン
-========================================================= */
-
 main {
 max-width: 1100px;
 
@@ -177,11 +168,6 @@ margin: auto;
 
 padding: 35px 20px 60px;
 }
-
-
-/* =========================================================
-   ヒーロー
-========================================================= */
 
 .hero {
 background: white;
@@ -214,7 +200,7 @@ font-size: 14px;
 
 
 /* =========================================================
-   セクションタイトル
+   セクション見出し
 ========================================================= */
 
 .section-title {
@@ -223,31 +209,14 @@ display: flex;
 align-items: center;
 
 margin: 35px 0 15px;
+
+scroll-margin-top: 25px;
 }
 
-/*
-   「アニメ一覧」をクリックすると
-   下のアニメ一覧まで移動
-*/
-
-.section-title a {
-display: inline-block;
-
+.section-title h2 {
 margin: 0;
 
 font-size: 22px;
-
-font-weight: 700;
-
-color: #171717;
-
-text-decoration: none;
-
-cursor: pointer;
-}
-
-.section-title a:hover {
-text-decoration: underline;
 }
 
 
@@ -255,12 +224,7 @@ text-decoration: underline;
    アニメ一覧
 ========================================================= */
 
-/*
-   セクション自体には
-   白い背景・枠を設定しない
-*/
-
-#anime-list {
+.anime-grid {
 display: grid;
 
 grid-template-columns:
@@ -268,19 +232,11 @@ repeat(3, minmax(0, 1fr));
 
 gap: 18px;
 
-background: transparent;
-
-padding: 0;
-
-border: none;
-
-box-shadow: none;
+/*
+  ここには白い枠を付けない。
+  アニメカードだけを白くする。
+*/
 }
-
-
-/* =========================================================
-   アニメカード
-========================================================= */
 
 .anime-card {
 background: white;
@@ -358,23 +314,6 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 
 overflow: hidden;
-}
-
-
-/* =========================================================
-   読み込み・空状態
-========================================================= */
-
-.empty {
-background: transparent;
-
-padding: 25px 0;
-
-text-align: center;
-
-color: #777;
-
-grid-column: 1 / -1;
 }
 
 
@@ -498,8 +437,6 @@ padding: 30px;
 text-align: center;
 
 color: #777;
-
-grid-column: 1 / -1;
 }
 
 
@@ -600,6 +537,23 @@ opacity: .8;
 
 
 /* =========================================================
+   その他
+========================================================= */
+
+.empty {
+background: white;
+
+padding: 35px;
+
+border-radius: 12px;
+
+text-align: center;
+
+color: #777;
+}
+
+
+/* =========================================================
    フッター
 ========================================================= */
 
@@ -680,12 +634,10 @@ color: white;
 
 @media (max-width: 800px) {
 
-#anime-list,
+.anime-grid,
 .recommendation-grid {
-
 grid-template-columns:
 repeat(2, minmax(0, 1fr));
-
 }
 
 }
@@ -717,11 +669,9 @@ padding: 25px;
 font-size: 24px;
 }
 
-#anime-list,
+.anime-grid,
 .recommendation-grid {
-
 grid-template-columns: 1fr;
-
 }
 
 }
@@ -746,19 +696,14 @@ Just An Anime Review
 
 </a>
 
-
 <nav>
 
 <a href="index.html">
 ホーム
 </a>
 
-<a href="anime.html">
+<a href="#anime-list">
 アニメ一覧
-</a>
-
-<a href="guide.html">
-操作説明
 </a>
 
 </nav>
@@ -826,7 +771,6 @@ class="recommendation-period">
 
 </div>
 
-
 <div
 id="recommendation-list"
 class="recommendation-grid">
@@ -844,17 +788,20 @@ class="recommendation-grid">
      アニメ一覧
 ========================================================= -->
 
-<div class="section-title">
+<div
+class="section-title"
+id="anime-list-title">
 
-<a href="#anime-list">
+<h2>
 アニメ一覧
-</a>
+</h2>
 
 </div>
 
 
 <section
-id="anime-list">
+id="anime-list"
+class="anime-grid">
 
 <div class="empty">
 読み込み中……
@@ -878,7 +825,6 @@ Just An Anime Review
 アニメをもっと深く、もっと面白く。
 </p>
 
-
 <nav
 class="footer-links"
 aria-label="フッターナビゲーション">
@@ -887,12 +833,12 @@ aria-label="フッターナビゲーション">
 ホーム
 </a>
 
-<a href="anime.html">
+<a href="#anime-list">
 アニメ一覧
 </a>
 
-<a href="guide.html">
-操作説明
+<a href="how-to-use.html">
+サイトの操作方法
 </a>
 
 <a href="terms.html">
@@ -904,7 +850,6 @@ aria-label="フッターナビゲーション">
 </a>
 
 </nav>
-
 
 <a
 href="admin.html"
@@ -1169,7 +1114,7 @@ card
 
 
 /* =========================================================
-   現在の時間帯を判定
+   時間帯判定
 ========================================================= */
 
 function isHourInPeriod(
@@ -1730,7 +1675,6 @@ loadAdvertisement();
 );
 
 </script>
-
 
 </body>
 
