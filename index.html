@@ -113,8 +113,14 @@ a {
 color: inherit;
 }
 
+
+/* =========================================================
+   ヘッダー
+========================================================= */
+
 header {
 background: #111;
+
 color: white;
 }
 
@@ -164,6 +170,11 @@ nav a:hover {
 color: white;
 }
 
+
+/* =========================================================
+   メイン
+========================================================= */
+
 main {
 max-width: 1100px;
 
@@ -171,6 +182,11 @@ margin: auto;
 
 padding: 35px 20px 60px;
 }
+
+
+/* =========================================================
+   ヒーロー
+========================================================= */
 
 .hero {
 background: white;
@@ -203,7 +219,7 @@ font-size: 14px;
 
 
 /* =========================================================
-   セクション
+   セクションタイトル
 ========================================================= */
 
 .section-title {
@@ -211,33 +227,38 @@ display: flex;
 
 align-items: center;
 
-gap: 15px;
-
 margin: 35px 0 15px;
+}
+
+
+/*
+   「アニメ一覧」全体をクリック可能にする
+*/
+
+.section-title-link {
+display: inline-block;
+
+color: #171717;
+
+text-decoration: none;
+
+border-radius: 8px;
+
+transition:
+opacity .15s ease,
+transform .15s ease;
+}
+
+.section-title-link:hover {
+opacity: .65;
+
+transform: translateX(2px);
 }
 
 .section-title h2 {
 margin: 0;
 
 font-size: 22px;
-}
-
-
-/*
-   「アニメ作品」をクリックすると
-   トップページ内のアニメ一覧へ移動
-*/
-
-.anime-section-link {
-color: inherit;
-
-text-decoration: none;
-
-display: inline-block;
-}
-
-.anime-section-link:hover {
-text-decoration: underline;
 }
 
 
@@ -809,11 +830,12 @@ class="recommendation-grid">
 <div class="section-title">
 
 <a
-href="#anime-list"
-class="anime-section-link">
+href="anime.html"
+class="section-title-link"
+aria-label="アニメ一覧を見る">
 
 <h2>
-アニメ作品
+アニメ一覧
 </h2>
 
 </a>
@@ -1257,6 +1279,11 @@ Number(setting.end_hour)
 )
 );
 
+
+/*
+   時間帯設定に該当しない場合は
+   最初の設定を使用
+*/
 
 if (!currentPeriod) {
 
