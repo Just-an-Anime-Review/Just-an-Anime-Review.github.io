@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -26,8 +25,6 @@ id="canonical"
 rel="canonical"
 href="https://just-an-anime-review.github.io/anime-detail.html"
 >
-
-<!-- OGP -->
 
 <meta
 property="og:type"
@@ -60,36 +57,32 @@ content="ja_JP">
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 </script>
 
-
 <style>
 
 * {
-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
+    margin: 0;
 
-margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        Meiryo,
+        sans-serif;
 
-font-family:
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-"Hiragino Kaku Gothic ProN",
-"Yu Gothic",
-Meiryo,
-sans-serif;
+    background: #f7f7f7;
+    color: #222;
 
-background: #f7f7f7;
-
-color: #222;
-
-line-height: 1.7;
-
+    line-height: 1.7;
 }
 
 
@@ -98,33 +91,21 @@ line-height: 1.7;
 ========================= */
 
 header {
-
-background: #111;
-
-color: white;
-
+    background: #111;
+    color: white;
 }
 
 .header-inner {
-
-max-width: 1000px;
-
-margin: auto;
-
-padding: 20px;
-
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
 }
 
 .logo {
-
-color: white;
-
-text-decoration: none;
-
-font-size: 21px;
-
-font-weight: bold;
-
+    color: white;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: bold;
 }
 
 
@@ -133,13 +114,9 @@ font-weight: bold;
 ========================= */
 
 main {
-
-max-width: 900px;
-
-margin: auto;
-
-padding: 45px 20px;
-
+    max-width: 900px;
+    margin: auto;
+    padding: 45px 20px;
 }
 
 
@@ -148,112 +125,79 @@ padding: 45px 20px;
 ========================= */
 
 .ad-section {
-
-display: none;
-
-margin-bottom: 30px;
-
+    display: none;
+    margin-bottom: 30px;
 }
 
 .ad-label {
-
-text-align: center;
-
-font-size: 11px;
-
-color: #999;
-
-margin-bottom: 8px;
-
-letter-spacing: .5px;
-
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 8px;
+    letter-spacing: .5px;
 }
 
 .ad-box {
+    background: white;
 
-background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
 
-border: 1px solid #e5e5e5;
+    padding: 18px;
 
-border-radius: 12px;
+    text-align: center;
 
-padding: 18px;
-
-text-align: center;
-
-box-shadow:
-0 2px 10px rgba(0,0,0,.04);
-
+    box-shadow:
+        0 2px 10px rgba(0,0,0,.04);
 }
 
 .ad-box img {
+    display: block;
 
-display: block;
+    max-width: 100%;
+    max-height: 180px;
 
-max-width: 100%;
+    margin: 0 auto 12px;
 
-max-height: 180px;
-
-margin: 0 auto 12px;
-
-border-radius: 8px;
-
+    border-radius: 8px;
 }
 
 .ad-company {
-
-font-size: 12px;
-
-color: #888;
-
-margin-bottom: 4px;
-
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
 }
 
 .ad-title {
-
-font-size: 17px;
-
-font-weight: bold;
-
-margin-bottom: 6px;
-
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 .ad-description {
-
-color: #666;
-
-font-size: 14px;
-
-line-height: 1.7;
-
+    color: #666;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .ad-button {
+    display: inline-block;
 
-display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
 
-margin-top: 10px;
+    background: #111;
+    color: white;
 
-padding: 8px 16px;
+    text-decoration: none;
 
-background: #111;
+    border-radius: 6px;
 
-color: white;
-
-text-decoration: none;
-
-border-radius: 6px;
-
-font-size: 13px;
-
+    font-size: 13px;
 }
 
 .ad-button:hover {
-
-opacity: .8;
-
+    opacity: .8;
 }
 
 
@@ -262,70 +206,57 @@ opacity: .8;
 ========================= */
 
 .detail-box {
+    background: white;
 
-background: white;
+    padding: 40px;
 
-padding: 40px;
+    border-radius: 12px;
 
-border-radius: 12px;
-
-box-shadow:
-0 3px 15px rgba(0,0,0,.08);
-
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.08);
 }
 
 h1 {
+    font-size: 40px;
 
-font-size: 40px;
+    line-height: 1.3;
 
-line-height: 1.3;
-
-margin-top: 0;
-
-margin-bottom: 15px;
-
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .genre {
+    display: inline-block;
 
-display: inline-block;
+    background: #eee;
 
-background: #eee;
+    padding: 5px 11px;
 
-padding: 5px 11px;
+    border-radius: 20px;
 
-border-radius: 20px;
+    font-size: 13px;
 
-font-size: 13px;
-
-color: #555;
-
+    color: #555;
 }
 
 section {
-
-margin-top: 40px;
-
+    margin-top: 40px;
 }
 
 section h2 {
+    font-size: 23px;
 
-font-size: 23px;
+    border-bottom: 2px solid #eee;
 
-border-bottom: 2px solid #eee;
-
-padding-bottom: 10px;
-
+    padding-bottom: 10px;
 }
 
 section p {
+    white-space: pre-wrap;
 
-white-space: pre-wrap;
+    line-height: 2;
 
-line-height: 2;
-
-color: #444;
-
+    color: #444;
 }
 
 
@@ -334,29 +265,24 @@ color: #444;
 ========================= */
 
 .official {
+    display: inline-block;
 
-display: inline-block;
+    margin-top: 15px;
 
-margin-top: 15px;
+    padding: 10px 16px;
 
-padding: 10px 16px;
+    background: #111;
+    color: white;
 
-background: #111;
+    text-decoration: none;
 
-color: white;
+    border-radius: 7px;
 
-text-decoration: none;
-
-border-radius: 7px;
-
-font-weight: bold;
-
+    font-weight: bold;
 }
 
 .official:hover {
-
-opacity: .8;
-
+    opacity: .8;
 }
 
 
@@ -365,75 +291,56 @@ opacity: .8;
 ========================= */
 
 .interaction-section {
+    margin-top: 45px;
 
-margin-top: 45px;
+    padding-top: 30px;
 
-padding-top: 30px;
-
-border-top: 2px solid #eee;
-
+    border-top: 2px solid #eee;
 }
 
 .like-area {
+    display: flex;
 
-display: flex;
+    align-items: center;
 
-align-items: center;
+    gap: 12px;
 
-gap: 12px;
-
-flex-wrap: wrap;
-
+    flex-wrap: wrap;
 }
 
 .like-button {
+    border: 1px solid #ddd;
 
-border: 1px solid #ddd;
+    background: white;
+    color: #333;
 
-background: white;
+    padding: 10px 18px;
 
-color: #333;
+    border-radius: 8px;
 
-padding: 10px 18px;
+    cursor: pointer;
 
-border-radius: 8px;
-
-cursor: pointer;
-
-font-size: 15px;
-
+    font-size: 15px;
 }
 
 .like-button:hover {
-
-background: #f5f5f5;
-
+    background: #f5f5f5;
 }
 
 .like-button.liked {
-
-background: #111;
-
-color: white;
-
-border-color: #111;
-
+    background: #111;
+    color: white;
+    border-color: #111;
 }
 
 .like-button:disabled {
-
-opacity: .6;
-
-cursor: not-allowed;
-
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 .like-count {
-
-color: #666;
-
-font-size: 14px;
-
+    color: #666;
+    font-size: 14px;
 }
 
 
@@ -442,99 +349,79 @@ font-size: 14px;
 ========================= */
 
 .comment-form {
-
-margin-top: 30px;
-
+    margin-top: 30px;
 }
 
 .comment-form label {
+    display: block;
 
-display: block;
+    margin: 15px 0 7px;
 
-margin: 15px 0 7px;
-
-font-weight: bold;
-
+    font-weight: bold;
 }
 
 .comment-form input,
 .comment-form textarea {
+    width: 100%;
 
-width: 100%;
+    padding: 11px;
 
-padding: 11px;
+    border: 1px solid #ccc;
 
-border: 1px solid #ccc;
+    border-radius: 7px;
 
-border-radius: 7px;
+    font-size: 15px;
 
-font-size: 15px;
-
-font-family: inherit;
-
+    font-family: inherit;
 }
 
 .comment-form input:focus,
 .comment-form textarea:focus {
+    outline: none;
 
-outline: none;
-
-border-color: #555;
-
+    border-color: #555;
 }
 
 .comment-form textarea {
+    min-height: 110px;
 
-min-height: 110px;
+    resize: vertical;
 
-resize: vertical;
-
-line-height: 1.7;
-
+    line-height: 1.7;
 }
 
 .comment-submit {
+    margin-top: 15px;
 
-margin-top: 15px;
+    padding: 10px 18px;
 
-padding: 10px 18px;
+    border: none;
 
-border: none;
+    border-radius: 7px;
 
-border-radius: 7px;
+    background: #111;
+    color: white;
 
-background: #111;
+    cursor: pointer;
 
-color: white;
-
-cursor: pointer;
-
-font-size: 14px;
-
+    font-size: 14px;
 }
 
 .comment-submit:hover {
-
-opacity: .85;
-
+    opacity: .85;
 }
 
 .comment-submit:disabled {
-
-opacity: .5;
-
-cursor: not-allowed;
-
+    opacity: .5;
+    cursor: not-allowed;
 }
 
 .comment-message {
+    margin-top: 12px;
 
-margin-top: 12px;
+    color: #666;
 
-color: #666;
-
-font-size: 14px;
-
+    font-size: 14px;
 }
 
 
@@ -543,99 +430,75 @@ font-size: 14px;
 ========================= */
 
 .comments {
-
-margin-top: 35px;
-
+    margin-top: 35px;
 }
 
 .comment-item {
+    padding: 18px 0;
 
-padding: 18px 0;
-
-border-bottom: 1px solid #eee;
-
+    border-bottom: 1px solid #eee;
 }
 
 .comment-item:first-child {
-
-border-top: 1px solid #eee;
-
+    border-top: 1px solid #eee;
 }
 
 .comment-header {
+    display: flex;
 
-display: flex;
+    justify-content: space-between;
 
-justify-content: space-between;
+    align-items: center;
 
-align-items: center;
+    gap: 15px;
 
-gap: 15px;
-
-margin-bottom: 8px;
-
+    margin-bottom: 8px;
 }
 
 .comment-nickname {
-
-font-weight: bold;
-
+    font-weight: bold;
 }
 
 .comment-date {
-
-color: #999;
-
-font-size: 12px;
-
+    color: #999;
+    font-size: 12px;
 }
 
 .comment-text {
+    white-space: pre-wrap;
 
-white-space: pre-wrap;
+    color: #444;
 
-color: #444;
-
-word-break: break-word;
-
+    word-break: break-word;
 }
 
 .comment-actions {
-
-margin-top: 10px;
-
+    margin-top: 10px;
 }
 
 .comment-delete {
+    border: 1px solid #ddd;
 
-border: 1px solid #ddd;
+    background: white;
 
-background: white;
+    color: #777;
 
-color: #777;
+    padding: 5px 10px;
 
-padding: 5px 10px;
+    border-radius: 6px;
 
-border-radius: 6px;
+    cursor: pointer;
 
-cursor: pointer;
-
-font-size: 12px;
-
+    font-size: 12px;
 }
 
 .comment-delete:hover {
-
-background: #f3f3f3;
-
-color: #222;
-
+    background: #f3f3f3;
+    color: #222;
 }
 
 .no-comments {
-
-color: #888;
-
+    color: #888;
 }
 
 
@@ -644,34 +507,49 @@ color: #888;
 ========================= */
 
 .status {
+    text-align: center;
 
-text-align: center;
+    padding: 60px 20px;
 
-padding: 60px 20px;
-
-color: #666;
-
+    color: #666;
 }
 
 .error-box {
+    background: white;
 
-background: white;
+    padding: 40px;
 
-padding: 40px;
+    border-radius: 12px;
 
-border-radius: 12px;
+    text-align: center;
 
-text-align: center;
-
-box-shadow:
-0 3px 15px rgba(0,0,0,.08);
-
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.08);
 }
 
 .error-box h1 {
+    font-size: 28px;
+}
 
-font-size: 28px;
 
+/* =========================
+   戻るリンク
+========================= */
+
+.back {
+    display: inline-block;
+
+    margin-top: 25px;
+
+    color: #06c;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.back:hover {
+    text-decoration: underline;
 }
 
 
@@ -680,29 +558,23 @@ font-size: 28px;
 ========================= */
 
 footer {
+    margin-top: 70px;
 
-margin-top: 70px;
+    background: #111;
 
-background: #111;
+    color: white;
 
-color: white;
-
-padding: 35px 20px;
-
+    padding: 35px 20px;
 }
 
 .footer-inner {
+    max-width: 900px;
 
-max-width: 900px;
-
-margin: auto;
-
+    margin: auto;
 }
 
 .footer-inner p {
-
-color: #bbb;
-
+    color: #bbb;
 }
 
 
@@ -711,31 +583,27 @@ color: #bbb;
 ========================= */
 
 .admin-link {
+    position: fixed;
 
-position: fixed;
+    right: 12px;
 
-right: 12px;
+    bottom: 10px;
 
-bottom: 10px;
+    font-size: 11px;
 
-font-size: 11px;
+    color: #999;
 
-color: #999;
+    text-decoration: none;
 
-text-decoration: none;
+    opacity: .65;
 
-opacity: .65;
-
-z-index: 1000;
-
+    z-index: 1000;
 }
 
 .admin-link:hover {
+    opacity: 1;
 
-opacity: 1;
-
-text-decoration: underline;
-
+    text-decoration: underline;
 }
 
 
@@ -745,45 +613,33 @@ text-decoration: underline;
 
 @media (max-width: 600px) {
 
-main {
+    main {
+        padding: 30px 15px;
+    }
 
-padding: 30px 15px;
+    .detail-box {
+        padding: 25px 20px;
+    }
 
-}
+    h1 {
+        font-size: 30px;
+    }
 
-.detail-box {
+    section h2 {
+        font-size: 21px;
+    }
 
-padding: 25px 20px;
+    .ad-box {
+        padding: 15px;
+    }
 
-}
+    .comment-header {
+        align-items: flex-start;
 
-h1 {
+        flex-direction: column;
 
-font-size: 30px;
-
-}
-
-section h2 {
-
-font-size: 21px;
-
-}
-
-.ad-box {
-
-padding: 15px;
-
-}
-
-.comment-header {
-
-align-items: flex-start;
-
-flex-direction: column;
-
-gap: 2px;
-
-}
+        gap: 2px;
+    }
 
 }
 
@@ -824,15 +680,12 @@ id="ad-section"
 class="ad-section">
 
 <div class="ad-label">
-
 ADVERTISEMENT
-
 </div>
 
 <div
 id="ad-container"
 class="ad-box">
-
 </div>
 
 </section>
@@ -1016,9 +869,7 @@ class="comment-message">
 <div id="comment-list">
 
 <p class="no-comments">
-
 コメントを読み込んでいます……
-
 </p>
 
 </div>
@@ -1093,14 +944,12 @@ class="admin-link">
 
 <script>
 
-
 /* =========================================
    Supabase
 ========================================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
-
 
 const SUPABASE_KEY =
 "sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
@@ -1112,32 +961,30 @@ const SUPABASE_KEY =
 
 function getVisitorId() {
 
-let visitorId =
-localStorage.getItem(
-"anime_review_visitor_id"
-);
+    let visitorId =
+        localStorage.getItem(
+            "anime_review_visitor_id"
+        );
 
+    if (!visitorId) {
 
-if (!visitorId) {
+        visitorId =
+            crypto.randomUUID();
 
-visitorId =
-crypto.randomUUID();
+        localStorage.setItem(
+            "anime_review_visitor_id",
+            visitorId
+        );
 
-localStorage.setItem(
-"anime_review_visitor_id",
-visitorId
-);
+    }
 
-}
-
-
-return visitorId;
+    return visitorId;
 
 }
 
 
 const visitorId =
-getVisitorId();
+    getVisitorId();
 
 
 /* =========================================
@@ -1145,18 +992,18 @@ getVisitorId();
 ========================================= */
 
 const supabaseClient =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY,
-{
-global: {
-headers: {
-"x-visitor-id":
-visitorId
-}
-}
-}
-);
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY,
+        {
+            global: {
+                headers: {
+                    "x-visitor-id":
+                        visitorId
+                }
+            }
+        }
+    );
 
 
 /* =========================================
@@ -1165,13 +1012,13 @@ visitorId
 
 function escapeHTML(text) {
 
-const div =
-document.createElement("div");
+    const div =
+        document.createElement("div");
 
-div.textContent =
-text ?? "";
+    div.textContent =
+        text ?? "";
 
-return div.innerHTML;
+    return div.innerHTML;
 
 }
 
@@ -1181,9 +1028,9 @@ return div.innerHTML;
 ========================================= */
 
 const currentAnimeId =
-new URLSearchParams(
-window.location.search
-).get("id");
+    new URLSearchParams(
+        window.location.search
+    ).get("id");
 
 
 /* =========================================
@@ -1192,30 +1039,28 @@ window.location.search
 
 function isSafeURL(url) {
 
-if (!url) {
+    if (!url) {
+        return false;
+    }
 
-return false;
+    try {
 
-}
+        const parsed =
+            new URL(
+                url,
+                window.location.origin
+            );
 
-try {
+        return (
+            parsed.protocol === "http:" ||
+            parsed.protocol === "https:"
+        );
 
-const parsed =
-new URL(
-url,
-window.location.origin
-);
+    } catch {
 
-return (
-parsed.protocol === "http:" ||
-parsed.protocol === "https:"
-);
+        return false;
 
-} catch {
-
-return false;
-
-}
+    }
 
 }
 
@@ -1226,20 +1071,20 @@ return false;
 
 function showError() {
 
-document
-.getElementById("loading")
-.style.display =
-"none";
+    document
+        .getElementById("loading")
+        .style.display =
+        "none";
 
-document
-.getElementById("detail")
-.style.display =
-"none";
+    document
+        .getElementById("detail")
+        .style.display =
+        "none";
 
-document
-.getElementById("error")
-.style.display =
-"block";
+    document
+        .getElementById("error")
+        .style.display =
+        "block";
 
 }
 
@@ -1250,187 +1095,195 @@ document
 
 async function loadAdvertisement() {
 
-const section =
-document.getElementById(
-"ad-section"
-);
+    const section =
+        document.getElementById(
+            "ad-section"
+        );
 
-const container =
-document.getElementById(
-"ad-container"
-);
+    const container =
+        document.getElementById(
+            "ad-container"
+        );
 
-section.style.display =
-"none";
+    section.style.display =
+        "none";
 
-container.innerHTML =
-"";
+    container.innerHTML =
+        "";
 
-try {
+    try {
 
-const { data, error } =
-await supabaseClient
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
 
-.from("advertisements")
+                .from("advertisements")
 
-.select(
-"id,company_name,title,description,image_url,link_url"
-)
+                .select(
+                    "id,company_name,title,description,image_url,link_url"
+                )
 
-.eq(
-"is_active",
-true
-)
+                .eq(
+                    "is_active",
+                    true
+                )
 
-.order(
-"id",
-{
-ascending: true
-}
-)
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                )
 
-.limit(1);
+                .limit(1);
 
 
-if (error) {
+        if (error) {
 
-console.error(
-"広告取得エラー:",
-error
-);
+            console.error(
+                "広告取得エラー:",
+                error
+            );
 
-return;
+            return;
 
-}
+        }
 
 
-if (!data || !data.length) {
+        if (
+            !data ||
+            !data.length
+        ) {
 
-return;
+            return;
 
-}
+        }
 
 
-const ad =
-data[0];
+        const ad =
+            data[0];
 
+        let html =
+            "";
 
-let html = "";
 
+        if (
+            ad.image_url &&
+            isSafeURL(ad.image_url)
+        ) {
 
-if (
-ad.image_url &&
-isSafeURL(ad.image_url)
-) {
+            html += `
 
-html += `
+                <img
+                    src="${escapeHTML(ad.image_url)}"
+                    alt="${escapeHTML(
+                        ad.title || "広告"
+                    )}"
+                    loading="lazy"
+                    onerror="this.style.display='none';">
 
-<img
-src="${escapeHTML(ad.image_url)}"
-alt="${escapeHTML(ad.title || "広告")}"
-loading="lazy"
-onerror="this.style.display='none';">
+            `;
 
-`;
+        }
 
-}
 
+        if (ad.company_name) {
 
-if (ad.company_name) {
+            html += `
 
-html += `
+                <div class="ad-company">
 
-<div class="ad-company">
+                    ${escapeHTML(
+                        ad.company_name
+                    )}
 
-${escapeHTML(
-ad.company_name
-)}
+                </div>
 
-</div>
+            `;
 
-`;
+        }
 
-}
 
+        if (ad.title) {
 
-if (ad.title) {
+            html += `
 
-html += `
+                <div class="ad-title">
 
-<div class="ad-title">
+                    ${escapeHTML(
+                        ad.title
+                    )}
 
-${escapeHTML(
-ad.title
-)}
+                </div>
 
-</div>
+            `;
 
-`;
+        }
 
-}
 
+        if (ad.description) {
 
-if (ad.description) {
+            html += `
 
-html += `
+                <div class="ad-description">
 
-<div class="ad-description">
+                    ${escapeHTML(
+                        ad.description
+                    )}
 
-${escapeHTML(
-ad.description
-)}
+                </div>
 
-</div>
+            `;
 
-`;
+        }
 
-}
 
+        if (
+            ad.link_url &&
+            isSafeURL(ad.link_url)
+        ) {
 
-if (
-ad.link_url &&
-isSafeURL(ad.link_url)
-) {
+            html += `
 
-html += `
+                <a
+                    class="ad-button"
+                    href="${escapeHTML(ad.link_url)}"
+                    target="_blank"
+                    rel="noopener noreferrer nofollow">
 
-<a
-class="ad-button"
-href="${escapeHTML(ad.link_url)}"
-target="_blank"
-rel="noopener noreferrer nofollow">
+                    詳しくはこちら
 
-詳しくはこちら
+                </a>
 
-</a>
+            `;
 
-`;
+        }
 
-}
 
+        if (!html.trim()) {
 
-if (!html.trim()) {
+            return;
 
-return;
+        }
 
-}
 
+        container.innerHTML =
+            html;
 
-container.innerHTML =
-html;
+        section.style.display =
+            "block";
 
-section.style.display =
-"block";
 
+    } catch (error) {
 
-} catch (error) {
+        console.error(
+            "広告読み込みエラー:",
+            error
+        );
 
-console.error(
-"広告読み込みエラー:",
-error
-);
-
-}
+    }
 
 }
 
@@ -1441,298 +1294,321 @@ error
 
 async function loadAnime() {
 
-if (!currentAnimeId) {
+    if (!currentAnimeId) {
 
-showError();
+        showError();
 
-return;
+        return;
 
-}
+    }
 
 
-const { data, error } =
-await supabaseClient
+    try {
 
-.from("anime")
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
 
-.select(
-"id,title,genre,description,review,official_url"
-)
+                .from("anime")
 
-.eq(
-"id",
-currentAnimeId
-)
+                .select(
+                    "id,title,genre,description,review,official_url"
+                )
 
-.single();
+                .eq(
+                    "id",
+                    currentAnimeId
+                )
 
+                .single();
 
-if (error || !data) {
 
-console.error(
-"アニメ取得エラー:",
-error
-);
+        if (error || !data) {
 
-showError();
+            console.error(
+                "アニメ取得エラー:",
+                error
+            );
 
-return;
+            showError();
 
-}
+            return;
 
+        }
 
-const title =
-data.title ||
-"アニメ作品";
 
+        const title =
+            data.title ||
+            "アニメ作品";
 
-const genre =
-data.genre ||
-"";
 
+        const genre =
+            data.genre ||
+            "";
 
-const description =
-data.description ||
-"";
 
+        const description =
+            data.description ||
+            "";
 
-const review =
-data.review ||
-"";
 
+        const review =
+            data.review ||
+            "";
 
-document.title =
-`${title} | Just An Anime Review`;
 
+        document.title =
+            `${title} | Just An Anime Review`;
 
-const metaDescription =
-description
-?
-description
-.replace(/\s+/g, " ")
-.trim()
-.slice(0, 155)
-:
-`${title}のあらすじ・作品情報・レビューを紹介しています。`;
 
+        const metaDescription =
+            description
+                ?
+                description
+                    .replace(/\s+/g, " ")
+                    .trim()
+                    .slice(0, 155)
+                :
+                `${title}のあらすじ・作品情報・レビューを紹介しています。`;
 
-document
-.getElementById("meta-description")
-.setAttribute(
-"content",
-metaDescription
-);
 
+        document
+            .getElementById(
+                "meta-description"
+            )
+            .setAttribute(
+                "content",
+                metaDescription
+            );
 
-const canonicalUrl =
-window.location.origin +
-window.location.pathname +
-"?id=" +
-encodeURIComponent(
-data.id
-);
 
+        const canonicalUrl =
+            window.location.origin +
+            window.location.pathname +
+            "?id=" +
+            encodeURIComponent(
+                data.id
+            );
 
-document
-.getElementById("canonical")
-.setAttribute(
-"href",
-canonicalUrl
-);
 
+        document
+            .getElementById("canonical")
+            .setAttribute(
+                "href",
+                canonicalUrl
+            );
 
-document
-.getElementById("og-title")
-.setAttribute(
-"content",
-`${title} | Just An Anime Review`
-);
 
+        document
+            .getElementById("og-title")
+            .setAttribute(
+                "content",
+                `${title} | Just An Anime Review`
+            );
 
-document
-.getElementById("og-description")
-.setAttribute(
-"content",
-metaDescription
-);
 
+        document
+            .getElementById("og-description")
+            .setAttribute(
+                "content",
+                metaDescription
+            );
 
-document
-.getElementById("og-url")
-.setAttribute(
-"content",
-canonicalUrl
-);
 
+        document
+            .getElementById("og-url")
+            .setAttribute(
+                "content",
+                canonicalUrl
+            );
 
-document
-.getElementById("title")
-.textContent =
-title;
 
+        document
+            .getElementById("title")
+            .textContent =
+            title;
 
-const genreElement =
-document.getElementById("genre");
 
+        const genreElement =
+            document.getElementById(
+                "genre"
+            );
 
-if (genre) {
 
-genreElement.textContent =
-genre;
+        if (genre) {
 
-genreElement.style.display =
-"inline-block";
+            genreElement.textContent =
+                genre;
 
-} else {
+            genreElement.style.display =
+                "inline-block";
 
-genreElement.style.display =
-"none";
+        } else {
 
-}
+            genreElement.style.display =
+                "none";
 
+        }
 
-document
-.getElementById("description")
-.textContent =
-description ||
-"あらすじは登録されていません。";
 
+        document
+            .getElementById("description")
+            .textContent =
+            description ||
+            "あらすじは登録されていません。";
 
-document
-.getElementById("review")
-.textContent =
-review ||
-"レビューは登録されていません。";
 
+        document
+            .getElementById("review")
+            .textContent =
+            review ||
+            "レビューは登録されていません。";
 
-const officialWrapper =
-document.getElementById(
-"official-wrapper"
-);
 
+        const officialWrapper =
+            document.getElementById(
+                "official-wrapper"
+            );
 
-const official =
-document.getElementById(
-"official"
-);
 
+        const official =
+            document.getElementById(
+                "official"
+            );
 
-if (
-data.official_url &&
-isSafeURL(data.official_url)
-) {
 
-official.href =
-data.official_url;
+        if (
+            data.official_url &&
+            isSafeURL(data.official_url)
+        ) {
 
-officialWrapper.style.display =
-"block";
+            official.href =
+                data.official_url;
 
-} else {
+            officialWrapper.style.display =
+                "block";
 
-officialWrapper.style.display =
-"none";
+        } else {
 
-}
+            officialWrapper.style.display =
+                "none";
 
+        }
 
-/* 構造化データ */
 
-const structuredData = {
+        /* =========================
+           構造化データ
+        ========================= */
 
-"@context":
-"https://schema.org",
+        const structuredData = {
 
-"@type":
-"Article",
+            "@context":
+                "https://schema.org",
 
-"headline":
-title,
+            "@type":
+                "Article",
 
-"description":
-metaDescription,
+            "headline":
+                title,
 
-"url":
-canonicalUrl,
+            "description":
+                metaDescription,
 
-"mainEntityOfPage": {
+            "url":
+                canonicalUrl,
 
-"@type":
-"WebPage",
+            "mainEntityOfPage": {
 
-"@id":
-canonicalUrl
+                "@type":
+                    "WebPage",
 
-},
+                "@id":
+                    canonicalUrl
 
-"publisher": {
+            },
 
-"@type":
-"Organization",
+            "publisher": {
 
-"name":
-"Just An Anime Review"
+                "@type":
+                    "Organization",
 
-}
+                "name":
+                    "Just An Anime Review"
 
-};
+            }
 
+        };
 
-const oldSchema =
-document.getElementById(
-"anime-structured-data"
-);
 
+        const oldSchema =
+            document.getElementById(
+                "anime-structured-data"
+            );
 
-if (oldSchema) {
 
-oldSchema.remove();
+        if (oldSchema) {
 
-}
+            oldSchema.remove();
 
+        }
 
-const schemaScript =
-document.createElement(
-"script"
-);
 
+        const schemaScript =
+            document.createElement(
+                "script"
+            );
 
-schemaScript.type =
-"application/ld+json";
 
+        schemaScript.type =
+            "application/ld+json";
 
-schemaScript.id =
-"anime-structured-data";
 
+        schemaScript.id =
+            "anime-structured-data";
 
-schemaScript.textContent =
-JSON.stringify(
-structuredData
-);
 
+        schemaScript.textContent =
+            JSON.stringify(
+                structuredData
+            );
 
-document.head.appendChild(
-schemaScript
-);
 
+        document.head.appendChild(
+            schemaScript
+        );
 
-/* 表示 */
 
-document
-.getElementById("loading")
-.style.display =
-"none";
+        /* =========================
+           表示
+        ========================= */
 
+        document
+            .getElementById("loading")
+            .style.display =
+            "none";
 
-document
-.getElementById("detail")
-.style.display =
-"block";
 
+        document
+            .getElementById("detail")
+            .style.display =
+            "block";
 
-/* インタラクション */
 
-await initializeInteractions();
+        await initializeInteractions();
+
+
+    } catch (error) {
+
+        console.error(
+            "アニメ読み込みエラー:",
+            error
+        );
+
+        showError();
+
+    }
 
 }
 
@@ -1743,41 +1619,44 @@ await initializeInteractions();
 
 async function loadLikeCount() {
 
-const { count, error } =
-await supabaseClient
+    const {
+        count,
+        error
+    } =
+        await supabaseClient
 
-.from("anime_likes")
+            .from("anime_likes")
 
-.select(
-"id",
-{
-count: "exact",
-head: true
-}
-)
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true
+                }
+            )
 
-.eq(
-"anime_id",
-currentAnimeId
-);
-
-
-if (error) {
-
-console.error(
-"いいね数取得エラー:",
-error
-);
-
-return;
-
-}
+            .eq(
+                "anime_id",
+                currentAnimeId
+            );
 
 
-document
-.getElementById("like-count")
-.textContent =
-`${count || 0}件`;
+    if (error) {
+
+        console.error(
+            "いいね数取得エラー:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("like-count")
+        .textContent =
+        `${count || 0}件`;
 
 }
 
@@ -1788,63 +1667,66 @@ document
 
 async function checkLiked() {
 
-const { data, error } =
-await supabaseClient
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
 
-.from("anime_likes")
+            .from("anime_likes")
 
-.select("id")
+            .select("id")
 
-.eq(
-"anime_id",
-currentAnimeId
-)
+            .eq(
+                "anime_id",
+                currentAnimeId
+            )
 
-.eq(
-"visitor_id",
-visitorId
-)
+            .eq(
+                "visitor_id",
+                visitorId
+            )
 
-.maybeSingle();
-
-
-if (error) {
-
-console.error(
-"いいね状態取得エラー:",
-error
-);
-
-return;
-
-}
+            .maybeSingle();
 
 
-const button =
-document.getElementById(
-"like-button"
-);
+    if (error) {
+
+        console.error(
+            "いいね状態取得エラー:",
+            error
+        );
+
+        return;
+
+    }
 
 
-if (data) {
+    const button =
+        document.getElementById(
+            "like-button"
+        );
 
-button.classList.add(
-"liked"
-);
 
-button.textContent =
-"♥ いいね済み";
+    if (data) {
 
-} else {
+        button.classList.add(
+            "liked"
+        );
 
-button.classList.remove(
-"liked"
-);
+        button.textContent =
+            "♥ いいね済み";
 
-button.textContent =
-"♡ いいね";
+    } else {
 
-}
+        button.classList.remove(
+            "liked"
+        );
+
+        button.textContent =
+            "♡ いいね";
+
+    }
 
 }
 
@@ -1855,136 +1737,134 @@ button.textContent =
 
 async function toggleLike() {
 
-const button =
-document.getElementById(
-"like-button"
-);
+    const button =
+        document.getElementById(
+            "like-button"
+        );
 
 
-button.disabled =
-true;
+    button.disabled =
+        true;
 
 
-const { data, error } =
-await supabaseClient
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
 
-.from("anime_likes")
+            .from("anime_likes")
 
-.select("id")
+            .select("id")
 
-.eq(
-"anime_id",
-currentAnimeId
-)
+            .eq(
+                "anime_id",
+                currentAnimeId
+            )
 
-.eq(
-"visitor_id",
-visitorId
-)
+            .eq(
+                "visitor_id",
+                visitorId
+            )
 
-.maybeSingle();
-
-
-if (error) {
-
-console.error(
-"いいね確認エラー:",
-error
-);
-
-button.disabled =
-false;
-
-return;
-
-}
+            .maybeSingle();
 
 
-/* =========================
-   いいね済み
-========================= */
+    if (error) {
 
-if (data) {
+        console.error(
+            "いいね確認エラー:",
+            error
+        );
 
-const { error: deleteError } =
-await supabaseClient
+        button.disabled =
+            false;
 
-.from("anime_likes")
+        return;
 
-.delete()
-
-.eq(
-"id",
-data.id
-)
-
-.eq(
-"visitor_id",
-visitorId
-);
+    }
 
 
-if (deleteError) {
+    if (data) {
 
-console.error(
-"いいね削除エラー:",
-deleteError
-);
+        const {
+            error: deleteError
+        } =
+            await supabaseClient
 
-button.disabled =
-false;
+                .from("anime_likes")
 
-return;
+                .delete()
 
-}
+                .eq(
+                    "id",
+                    data.id
+                )
 
-} else {
-
-
-/* =========================
-   いいね追加
-========================= */
-
-const { error: insertError } =
-await supabaseClient
-
-.from("anime_likes")
-
-.insert({
-
-anime_id:
-currentAnimeId,
-
-visitor_id:
-visitorId
-
-});
+                .eq(
+                    "visitor_id",
+                    visitorId
+                );
 
 
-if (insertError) {
+        if (deleteError) {
 
-console.error(
-"いいね追加エラー:",
-insertError
-);
+            console.error(
+                "いいね削除エラー:",
+                deleteError
+            );
 
-button.disabled =
-false;
+            button.disabled =
+                false;
 
-return;
+            return;
 
-}
+        }
 
-}
+    } else {
+
+        const {
+            error: insertError
+        } =
+            await supabaseClient
+
+                .from("anime_likes")
+
+                .insert({
+
+                    anime_id:
+                        currentAnimeId,
+
+                    visitor_id:
+                        visitorId
+
+                });
 
 
-await loadLikeCount();
+        if (insertError) {
 
-await checkLiked();
+            console.error(
+                "いいね追加エラー:",
+                insertError
+            );
+
+            button.disabled =
+                false;
+
+            return;
+
+        }
+
+    }
 
 
-button.disabled =
-false;
+    await loadLikeCount();
+
+    await checkLiked();
+
+
+    button.disabled =
+        false;
 
 }
 
@@ -1995,184 +1875,190 @@ false;
 
 async function loadComments() {
 
-const container =
-document.getElementById(
-"comment-list"
-);
+    const container =
+        document.getElementById(
+            "comment-list"
+        );
 
 
-const { data, error } =
-await supabaseClient
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
 
-.from("anime_comments")
+            .from("anime_comments")
 
-.select(
-"id,anime_id,nickname,comment,created_at,visitor_id"
-)
+            .select(
+                "id,anime_id,nickname,comment,created_at,visitor_id"
+            )
 
-.eq(
-"anime_id",
-currentAnimeId
-)
+            .eq(
+                "anime_id",
+                currentAnimeId
+            )
 
-.order(
-"created_at",
-{
-ascending: false
-}
-);
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
 
-if (error) {
+    if (error) {
 
-console.error(
-"コメント取得エラー:",
-error
-);
+        console.error(
+            "コメント取得エラー:",
+            error
+        );
 
-container.innerHTML = `
+        container.innerHTML = `
 
-<p class="no-comments">
+            <p class="no-comments">
 
-コメントを取得できませんでした。
+                コメントを取得できませんでした。
 
-</p>
+            </p>
 
-`;
+        `;
 
-return;
+        return;
 
-}
+    }
 
 
-if (!data || !data.length) {
+    if (
+        !data ||
+        !data.length
+    ) {
 
-container.innerHTML = `
+        container.innerHTML = `
 
-<p class="no-comments">
+            <p class="no-comments">
 
-まだコメントはありません。
+                まだコメントはありません。
 
-</p>
+            </p>
 
-`;
+        `;
 
-return;
+        return;
 
-}
+    }
 
 
-container.innerHTML =
-"";
+    container.innerHTML =
+        "";
 
 
-data.forEach(
-comment => {
+    data.forEach(
+        comment => {
 
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-const item =
-document.createElement(
-"div"
-);
 
+            item.className =
+                "comment-item";
 
-item.className =
-"comment-item";
 
+            const date =
+                new Date(
+                    comment.created_at
+                )
+                    .toLocaleString(
+                        "ja-JP"
+                    );
 
-const date =
-new Date(
-comment.created_at
-)
-.toLocaleString(
-"ja-JP"
-);
 
+            const isOwn =
+                comment.visitor_id ===
+                visitorId;
 
-const isOwn =
-comment.visitor_id ===
-visitorId;
 
+            item.innerHTML = `
 
-item.innerHTML = `
+                <div class="comment-header">
 
-<div class="comment-header">
+                    <span class="comment-nickname">
 
-<span class="comment-nickname">
+                        ${escapeHTML(
+                            comment.nickname
+                        )}
 
-${escapeHTML(
-comment.nickname
-)}
+                    </span>
 
-</span>
+                    <span class="comment-date">
 
-<span class="comment-date">
+                        ${escapeHTML(
+                            date
+                        )}
 
-${escapeHTML(
-date
-)}
+                    </span>
 
-</span>
+                </div>
 
-</div>
 
+                <div class="comment-text">
 
-<div class="comment-text">
+                    ${escapeHTML(
+                        comment.comment
+                    )}
 
-${escapeHTML(
-comment.comment
-)}
+                </div>
 
-</div>
 
+                ${
+                    isOwn
+                        ?
+                        `
 
-${
-isOwn
-?
-`
+                            <div class="comment-actions">
 
-<div class="comment-actions">
+                                <button
+                                    type="button"
+                                    class="comment-delete">
 
-<button
-type="button"
-class="comment-delete">
+                                    コメントを削除
 
-コメントを削除
+                                </button>
 
-</button>
+                            </div>
 
-</div>
+                        `
+                        :
+                        ""
+                }
 
-`
-:
-""
-}
+            `;
 
-`;
 
+            if (isOwn) {
 
-if (isOwn) {
+                item
+                    .querySelector(
+                        ".comment-delete"
+                    )
+                    .addEventListener(
+                        "click",
+                        () =>
+                            deleteComment(
+                                comment.id
+                            )
+                    );
 
-item
-.querySelector(
-".comment-delete"
-)
-.addEventListener(
-"click",
-() =>
-deleteComment(
-comment.id
-)
-);
+            }
 
-}
 
+            container.appendChild(
+                item
+            );
 
-container.appendChild(
-item
-);
-
-});
+        }
+    );
 
 }
 
@@ -2183,149 +2069,151 @@ item
 
 async function submitComment() {
 
-const nickname =
-document
-.getElementById(
-"comment-nickname"
-)
-.value
-.trim();
+    const nickname =
+        document
+            .getElementById(
+                "comment-nickname"
+            )
+            .value
+            .trim();
 
 
-const comment =
-document
-.getElementById(
-"comment-text"
-)
-.value
-.trim();
+    const comment =
+        document
+            .getElementById(
+                "comment-text"
+            )
+            .value
+            .trim();
 
 
-const message =
-document.getElementById(
-"comment-message"
-);
+    const message =
+        document.getElementById(
+            "comment-message"
+        );
 
 
-const button =
-document.getElementById(
-"comment-submit"
-);
+    const button =
+        document.getElementById(
+            "comment-submit"
+        );
 
 
-if (!nickname) {
+    if (!nickname) {
 
-message.textContent =
-"ニックネームを入力してください。";
+        message.textContent =
+            "ニックネームを入力してください。";
 
-return;
+        return;
 
-}
-
-
-if (nickname.length > 30) {
-
-message.textContent =
-"ニックネームは30文字以内で入力してください。";
-
-return;
-
-}
+    }
 
 
-if (!comment) {
+    if (nickname.length > 30) {
 
-message.textContent =
-"コメントを入力してください。";
+        message.textContent =
+            "ニックネームは30文字以内で入力してください。";
 
-return;
+        return;
 
-}
-
-
-if (comment.length > 1000) {
-
-message.textContent =
-"コメントは1000文字以内で入力してください。";
-
-return;
-
-}
+    }
 
 
-button.disabled =
-true;
+    if (!comment) {
+
+        message.textContent =
+            "コメントを入力してください。";
+
+        return;
+
+    }
 
 
-message.textContent =
-"投稿しています……";
+    if (comment.length > 1000) {
+
+        message.textContent =
+            "コメントは1000文字以内で入力してください。";
+
+        return;
+
+    }
 
 
-const { error } =
-await supabaseClient
-
-.from("anime_comments")
-
-.insert({
-
-anime_id:
-currentAnimeId,
-
-visitor_id:
-visitorId,
-
-nickname:
-nickname,
-
-comment:
-comment
-
-});
+    button.disabled =
+        true;
 
 
-if (error) {
-
-console.error(
-"コメント投稿エラー:",
-error
-);
-
-message.textContent =
-"コメントの投稿に失敗しました。";
-
-button.disabled =
-false;
-
-return;
-
-}
+    message.textContent =
+        "投稿しています……";
 
 
-document
-.getElementById(
-"comment-nickname"
-)
-.value =
-"";
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from("anime_comments")
+
+            .insert({
+
+                anime_id:
+                    currentAnimeId,
+
+                visitor_id:
+                    visitorId,
+
+                nickname:
+                    nickname,
+
+                comment:
+                    comment
+
+            });
 
 
-document
-.getElementById(
-"comment-text"
-)
-.value =
-"";
+    if (error) {
+
+        console.error(
+            "コメント投稿エラー:",
+            error
+        );
+
+        message.textContent =
+            "コメントの投稿に失敗しました。";
+
+        button.disabled =
+            false;
+
+        return;
+
+    }
 
 
-message.textContent =
-"コメントを投稿しました。";
+    document
+        .getElementById(
+            "comment-nickname"
+        )
+        .value =
+        "";
 
 
-await loadComments();
+    document
+        .getElementById(
+            "comment-text"
+        )
+        .value =
+        "";
 
 
-button.disabled =
-false;
+    message.textContent =
+        "コメントを投稿しました。";
+
+
+    await loadComments();
+
+
+    button.disabled =
+        false;
 
 }
 
@@ -2335,57 +2223,59 @@ false;
 ========================================= */
 
 async function deleteComment(
-commentId
+    commentId
 ) {
 
-const ok =
-confirm(
-"このコメントを削除しますか？"
-);
+    const ok =
+        confirm(
+            "このコメントを削除しますか？"
+        );
 
 
-if (!ok) {
+    if (!ok) {
 
-return;
+        return;
 
-}
-
-
-const { error } =
-await supabaseClient
-
-.from("anime_comments")
-
-.delete()
-
-.eq(
-"id",
-commentId
-)
-
-.eq(
-"visitor_id",
-visitorId
-);
+    }
 
 
-if (error) {
+    const {
+        error
+    } =
+        await supabaseClient
 
-console.error(
-"コメント削除エラー:",
-error
-);
+            .from("anime_comments")
 
-alert(
-"コメントの削除に失敗しました。"
-);
+            .delete()
 
-return;
+            .eq(
+                "id",
+                commentId
+            )
 
-}
+            .eq(
+                "visitor_id",
+                visitorId
+            );
 
 
-await loadComments();
+    if (error) {
+
+        console.error(
+            "コメント削除エラー:",
+            error
+        );
+
+        alert(
+            "コメントの削除に失敗しました。"
+        );
+
+        return;
+
+    }
+
+
+    await loadComments();
 
 }
 
@@ -2396,11 +2286,11 @@ await loadComments();
 
 async function initializeInteractions() {
 
-await loadLikeCount();
+    await loadLikeCount();
 
-await checkLiked();
+    await checkLiked();
 
-await loadComments();
+    await loadComments();
 
 }
 
@@ -2410,23 +2300,23 @@ await loadComments();
 ========================================= */
 
 document
-.getElementById(
-"like-button"
-)
-.addEventListener(
-"click",
-toggleLike
-);
+    .getElementById(
+        "like-button"
+    )
+    .addEventListener(
+        "click",
+        toggleLike
+    );
 
 
 document
-.getElementById(
-"comment-submit"
-)
-.addEventListener(
-"click",
-submitComment
-);
+    .getElementById(
+        "comment-submit"
+    )
+    .addEventListener(
+        "click",
+        submitComment
+    );
 
 
 /* =========================================
@@ -2442,4 +2332,3 @@ loadAdvertisement();
 </body>
 
 </html>
-```
