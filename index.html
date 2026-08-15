@@ -85,6 +85,10 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 
 <style>
 
+/* =========================================================
+   基本
+========================================================= */
+
 * {
 box-sizing: border-box;
 }
@@ -123,6 +127,7 @@ color: inherit;
 
 header {
 background: #111;
+
 color: white;
 }
 
@@ -250,6 +255,10 @@ font-size: 22px;
 color: #888;
 
 font-size: 13px;
+
+text-align: right;
+
+line-height: 1.6;
 }
 
 .recommendation-grid {
@@ -602,6 +611,16 @@ font-size: 24px;
 grid-template-columns: 1fr;
 }
 
+.recommendation-header {
+align-items: flex-start;
+
+flex-direction: column;
+}
+
+.recommendation-period {
+text-align: left;
+}
+
 }
 
 </style>
@@ -611,6 +630,10 @@ grid-template-columns: 1fr;
 
 <body>
 
+
+<!-- =========================================================
+     ヘッダー
+========================================================= -->
 
 <header>
 
@@ -642,8 +665,16 @@ Just An Anime Review
 </header>
 
 
+<!-- =========================================================
+     メイン
+========================================================= -->
+
 <main>
 
+
+<!-- =========================================================
+     ヒーロー
+========================================================= -->
 
 <section class="hero">
 
@@ -693,6 +724,10 @@ class="recommendation-grid">
 </section>
 
 
+<!-- =========================================================
+     アニメ一覧へのリンク
+========================================================= -->
+
 <section
 class="anime-list-link-section">
 
@@ -730,6 +765,10 @@ class="ad-box">
 
 </main>
 
+
+<!-- =========================================================
+     フッター
+========================================================= -->
 
 <footer>
 
@@ -790,7 +829,7 @@ const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnU-Kw_SLUd8R0c";
+"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
 
 const supabaseClient =
 supabase.createClient(
@@ -823,7 +862,9 @@ return div.innerHTML;
 function isSafeURL(url) {
 
 if (!url) {
+
 return false;
+
 }
 
 try {
@@ -846,7 +887,7 @@ return false;
 
 
 /* =========================================================
-   日付をYYYY-MM-DDとして取得
+   現在の日付取得
 ========================================================= */
 
 function getTodayString() {
@@ -860,12 +901,18 @@ now.getFullYear();
 const month =
 String(
 now.getMonth() + 1
-).padStart(2, "0");
+).padStart(
+2,
+"0"
+);
 
 const day =
 String(
 now.getDate()
-).padStart(2, "0");
+).padStart(
+2,
+"0"
+);
 
 return `${year}-${month}-${day}`;
 
@@ -873,110 +920,64 @@ return `${year}-${month}-${day}`;
 
 
 /* =========================================================
-   時刻をHH:MMに変換
+   現在時刻取得
 ========================================================= */
 
-function formatTime(time) {
+function getCurrentTimeString() {
 
-if (!time) {
-return "";
-}
+const now =
+new Date();
 
-return String(time).slice(0, 5);
+const hours =
+String(
+now.getHours()
+).padStart(
+2,
+"0"
+);
+
+const minutes =
+String(
+now.getMinutes()
+).padStart(
+2,
+"0"
+);
+
+return `${hours}:${minutes}`;
 
 }
 
 
 /* =========================================================
-   日付表示
-========================================================= */
-
-function formatDate(date) {
-
-if (!date) {
-return "";
-}
-
-const parts =
-String(date).split("-");
-
-if (parts.length !== 3) {
-return String(date);
-}
-
-return `${parts[0]}年${Number(parts[1])}月${Number(parts[2])}日`;
-
-}
-
-
-/* =========================================================
-   日付が期間内か判定
+   日付範囲判定
 ========================================================= */
 
 function isDateInPeriod(
-today,
+currentDate,
 startDate,
 endDate
 ) {
 
-/*
-   開始日・終了日が
-   どちらも未設定なら
-   日付制限なし。
-*/
+const start =
+startDate ||
+"0000-01-01";
 
-if (
-!startDate &&
-!endDate
-) {
+const end =
+endDate ||
+"9999-12-31";
 
-return true;
-
-}
-
-
-/*
-   開始日だけ指定
-*/
-
-if (
-startDate &&
-!endDate
-) {
-
-return today >= startDate;
-
-}
-
-
-/*
-   終了日だけ指定
-*/
-
-if (
-!startDate &&
-endDate
-) {
-
-return today <= endDate;
-
-}
-
-
-/*
-   開始日・終了日の両方
-*/
 
 return (
-today >= startDate &&
-today <= endDate
+currentDate >= start &&
+currentDate <= end
 );
 
 }
 
 
 /* =========================================================
-   時刻が期間内か判定
+   時刻範囲判定
 ========================================================= */
 
 function isTimeInPeriod(
@@ -985,90 +986,131 @@ startTime,
 endTime
 ) {
 
-if (
-!startTime ||
-!endTime
-) {
-
-return true;
-
-}
-
-const current =
-currentTime
-.split(":")
-.map(Number);
-
 const start =
-formatTime(startTime)
-.split(":")
-.map(Number);
+String(
+startTime ||
+"00:00"
+)
+.slice(
+0,
+5
+);
 
 const end =
-formatTime(endTime)
-.split(":")
-.map(Number);
-
-
-const currentMinutes =
-current[0] * 60 +
-current[1];
-
-const startMinutes =
-start[0] * 60 +
-start[1];
-
-const endMinutes =
-end[0] * 60 +
-end[1];
+String(
+endTime ||
+"23:59"
+)
+.slice(
+0,
+5
+);
 
 
 /*
-   例：
-   10:00 ～ 20:00
+   同じ時刻の場合は
+   その1分間を表示対象とする。
 */
 
 if (
-startMinutes < endMinutes
+start === end
+) {
+
+return currentTime === start;
+
+}
+
+
+/*
+   通常の時間帯
+
+   例：
+   09:00 ～ 18:00
+*/
+
+if (
+start < end
 ) {
 
 return (
-currentMinutes >= startMinutes &&
-currentMinutes < endMinutes
+currentTime >= start &&
+currentTime <= end
 );
 
 }
 
 
 /*
+   日付をまたぐ時間帯
+
    例：
    20:00 ～ 05:00
 */
 
-if (
-startMinutes > endMinutes
-) {
-
 return (
-currentMinutes >= startMinutes ||
-currentMinutes < endMinutes
+currentTime >= start ||
+currentTime <= end
 );
-
-}
-
-
-/*
-   同じ時刻の場合
-   24時間扱いにはしない。
-*/
-
-return false;
 
 }
 
 
 /* =========================================================
-   現在表示可能なおすすめを取得
+   日付表示
+========================================================= */
+
+function formatDate(
+date
+) {
+
+if (!date) {
+
+return "";
+
+}
+
+const parts =
+String(date)
+.split("-");
+
+if (
+parts.length !== 3
+) {
+
+return date;
+
+}
+
+return `${parts[0]}年${parts[1]}月${parts[2]}日`;
+
+}
+
+
+/* =========================================================
+   時刻表示
+========================================================= */
+
+function formatTime(
+time
+) {
+
+if (!time) {
+
+return "";
+
+}
+
+return String(time)
+.slice(
+0,
+5
+);
+
+}
+
+
+/* =========================================================
+   おすすめアニメ取得
 ========================================================= */
 
 async function loadRecommendations() {
@@ -1095,9 +1137,30 @@ periodText.textContent = "";
 
 try {
 
+/* =======================================================
+   現在日時
+======================================================= */
+
+const currentDate =
+getTodayString();
+
+const currentTime =
+getCurrentTimeString();
+
+
+console.log(
+"現在日付:",
+currentDate
+);
+
+console.log(
+"現在時刻:",
+currentTime
+);
+
 
 /* =======================================================
-   recommended_anime を取得
+   おすすめ設定取得
 ======================================================= */
 
 const {
@@ -1106,9 +1169,16 @@ error: settingsError
 } =
 await supabaseClient
 .from("recommended_anime")
-.select(
-"id,anime_id,start_date,end_date,start_time,end_time,display_order,is_active"
-)
+.select(`
+id,
+anime_id,
+start_date,
+end_date,
+start_time,
+end_time,
+display_order,
+is_active
+`)
 .eq(
 "is_active",
 true
@@ -1118,10 +1188,18 @@ true
 {
 ascending: true
 }
+)
+.order(
+"id",
+{
+ascending: true
+}
 );
 
 
-if (settingsError) {
+if (
+settingsError
+) {
 
 console.error(
 "おすすめアニメ取得エラー:",
@@ -1130,7 +1208,7 @@ settingsError
 
 container.innerHTML = `
 <div class="recommendation-empty">
-おすすめアニメを現在表示できません。
+おすすめアニメを取得できませんでした。
 </div>
 `;
 
@@ -1156,60 +1234,43 @@ return;
 
 
 /* =======================================================
-   現在日時
-======================================================= */
-
-const now =
-new Date();
-
-const today =
-getTodayString();
-
-const currentTime =
-String(
-now.getHours()
-).padStart(2, "0")
-+
-":" +
-String(
-now.getMinutes()
-).padStart(2, "0");
-
-
-/* =======================================================
-   現在表示可能な設定だけ抽出
+   現在の期間・時間に該当する設定だけ取得
 ======================================================= */
 
 const activeSettings =
 settings.filter(
-setting => {
+item => {
 
 const dateOK =
 isDateInPeriod(
-today,
-setting.start_date,
-setting.end_date
+currentDate,
+item.start_date,
+item.end_date
 );
+
+if (!dateOK) {
+
+return false;
+
+}
+
 
 const timeOK =
 isTimeInPeriod(
 currentTime,
-setting.start_time,
-setting.end_time
+item.start_time,
+item.end_time
 );
 
-return (
-dateOK &&
-timeOK
+return timeOK;
+
+}
 );
 
-});
 
-
-/*
-   現在表示可能なおすすめが
-   なければ終了。
-*/
+/* =======================================================
+   該当するおすすめがない場合
+======================================================= */
 
 if (
 activeSettings.length === 0
@@ -1217,7 +1278,7 @@ activeSettings.length === 0
 
 container.innerHTML = `
 <div class="recommendation-empty">
-現在、おすすめアニメは設定されていません。
+現在、この期間のおすすめアニメは設定されていません。
 </div>
 `;
 
@@ -1227,7 +1288,80 @@ return;
 
 
 /* =======================================================
-   アニメIDを取得
+   表示期間
+======================================================= */
+
+const first =
+activeSettings[0];
+
+const startDate =
+first.start_date || "";
+
+const endDate =
+first.end_date || "";
+
+const startTime =
+formatTime(
+first.start_time
+);
+
+const endTime =
+formatTime(
+first.end_time
+);
+
+
+let periodParts = [];
+
+
+if (
+startDate &&
+endDate
+) {
+
+periodParts.push(
+`${formatDate(startDate)} ～ ${formatDate(endDate)}`
+);
+
+} else if (
+startDate
+) {
+
+periodParts.push(
+`${formatDate(startDate)} ～`
+);
+
+} else if (
+endDate
+) {
+
+periodParts.push(
+`～ ${formatDate(endDate)}`
+);
+
+}
+
+
+if (
+startTime &&
+endTime
+) {
+
+periodParts.push(
+`${startTime} ～ ${endTime}`
+);
+
+}
+
+
+periodText.textContent =
+periodParts.join(
+" / "
+);
+
+
+/* =======================================================
+   アニメID
 ======================================================= */
 
 const ids =
@@ -1239,7 +1373,8 @@ item.anime_id
 .filter(
 id =>
 id !== null &&
-id !== undefined
+id !== undefined &&
+id !== ""
 );
 
 
@@ -1277,7 +1412,9 @@ ids
 );
 
 
-if (animeError) {
+if (
+animeError
+) {
 
 console.error(
 "おすすめ作品取得エラー:",
@@ -1286,7 +1423,7 @@ animeError
 
 container.innerHTML = `
 <div class="recommendation-empty">
-おすすめアニメを表示できません。
+おすすめアニメを表示できませんでした。
 </div>
 `;
 
@@ -1303,8 +1440,7 @@ const animeMap =
 new Map(
 (animeData || [])
 .map(
-anime =>
-[
+anime => [
 String(anime.id),
 anime
 ]
@@ -1313,27 +1449,71 @@ anime
 
 
 /* =======================================================
-   表示順に並べる
+   管理画面の表示順を維持
 ======================================================= */
 
-const orderedSettings =
+const orderedAnime =
 activeSettings
-.slice()
-.sort(
-(a, b) => {
+.map(
+setting =>
+animeMap.get(
+String(
+setting.anime_id
+)
+)
+)
+.filter(Boolean);
 
-const orderA =
-Number(
-a.display_order
-) || 0;
 
-const orderB =
-Number(
-b.display_order
-) || 0;
+/* =======================================================
+   作品がない場合
+======================================================= */
 
-return (
-orderA - orderB
+if (
+orderedAnime.length === 0
+) {
+
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメは設定されていません。
+</div>
+`;
+
+return;
+
+}
+
+
+/* =======================================================
+   同じ作品の重複を削除
+======================================================= */
+
+const uniqueAnime = [];
+
+const usedIds =
+new Set();
+
+
+orderedAnime.forEach(
+anime => {
+
+const id =
+String(
+anime.id
+);
+
+if (
+usedIds.has(id)
+) {
+
+return;
+
+}
+
+usedIds.add(id);
+
+uniqueAnime.push(
+anime
 );
 
 }
@@ -1341,27 +1521,14 @@ orderA - orderB
 
 
 /* =======================================================
-   カード作成
+   カード表示
 ======================================================= */
 
 container.innerHTML = "";
 
 
-orderedSettings.forEach(
-(setting, index) => {
-
-const anime =
-animeMap.get(
-String(
-setting.anime_id
-)
-);
-
-
-if (!anime) {
-return;
-}
-
+uniqueAnime.forEach(
+(anime, index) => {
 
 const card =
 document.createElement(
@@ -1387,6 +1554,10 @@ link.style.textDecoration =
 "none";
 
 
+/* =====================================================
+   順番
+===================================================== */
+
 const number =
 document.createElement(
 "div"
@@ -1403,6 +1574,10 @@ number
 );
 
 
+/* =====================================================
+   タイトル
+===================================================== */
+
 const title =
 document.createElement(
 "h3"
@@ -1415,6 +1590,10 @@ link.appendChild(
 title
 );
 
+
+/* =====================================================
+   英語タイトル
+===================================================== */
 
 if (
 anime.english_title
@@ -1438,6 +1617,10 @@ english
 }
 
 
+/* =====================================================
+   ジャンル
+===================================================== */
+
 if (
 anime.genre
 ) {
@@ -1459,6 +1642,10 @@ genre
 
 }
 
+
+/* =====================================================
+   あらすじ
+===================================================== */
 
 if (
 anime.description
@@ -1493,84 +1680,9 @@ card
 });
 
 
-/* =======================================================
-   表示期間を表示
-======================================================= */
-
-const first =
-orderedSettings[0];
-
-
-if (first) {
-
-let dateText = "";
-
-if (
-first.start_date &&
-first.end_date
+} catch (
+error
 ) {
-
-dateText =
-`${formatDate(first.start_date)} ～ ${formatDate(first.end_date)}`;
-
-} else if (
-first.start_date
-) {
-
-dateText =
-`${formatDate(first.start_date)} ～`;
-
-} else if (
-first.end_date
-) {
-
-dateText =
-`～ ${formatDate(first.end_date)}`;
-
-}
-
-
-const start =
-formatTime(
-first.start_time
-);
-
-const end =
-formatTime(
-first.end_time
-);
-
-
-if (
-dateText &&
-start &&
-end
-) {
-
-periodText.textContent =
-`${dateText} ${start}～${end}`;
-
-} else if (
-dateText
-) {
-
-periodText.textContent =
-dateText;
-
-} else if (
-start &&
-end
-) {
-
-periodText.textContent =
-`${start}～${end}`;
-
-}
-
-}
-
-
-} catch (error) {
 
 console.error(
 "おすすめアニメ読み込みエラー:",
@@ -1626,10 +1738,14 @@ true
 ascending: true
 }
 )
-.limit(1);
+.limit(
+1
+);
 
 
-if (error) {
+if (
+error
+) {
 
 console.error(
 "広告の取得に失敗しました:",
@@ -1793,7 +1909,9 @@ section.style.display =
 "block";
 
 
-} catch (error) {
+} catch (
+error
+) {
 
 console.error(
 "広告読み込み中にエラーが発生しました:",
@@ -1817,8 +1935,7 @@ loadRecommendations();
 
 loadAdvertisement();
 
-}
-);
+});
 
 </script>
 
