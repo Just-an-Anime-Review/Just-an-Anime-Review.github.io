@@ -237,11 +237,18 @@ max-width: 100%;
 max-height: 180px;
 margin-bottom: 12px;
 border-radius: 6px;
+object-fit: contain;
 }
 
 .ad-link {
 color: #06c;
 word-break: break-all;
+}
+
+.upload-status {
+margin-top: 10px;
+font-size: 13px;
+color: #666;
 }
 
 .comment-item {
@@ -327,7 +334,6 @@ class="logout">
 
 </header>
 
-
 <div id="login-error">
 
 <h1>
@@ -344,11 +350,9 @@ class="logout">
 
 </div>
 
-
 <div id="dashboard">
 
 <main>
-
 
 <!-- =========================
      アニメ管理
@@ -446,7 +450,6 @@ style="display:none;">
 
 </div>
 
-
 <!-- =========================
      アニメ一覧
 ========================= -->
@@ -475,7 +478,6 @@ class="count">
 <div id="list"></div>
 
 </div>
-
 
 <!-- =========================
      コメント管理
@@ -511,7 +513,6 @@ class="count">
 <p id="comment-message"></p>
 
 </div>
-
 
 <!-- =========================
      広告追加
@@ -558,17 +559,35 @@ placeholder="広告の説明文">
 </textarea>
 
 <label>
-広告画像URL
+広告画像
 </label>
 
 <input
-type="url"
-id="image_url"
-placeholder="https://example.com/image.jpg"
+type="file"
+id="image_file"
+accept="image/jpeg,image/png,image/webp,image/gif"
 >
 
 <p class="help">
-画像を使用しない場合は空欄で大丈夫です。
+JPEG・PNG・WebP・GIFに対応しています。
+画像を選択すると、管理画面からSupabase Storageへアップロードします。
+</p>
+
+<div
+id="image-preview"
+class="ad-preview"
+style="display:none;">
+
+<img
+id="image-preview-img"
+src=""
+alt="広告画像プレビュー">
+
+</div>
+
+<p
+id="current-image"
+class="help">
 </p>
 
 <label>
@@ -625,7 +644,6 @@ style="display:none;">
 
 </div>
 
-
 <!-- =========================
      広告一覧
 ========================= -->
@@ -655,11 +673,9 @@ class="count">
 
 </div>
 
-
 </main>
 
 </div>
-
 
 <script>
 
@@ -690,6 +706,7 @@ let commentData = [];
 
 let editingId = null;
 let editingAdId = null;
+let editingAdImageUrl = "";
 
 
 /* =========================
@@ -1280,7 +1297,6 @@ document.createElement("div");
 item.className =
 "comment-item";
 
-
 const anime =
 animeData.find(
 anime =>
@@ -1288,14 +1304,12 @@ String(anime.id) ===
 String(comment.anime_id)
 );
 
-
 const animeTitle =
 anime
 ?
 anime.title
 :
 "作品不明";
-
 
 const date =
 comment.created_at
@@ -1307,7 +1321,6 @@ comment.created_at
 )
 :
 "";
-
 
 item.innerHTML = `
 
@@ -1367,13 +1380,11 @@ confirm(
 
 if (!ok) return;
 
-
 const { error } =
 await supabaseClient
 .from("anime_comments")
 .delete()
 .eq("id", id);
-
 
 if (error) {
 
@@ -1391,12 +1402,10 @@ return;
 
 }
 
-
 document.getElementById(
 "comment-message"
 ).textContent =
 "コメントを削除しました。";
-
 
 await loadComments();
 
@@ -1429,7 +1438,6 @@ return;
 
 }
 
-
 const filtered =
 commentData.filter(
 comment => {
@@ -1441,7 +1449,6 @@ String(anime.id) ===
 String(comment.anime_id)
 );
 
-
 const animeTitle =
 (
 anime
@@ -1452,7 +1459,6 @@ anime.title
 )
 .toLowerCase();
 
-
 const nickname =
 (
 comment.nickname ||
@@ -1460,14 +1466,12 @@ comment.nickname ||
 )
 .toLowerCase();
 
-
 const text =
 (
 comment.comment ||
 ""
 )
 .toLowerCase();
-
 
 return (
 
@@ -1480,7 +1484,6 @@ text.includes(keyword)
 );
 
 });
-
 
 renderComments(filtered);
 
@@ -1746,9 +1749,43 @@ document.getElementById("ad-description")
 .value =
 ad.description || "";
 
-document.getElementById("image_url")
-.value =
+editingAdImageUrl =
 ad.image_url || "";
+
+const currentImage =
+document.getElementById("current-image");
+
+const preview =
+document.getElementById("image-preview");
+
+const previewImg =
+document.getElementById("image-preview-img");
+
+document.getElementById("image_file").value = "";
+
+if (editingAdImageUrl) {
+
+currentImage.textContent =
+"現在の画像: " +
+editingAdImageUrl;
+
+previewImg.src =
+editingAdImageUrl;
+
+preview.style.display =
+"block";
+
+} else {
+
+currentImage.textContent =
+"現在の画像はありません。";
+
+previewImg.removeAttribute("src");
+
+preview.style.display =
+"none";
+
+}
 
 document.getElementById("link_url")
 .value =
@@ -1786,31 +1823,161 @@ async function(e) {
 
 e.preventDefault();
 
+const adMessage =
+document.getElementById("ad-message");
+
+const submitButton =
+document.querySelector(
+"#ad-form button[type='submit']"
+);
+
+const companyName =
+document.getElementById("company_name")
+.value.trim();
+
+const title =
+document.getElementById("ad-title")
+.value.trim();
+
+const description =
+document.getElementById("ad-description")
+.value.trim();
+
+const linkUrl =
+document.getElementById("link_url")
+.value.trim();
+
+const isActive =
+document.getElementById("is_active")
+.value === "true";
+
+const fileInput =
+document.getElementById("image_file");
+
+const file =
+fileInput.files[0] || null;
+
+submitButton.disabled = true;
+
+adMessage.textContent =
+"広告を保存しています……";
+
+try {
+
+const {
+data: sessionData
+} =
+await supabaseClient.auth
+.getSession();
+
+if (!sessionData.session) {
+
+throw new Error(
+"ログインセッションがありません。もう一度ログインしてください。"
+);
+
+}
+
+let imageUrl =
+editingAdImageUrl || "";
+
+if (file) {
+
+const allowedTypes = [
+"image/jpeg",
+"image/png",
+"image/webp",
+"image/gif"
+];
+
+if (!allowedTypes.includes(file.type)) {
+
+throw new Error(
+"JPEG・PNG・WebP・GIFの画像を選択してください。"
+);
+
+}
+
+if (
+file.size >
+10 * 1024 * 1024
+) {
+
+throw new Error(
+"画像サイズは10MB以下にしてください。"
+);
+
+}
+
+const extension =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+const fileName =
+`${crypto.randomUUID()}.${extension}`;
+
+const filePath =
+`ads/${fileName}`;
+
+adMessage.textContent =
+"広告画像をアップロードしています……";
+
+const {
+error: uploadError
+} =
+await supabaseClient.storage
+.from("advertisements")
+.upload(
+filePath,
+file,
+{
+cacheControl: "3600",
+upsert: false,
+contentType: file.type
+}
+);
+
+if (uploadError) {
+
+throw uploadError;
+
+}
+
+const {
+data: publicUrlData
+} =
+supabaseClient.storage
+.from("advertisements")
+.getPublicUrl(
+filePath
+);
+
+imageUrl =
+publicUrlData.publicUrl;
+
+}
+
 const values = {
 
 company_name:
-document.getElementById("company_name")
-.value.trim(),
+companyName,
 
 title:
-document.getElementById("ad-title")
-.value.trim(),
+title,
 
 description:
-document.getElementById("ad-description")
-.value.trim(),
+description,
 
 image_url:
-document.getElementById("image_url")
-.value.trim(),
+imageUrl,
 
 link_url:
-document.getElementById("link_url")
-.value.trim(),
+linkUrl,
 
 is_active:
-document.getElementById("is_active")
-.value === "true"
+isActive
 
 };
 
@@ -1835,23 +2002,33 @@ await supabaseClient
 
 if (result.error) {
 
-console.error(result.error);
-
-document.getElementById("ad-message")
-.textContent =
-"広告の保存に失敗しました。";
-
-return;
+throw result.error;
 
 }
 
-document.getElementById("ad-message")
-.textContent =
+adMessage.textContent =
 "広告を保存しました。";
 
 resetAdvertisementForm();
 
 await loadAdvertisements();
+
+} catch (error) {
+
+console.error(
+"広告保存エラー:",
+error
+);
+
+adMessage.textContent =
+error.message ||
+"広告の保存に失敗しました。";
+
+} finally {
+
+submitButton.disabled = false;
+
+}
 
 });
 
@@ -1945,6 +2122,7 @@ await loadAdvertisements();
 function resetAdvertisementForm() {
 
 editingAdId = null;
+editingAdImageUrl = "";
 
 document.getElementById("ad-form")
 .reset();
@@ -1961,6 +2139,16 @@ document.getElementById("ad-cancel")
 .style.display =
 "none";
 
+document.getElementById("current-image")
+.textContent = "";
+
+document.getElementById("image-preview-img")
+.removeAttribute("src");
+
+document.getElementById("image-preview")
+.style.display =
+"none";
+
 }
 
 document.getElementById("ad-cancel")
@@ -1968,6 +2156,89 @@ document.getElementById("ad-cancel")
 "click",
 resetAdvertisementForm
 );
+
+
+/* =========================
+   広告画像プレビュー
+========================= */
+
+document.getElementById("image_file")
+.addEventListener(
+"change",
+function() {
+
+const file =
+this.files[0];
+
+const preview =
+document.getElementById("image-preview");
+
+const previewImg =
+document.getElementById(
+"image-preview-img"
+);
+
+const currentImage =
+document.getElementById(
+"current-image"
+);
+
+if (!file) {
+return;
+}
+
+if (![
+"image/jpeg",
+"image/png",
+"image/webp",
+"image/gif"
+].includes(file.type)) {
+
+alert(
+"JPEG・PNG・WebP・GIFの画像を選択してください。"
+);
+
+this.value = "";
+
+return;
+
+}
+
+if (
+file.size >
+10 * 1024 * 1024
+) {
+
+alert(
+"画像サイズは10MB以下にしてください。"
+);
+
+this.value = "";
+
+return;
+
+}
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e) {
+
+previewImg.src =
+e.target.result;
+
+preview.style.display =
+"block";
+
+currentImage.textContent =
+"新しい画像を選択しています。保存するとアップロードされます。";
+
+};
+
+reader.readAsDataURL(file);
+
+});
 
 
 /* =========================
