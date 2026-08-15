@@ -18,6 +18,10 @@ content="Just An Anime Reviewは、アニメ作品のあらすじ・作品情報
 name="robots"
 content="index, follow">
 
+<meta
+name="googlebot"
+content="index, follow">
+
 <link
 rel="canonical"
 href="https://just-an-anime-review.github.io/">
@@ -57,6 +61,22 @@ content="アニメ作品のあらすじ・作品情報・レビューを紹介�
 
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Just An Anime Review",
+  "url": "https://just-an-anime-review.github.io/",
+  "description": "アニメ作品のあらすじ・作品情報・レビューを紹介するアニメレビューサイトです。",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://just-an-anime-review.github.io/anime.html?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
 </script>
 
 
@@ -183,13 +203,42 @@ font-size: 14px;
 
 
 /* =========================================================
+   セクション
+========================================================= */
+
+.section-title {
+display: flex;
+
+align-items: center;
+
+margin: 40px 0 15px;
+}
+
+.section-title h2 {
+margin: 0;
+
+font-size: 22px;
+}
+
+.section-title h2 a {
+color: inherit;
+
+text-decoration: none;
+
+cursor: pointer;
+}
+
+.section-title h2 a:hover {
+text-decoration: underline;
+}
+
+
+/* =========================================================
    おすすめアニメ
 ========================================================= */
 
 .recommendation-section {
-margin-top: 35px;
-
-margin-bottom: 45px;
+margin-top: 40px;
 }
 
 .recommendation-header {
@@ -236,20 +285,13 @@ box-shadow:
 0 3px 12px rgba(0,0,0,.05);
 
 border-top: 3px solid #111;
-
-transition:
-transform .15s ease,
-box-shadow .15s ease;
-}
-
-.recommendation-card:hover {
-transform: translateY(-2px);
-
-box-shadow:
-0 6px 18px rgba(0,0,0,.08);
 }
 
 .recommendation-card a {
+display: block;
+
+color: inherit;
+
 text-decoration: none;
 }
 
@@ -309,118 +351,16 @@ display: -webkit-box;
 overflow: hidden;
 }
 
-
-/* =========================================================
-   アニメ一覧
-========================================================= */
-
-.anime-section {
-margin-top: 35px;
-}
-
-.anime-section-title {
-display: inline-block;
-
-margin: 0 0 15px;
-
-font-size: 22px;
-
-cursor: pointer;
-
-text-decoration: none;
-
-color: #171717;
-}
-
-.anime-section-title:hover {
-text-decoration: underline;
-}
-
-.anime-grid {
-display: grid;
-
-grid-template-columns:
-repeat(3, minmax(0, 1fr));
-
-gap: 18px;
-}
-
-.anime-card {
+.recommendation-empty {
 background: white;
 
 border-radius: 12px;
 
-padding: 20px;
+padding: 30px;
 
-box-shadow:
-0 3px 12px rgba(0,0,0,.05);
+text-align: center;
 
-transition:
-transform .15s ease,
-box-shadow .15s ease;
-}
-
-.anime-card:hover {
-transform: translateY(-2px);
-
-box-shadow:
-0 6px 18px rgba(0,0,0,.08);
-}
-
-.anime-card a {
-text-decoration: none;
-}
-
-.anime-title {
-margin: 0;
-
-font-size: 18px;
-
-line-height: 1.5;
-
-font-weight: 700;
-}
-
-.anime-english {
-margin-top: 3px;
-
-color: #888;
-
-font-size: 12px;
-}
-
-.anime-genre {
-display: inline-block;
-
-margin-top: 12px;
-
-padding: 3px 8px;
-
-background: #f0f0f0;
-
-border-radius: 20px;
-
-color: #555;
-
-font-size: 12px;
-}
-
-.anime-description {
-margin-top: 13px;
-
-color: #555;
-
-font-size: 13px;
-
-line-height: 1.7;
-
-display: -webkit-box;
-
--webkit-line-clamp: 3;
-
--webkit-box-orient: vertical;
-
-overflow: hidden;
+color: #777;
 }
 
 
@@ -601,7 +541,6 @@ color: white;
 
 @media (max-width: 800px) {
 
-.anime-grid,
 .recommendation-grid {
 grid-template-columns:
 repeat(2, minmax(0, 1fr));
@@ -636,7 +575,6 @@ padding: 25px;
 font-size: 24px;
 }
 
-.anime-grid,
 .recommendation-grid {
 grid-template-columns: 1fr;
 }
@@ -724,7 +662,6 @@ class="ad-box">
 ========================================================= -->
 
 <section
-id="recommendation-section"
 class="recommendation-section">
 
 <div class="recommendation-header">
@@ -744,34 +681,31 @@ class="recommendation-period">
 <div
 id="recommendation-list"
 class="recommendation-grid">
+
+<div class="recommendation-empty">
+おすすめアニメを読み込み中……
+</div>
+
 </div>
 
 </section>
 
 
 <!-- =========================================================
-     アニメ一覧
+     アニメ一覧へのリンク
 ========================================================= -->
 
-<section
-id="anime-list"
-class="anime-section">
+<div class="section-title">
 
-<a
-href="#anime-list"
-class="anime-section-title">
+<h2>
 
+<a href="anime.html">
 アニメ一覧
-
 </a>
 
+</h2>
 
-<div
-id="anime-grid"
-class="anime-grid">
 </div>
-
-</section>
 
 
 </main>
@@ -802,16 +736,16 @@ aria-label="フッターナビゲーション">
 アニメ一覧
 </a>
 
-<a href="operation.html">
-サイトの操作方法
-</a>
-
 <a href="terms.html">
 利用規約
 </a>
 
 <a href="privacy.html">
 プライバシーポリシー
+</a>
+
+<a href="site-guide.html">
+サイトの操作方法
 </a>
 
 </nav>
@@ -832,16 +766,15 @@ class="admin-login-link">
 
 <script>
 
-
 /* =========================================================
-   Supabase
+   Supabase設定
 ========================================================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+"YOUR_SUPABASE_PUBLISHABLE_KEY";
 
 const supabaseClient =
 supabase.createClient(
@@ -897,305 +830,30 @@ return false;
 
 
 /* =========================================================
-   アニメ取得
+   現在の時間帯を判定
 ========================================================= */
 
-async function loadAnime() {
-
-const container =
-document.getElementById(
-"anime-grid"
-);
-
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("anime")
-.select(
-"id,title,english_title,genre,description"
-)
-.order(
-"id",
-{
-ascending: true
-}
-);
-
-
-if (error) {
-
-console.error(
-"アニメ取得エラー:",
-error
-);
-
-container.innerHTML = "";
-
-return;
-
-}
-
-
-if (
-!data ||
-data.length === 0
+function isHourInPeriod(
+hour,
+startHour,
+endHour
 ) {
 
-container.innerHTML = "";
-
-return;
-
-}
-
-
-container.innerHTML = "";
-
-
-data.forEach(
-anime => {
-
-const card =
-document.createElement(
-"article"
-);
-
-card.className =
-"anime-card";
-
-
-const link =
-document.createElement(
-"a"
-);
-
-link.href =
-"anime-detail.html?id=" +
-encodeURIComponent(
-anime.id
-);
-
-
-const title =
-document.createElement(
-"h3"
-);
-
-title.className =
-"anime-title";
-
-title.textContent =
-anime.title || "";
-
-link.appendChild(
-title
-);
-
-
 if (
-anime.english_title
+startHour < endHour
 ) {
 
-const english =
-document.createElement(
-"div"
+return (
+hour >= startHour &&
+hour < endHour
 );
-
-english.className =
-"anime-english";
-
-english.textContent =
-anime.english_title;
-
-link.appendChild(
-english
-);
-
-}
-
-
-if (
-anime.genre
-) {
-
-const genre =
-document.createElement(
-"div"
-);
-
-genre.className =
-"anime-genre";
-
-genre.textContent =
-anime.genre;
-
-link.appendChild(
-genre
-);
-
-}
-
-
-if (
-anime.description
-) {
-
-const description =
-document.createElement(
-"div"
-);
-
-description.className =
-"anime-description";
-
-description.textContent =
-anime.description;
-
-link.appendChild(
-description
-);
-
-}
-
-
-card.appendChild(
-link
-);
-
-container.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =========================================================
-   時刻を分に変換
-========================================================= */
-
-function timeToMinutes(time) {
-
-if (!time) {
-return null;
-}
-
-const parts =
-String(time)
-.substring(0,5)
-.split(":");
-
-if (
-parts.length !== 2
-) {
-
-return null;
-
-}
-
-const hour =
-Number(parts[0]);
-
-const minute =
-Number(parts[1]);
-
-if (
-!Number.isFinite(hour) ||
-!Number.isFinite(minute)
-) {
-
-return null;
 
 }
 
 return (
-hour * 60 +
-minute
+hour >= startHour ||
+hour < endHour
 );
-
-}
-
-
-/* =========================================================
-   現在時刻が設定時間内か
-========================================================= */
-
-function isCurrentTime(
-startTime,
-endTime
-) {
-
-const start =
-timeToMinutes(
-startTime
-);
-
-const end =
-timeToMinutes(
-endTime
-);
-
-
-if (
-start === null ||
-end === null
-) {
-
-return false;
-
-}
-
-
-const now =
-new Date();
-
-const current =
-now.getHours() * 60 +
-now.getMinutes();
-
-
-/*
-  通常
-  09:00 ～ 18:00
-*/
-
-if (
-start < end
-) {
-
-return (
-current >= start &&
-current < end
-);
-
-}
-
-
-/*
-  日付をまたぐ場合
-  20:00 ～ 05:00
-*/
-
-if (
-start > end
-) {
-
-return (
-current >= start ||
-current < end
-);
-
-}
-
-
-/*
-  同じ時刻の場合
-*/
-
-return false;
 
 }
 
@@ -1205,11 +863,6 @@ return false;
 ========================================================= */
 
 async function loadRecommendations() {
-
-const section =
-document.getElementById(
-"recommendation-section"
-);
 
 const container =
 document.getElementById(
@@ -1222,36 +875,35 @@ document.getElementById(
 );
 
 
+try {
+
 const {
-data,
-error
+data: settings,
+error: settingsError
 } =
 await supabaseClient
-.from("recommended_anime")
+.from("recommendation_settings")
 .select(
-"id,anime_id,start_time,end_time,display_order,is_active"
-)
-.eq(
-"is_active",
-true
+"id,period_name,start_hour,end_hour,anime_id_1,anime_id_2,anime_id_3"
 )
 .order(
-"display_order",
+"id",
 {
 ascending: true
 }
 );
 
 
-if (error) {
+if (settingsError) {
 
 console.error(
-"おすすめアニメ取得エラー:",
-error
+"おすすめ設定取得エラー:",
+settingsError
 );
 
-section.style.display =
-"none";
+container.innerHTML = "";
+
+periodText.textContent = "";
 
 return;
 
@@ -1259,61 +911,60 @@ return;
 
 
 if (
-!data ||
-data.length === 0
+!settings ||
+settings.length === 0
 ) {
 
-section.style.display =
-"none";
+container.innerHTML = "";
+
+periodText.textContent = "";
 
 return;
 
 }
 
 
-/* =========================================================
-   現在時刻に該当する設定
-========================================================= */
+const now =
+new Date();
 
-const currentSettings =
-data.filter(
-item =>
-isCurrentTime(
-item.start_time,
-item.end_time
+const currentHour =
+now.getHours();
+
+
+let currentPeriod =
+settings.find(
+setting =>
+isHourInPeriod(
+currentHour,
+Number(setting.start_hour),
+Number(setting.end_hour)
 )
 );
 
 
-/*
-  現在時間に該当する設定がなければ
-  最初の設定を使用
-*/
+if (!currentPeriod) {
 
-const settings =
-currentSettings.length
-?
-currentSettings
-:
-data;
-
-
-if (!settings.length) {
-
-section.style.display =
-"none";
-
-return;
+currentPeriod =
+settings[0];
 
 }
 
 
-const animeIds =
-settings
-.map(
-item =>
-item.anime_id
-)
+periodText.textContent =
+currentPeriod.period_name || "";
+
+
+/* =========================================================
+   おすすめ作品ID
+========================================================= */
+
+const ids = [
+
+currentPeriod.anime_id_1,
+currentPeriod.anime_id_2,
+currentPeriod.anime_id_3
+
+]
 .filter(
 id =>
 id !== null &&
@@ -1321,10 +972,9 @@ id !== undefined
 );
 
 
-if (!animeIds.length) {
+if (!ids.length) {
 
-section.style.display =
-"none";
+container.innerHTML = "";
 
 return;
 
@@ -1332,7 +982,7 @@ return;
 
 
 /* =========================================================
-   アニメ情報
+   アニメ情報取得
 ========================================================= */
 
 const {
@@ -1346,29 +996,43 @@ await supabaseClient
 )
 .in(
 "id",
-animeIds
+ids
 );
 
 
 if (animeError) {
 
 console.error(
-"おすすめ作品取得エラー:",
+"おすすめアニメ取得エラー:",
 animeError
 );
 
-section.style.display =
-"none";
+container.innerHTML = "";
 
 return;
 
 }
 
 
+if (
+!animeData ||
+animeData.length === 0
+) {
+
+container.innerHTML = "";
+
+return;
+
+}
+
+
+/* =========================================================
+   管理画面で設定した順番を維持
+========================================================= */
+
 const animeMap =
 new Map(
-(animeData || [])
-.map(
+animeData.map(
 anime =>
 [
 String(anime.id),
@@ -1379,76 +1043,21 @@ anime
 
 
 const orderedAnime =
-settings
+ids
 .map(
-item => {
-
-const anime =
+id =>
 animeMap.get(
-String(item.anime_id)
-);
-
-if (!anime) {
-return null;
-}
-
-return {
-anime,
-setting: item
-};
-
-}
+String(id)
+)
 )
 .filter(Boolean);
 
 
-if (!orderedAnime.length) {
-
-section.style.display =
-"none";
-
-return;
-
-}
-
-
-/* =========================================================
-   表示
-========================================================= */
-
-section.style.display =
-"block";
-
-container.innerHTML =
-"";
-
-
-const first =
-orderedAnime[0].setting;
-
-
-if (
-first.start_time &&
-first.end_time
-) {
-
-periodText.textContent =
-`${String(first.start_time).slice(0,5)} ～ ${String(first.end_time).slice(0,5)}`;
-
-} else {
-
-periodText.textContent =
-"";
-
-}
+container.innerHTML = "";
 
 
 orderedAnime.forEach(
-(item, index) => {
-
-const anime =
-item.anime;
-
+(anime, index) => {
 
 const card =
 document.createElement(
@@ -1580,7 +1189,7 @@ card
 
 
 /* =========================================================
-   広告
+   広告取得
 ========================================================= */
 
 async function loadAdvertisement() {
@@ -1623,7 +1232,7 @@ ascending: true
 if (error) {
 
 console.error(
-"広告取得エラー:",
+"広告の取得に失敗しました:",
 error
 );
 
@@ -1645,8 +1254,7 @@ return;
 const ad =
 data[0];
 
-let html =
-"";
+let html = "";
 
 
 if (
@@ -1758,7 +1366,7 @@ section.style.display =
 } catch (error) {
 
 console.error(
-"広告読み込みエラー:",
+"広告読み込み中にエラーが発生しました:",
 error
 );
 
@@ -1773,19 +1381,18 @@ error
 
 document.addEventListener(
 "DOMContentLoaded",
-function() {
-
-loadAnime();
+() => {
 
 loadRecommendations();
 
 loadAdvertisement();
 
-});
+}
+);
 
 </script>
 
 
 </body>
 
-</html>
+</htmぜん
