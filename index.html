@@ -113,14 +113,8 @@ a {
 color: inherit;
 }
 
-
-/* =========================================================
-   ヘッダー
-========================================================= */
-
 header {
 background: #111;
-
 color: white;
 }
 
@@ -170,11 +164,6 @@ nav a:hover {
 color: white;
 }
 
-
-/* =========================================================
-   メイン
-========================================================= */
-
 main {
 max-width: 1100px;
 
@@ -182,11 +171,6 @@ margin: auto;
 
 padding: 35px 20px 60px;
 }
-
-
-/* =========================================================
-   ヒーロー
-========================================================= */
 
 .hero {
 background: white;
@@ -219,21 +203,18 @@ font-size: 14px;
 
 
 /* =========================================================
-   セクションタイトル
+   セクション
 ========================================================= */
 
 .section-title {
-display: flex;
-
-align-items: center;
-
 margin: 35px 0 15px;
 }
 
+.section-title h2 {
+margin: 0;
 
-/*
-   「アニメ一覧」全体をクリック可能にする
-*/
+font-size: 22px;
+}
 
 .section-title-link {
 display: inline-block;
@@ -242,23 +223,11 @@ color: #171717;
 
 text-decoration: none;
 
-border-radius: 8px;
-
-transition:
-opacity .15s ease,
-transform .15s ease;
+cursor: pointer;
 }
 
 .section-title-link:hover {
-opacity: .65;
-
-transform: translateX(2px);
-}
-
-.section-title h2 {
-margin: 0;
-
-font-size: 22px;
+text-decoration: underline;
 }
 
 
@@ -831,8 +800,7 @@ class="recommendation-grid">
 
 <a
 href="anime.html"
-class="section-title-link"
-aria-label="アニメ一覧を見る">
+class="section-title-link">
 
 <h2>
 アニメ一覧
@@ -1176,12 +1144,6 @@ hour < endHour
 
 }
 
-
-/*
-   例：
-   夜 20:00 ～ 05:00
-*/
-
 return (
 hour >= startHour ||
 hour < endHour
@@ -1280,11 +1242,6 @@ Number(setting.end_hour)
 );
 
 
-/*
-   時間帯設定に該当しない場合は
-   最初の設定を使用
-*/
-
 if (!currentPeriod) {
 
 currentPeriod =
@@ -1296,10 +1253,6 @@ settings[0];
 periodText.textContent =
 currentPeriod.period_name;
 
-
-/* =========================================================
-   おすすめ作品ID
-========================================================= */
 
 const ids = [
 
@@ -1329,10 +1282,6 @@ return;
 
 }
 
-
-/* =========================================================
-   アニメ情報取得
-========================================================= */
 
 const {
 data: animeData,
@@ -1368,10 +1317,6 @@ return;
 
 }
 
-
-/* =========================================================
-   管理画面で設定した順番を維持
-========================================================= */
 
 const animeMap =
 new Map(
