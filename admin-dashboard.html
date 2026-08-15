@@ -277,31 +277,20 @@ font-size: 13px;
 line-height: 1.7;
 }
 
-.recommend-item {
-border: 1px solid #ddd;
-padding: 20px;
-border-radius: 10px;
-margin-top: 15px;
-}
-
 .recommend-time {
-display: inline-block;
-background: #f0f0f0;
-padding: 5px 10px;
-border-radius: 20px;
 font-size: 13px;
-margin-bottom: 10px;
-}
-
-.recommend-title {
-font-size: 18px;
-font-weight: bold;
-margin-bottom: 5px;
+color: #666;
+margin-top: 8px;
 }
 
 .recommend-order {
-color: #777;
-font-size: 13px;
+display: inline-block;
+background: #111;
+color: white;
+padding: 3px 8px;
+border-radius: 15px;
+font-size: 12px;
+margin-right: 6px;
 }
 
 #dashboard {
@@ -314,6 +303,12 @@ padding: 70px 20px;
 display: none;
 }
 
+.time-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 15px;
+}
+
 @media (max-width: 600px) {
 
 main {
@@ -322,6 +317,10 @@ padding: 30px 15px;
 
 .box {
 padding: 22px;
+}
+
+.time-row {
+grid-template-columns: 1fr;
 }
 
 }
@@ -381,9 +380,9 @@ class="logout">
 <main>
 
 
-<!-- ==================================================
+<!-- =====================================================
      アニメ管理
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -478,9 +477,9 @@ style="display:none;">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      アニメ一覧
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -508,54 +507,23 @@ class="count">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      おすすめアニメ管理
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
 <h1 id="recommend-form-title">
-おすすめアニメを追加
+おすすめアニメを設定
 </h1>
 
 <p class="help">
-アニメ一覧とは別に、おすすめアニメを管理できます。
-時間帯ごとに表示する作品を自由に設定できます。
+ここで設定した作品だけが、公開サイトの「おすすめアニメ」に表示されます。
+通常のアニメ一覧とは別に管理されます。
 </p>
 
 
 <form id="recommend-form">
-
-
-<label>
-時間帯
-</label>
-
-<select
-id="recommend-time"
-required>
-
-<option value="morning">
-朝
-</option>
-
-<option value="afternoon">
-昼
-</option>
-
-<option value="evening">
-夕方
-</option>
-
-<option value="night">
-夜
-</option>
-
-<option value="midnight">
-深夜
-</option>
-
-</select>
 
 
 <label>
@@ -573,26 +541,57 @@ required>
 </select>
 
 
+<div class="time-row">
+
+<div>
+
+<label>
+開始時刻
+</label>
+
+<input
+type="time"
+id="start-time"
+value="00:00"
+required
+>
+
+</div>
+
+
+<div>
+
+<label>
+終了時刻
+</label>
+
+<input
+type="time"
+id="end-time"
+value="23:59"
+required
+>
+
+</div>
+
+</div>
+
+
 <label>
 表示順
 </label>
 
 <input
 type="number"
-id="recommend-order"
-value="1"
-min="1"
+id="display-order"
+value="0"
+min="0"
 step="1"
-required
 >
-
-<p class="help">
-数字が小さい作品から順番に表示されます。
-</p>
 
 
 <label>
-表示状態
+公開状態
 </label>
 
 <select id="recommend-active">
@@ -611,8 +610,8 @@ required
 <div class="actions">
 
 <button
-type="submit"
-class="save">
+class="save"
+type="submit">
 
 おすすめを保存
 
@@ -638,49 +637,27 @@ style="display:none;">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      おすすめアニメ一覧
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
 <h2>
-設定中のおすすめアニメ
+おすすめアニメ設定一覧
 </h2>
 
 <p class="help">
-ここで設定した内容が公開サイトの「おすすめアニメ」に反映されます。
+時間帯ごとに、公開サイトへ表示するおすすめ作品を管理できます。
 </p>
 
 <div class="search">
 
-<select id="recommend-filter">
-
-<option value="">
-すべての時間帯
-</option>
-
-<option value="morning">
-朝
-</option>
-
-<option value="afternoon">
-昼
-</option>
-
-<option value="evening">
-夕方
-</option>
-
-<option value="night">
-夜
-</option>
-
-<option value="midnight">
-深夜
-</option>
-
-</select>
+<input
+id="recommend-search"
+placeholder="作品名・時間帯を検索"
+autocomplete="off"
+>
 
 </div>
 
@@ -694,9 +671,9 @@ class="count">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      コメント管理
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -730,9 +707,9 @@ class="count">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      広告追加
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -786,6 +763,7 @@ accept="image/jpeg,image/png,image/webp,image/gif"
 
 <p class="help">
 JPEG・PNG・WebP・GIFに対応しています。
+画像を選択するとSupabase Storageへアップロードします。
 </p>
 
 <div
@@ -860,9 +838,9 @@ style="display:none;">
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      広告一覧
-================================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -897,9 +875,10 @@ class="count">
 
 <script>
 
-/* ==================================================
+
+/* =====================================================
    Supabase
-================================================== */
+===================================================== */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
@@ -914,9 +893,9 @@ SUPABASE_KEY
 );
 
 
-/* ==================================================
+/* =====================================================
    データ
-================================================== */
+===================================================== */
 
 let animeData = [];
 
@@ -924,7 +903,7 @@ let advertisementData = [];
 
 let commentData = [];
 
-let recommendationData = [];
+let recommendedData = [];
 
 let editingId = null;
 
@@ -932,12 +911,12 @@ let editingAdId = null;
 
 let editingAdImageUrl = "";
 
-let editingRecommendationId = null;
+let editingRecommendedId = null;
 
 
-/* ==================================================
+/* =====================================================
    要素
-================================================== */
+===================================================== */
 
 const dashboard =
 document.getElementById("dashboard");
@@ -946,9 +925,9 @@ const loginError =
 document.getElementById("login-error");
 
 
-/* ==================================================
+/* =====================================================
    HTMLエスケープ
-================================================== */
+===================================================== */
 
 function escapeHTML(text) {
 
@@ -963,34 +942,40 @@ return div.innerHTML;
 }
 
 
-/* ==================================================
-   時間帯名
-================================================== */
+/* =====================================================
+   URL安全性
+===================================================== */
 
-function getTimeSlotName(slot) {
+function isSafeURL(url) {
 
-const names = {
+if (!url) {
 
-morning: "朝",
+return false;
 
-afternoon: "昼",
+}
 
-evening: "夕方",
+try {
 
-night: "夜",
+const parsed =
+new URL(url);
 
-midnight: "深夜"
+return (
+parsed.protocol === "http:" ||
+parsed.protocol === "https:"
+);
 
-};
+} catch {
 
-return names[slot] || slot;
+return false;
+
+}
 
 }
 
 
-/* ==================================================
+/* =====================================================
    ログイン確認
-================================================== */
+===================================================== */
 
 async function checkSession() {
 
@@ -1029,20 +1014,21 @@ loginError.style.display =
 dashboard.style.display =
 "block";
 
+
 await loadAnime();
 
 await loadAdvertisements();
 
 await loadComments();
 
-await loadRecommendations();
+await loadRecommendedAnime();
 
 }
 
 
-/* ==================================================
+/* =====================================================
    アニメ取得
-================================================== */
+===================================================== */
 
 async function loadAnime() {
 
@@ -1079,14 +1065,14 @@ data || [];
 
 renderAnime(animeData);
 
-populateRecommendationAnime();
+populateRecommendedAnimeSelect();
 
 }
 
 
-/* ==================================================
+/* =====================================================
    アニメ表示
-================================================== */
+===================================================== */
 
 function renderAnime(list) {
 
@@ -1177,13 +1163,15 @@ ${escapeHTML(anime.description)}
 item.querySelector(".edit")
 .addEventListener(
 "click",
-() => editAnime(anime)
+() =>
+editAnime(anime)
 );
 
 item.querySelector(".delete")
 .addEventListener(
 "click",
-() => deleteAnime(anime.id)
+() =>
+deleteAnime(anime.id)
 );
 
 container.appendChild(item);
@@ -1193,9 +1181,9 @@ container.appendChild(item);
 }
 
 
-/* ==================================================
+/* =====================================================
    アニメ編集
-================================================== */
+===================================================== */
 
 function editAnime(anime) {
 
@@ -1242,9 +1230,9 @@ behavior: "smooth"
 }
 
 
-/* ==================================================
+/* =====================================================
    アニメ保存
-================================================== */
+===================================================== */
 
 document
 .getElementById("form")
@@ -1297,7 +1285,10 @@ result =
 await supabaseClient
 .from("anime")
 .update(values)
-.eq("id", editingId);
+.eq(
+"id",
+editingId
+);
 
 }
 
@@ -1324,9 +1315,9 @@ await loadAnime();
 });
 
 
-/* ==================================================
+/* =====================================================
    アニメ削除
-================================================== */
+===================================================== */
 
 async function deleteAnime(id) {
 
@@ -1343,7 +1334,10 @@ error
 await supabaseClient
 .from("anime")
 .delete()
-.eq("id", id);
+.eq(
+"id",
+id
+);
 
 if (error) {
 
@@ -1366,9 +1360,9 @@ await loadAnime();
 }
 
 
-/* ==================================================
+/* =====================================================
    アニメフォームリセット
-================================================== */
+===================================================== */
 
 function resetForm() {
 
@@ -1387,18 +1381,20 @@ document.getElementById("cancel")
 
 }
 
-document.getElementById("cancel")
+document
+.getElementById("cancel")
 .addEventListener(
 "click",
 resetForm
 );
 
 
-/* ==================================================
+/* =====================================================
    アニメ検索
-================================================== */
+===================================================== */
 
-document.getElementById("search")
+document
+.getElementById("search")
 .addEventListener(
 "input",
 function() {
@@ -1441,16 +1437,24 @@ let score = 0;
 if (title === keyword)
 score = 100;
 
-else if (title.startsWith(keyword))
+else if (
+title.startsWith(keyword)
+)
 score = 90;
 
-else if (english === keyword)
+else if (
+english === keyword
+)
 score = 80;
 
-else if (english.startsWith(keyword))
+else if (
+english.startsWith(keyword)
+)
 score = 70;
 
-else if (genre.startsWith(keyword))
+else if (
+genre.startsWith(keyword)
+)
 score = 50;
 
 else if (
@@ -1471,22 +1475,29 @@ score
 };
 
 })
-.filter(item => item.score > 0)
-.sort((a,b) =>
+.filter(
+item =>
+item.score > 0
+)
+.sort(
+(a,b) =>
 b.score - a.score
 )
-.map(item => item.anime);
+.map(
+item =>
+item.anime
+);
 
 renderAnime(filtered);
 
 });
 
 
-/* ==================================================
+/* =====================================================
    おすすめアニメ選択肢
-================================================== */
+===================================================== */
 
-function populateRecommendationAnime() {
+function populateRecommendedAnimeSelect() {
 
 const select =
 document.getElementById(
@@ -1529,11 +1540,11 @@ currentValue;
 }
 
 
-/* ==================================================
+/* =====================================================
    おすすめアニメ取得
-================================================== */
+===================================================== */
 
-async function loadRecommendations() {
+async function loadRecommendedAnime() {
 
 const {
 data,
@@ -1542,16 +1553,16 @@ error
 await supabaseClient
 .from("recommended_anime")
 .select(
-"id,anime_id,time_slot,display_order,is_active,created_at,updated_at"
+"id,anime_id,start_time,end_time,display_order,is_active,created_at,updated_at"
 )
 .order(
-"time_slot",
+"display_order",
 {
 ascending: true
 }
 )
 .order(
-"display_order",
+"start_time",
 {
 ascending: true
 }
@@ -1573,21 +1584,39 @@ return;
 
 }
 
-recommendationData =
+recommendedData =
 data || [];
 
-renderRecommendations(
-recommendationData
+renderRecommendedAnime(
+recommendedData
 );
 
 }
 
 
-/* ==================================================
-   おすすめアニメ表示
-================================================== */
+/* =====================================================
+   時刻表示
+===================================================== */
 
-function renderRecommendations(list) {
+function formatTime(time) {
+
+if (!time) {
+
+return "";
+
+}
+
+return String(time)
+.slice(0,5);
+
+}
+
+
+/* =====================================================
+   おすすめアニメ表示
+===================================================== */
+
+function renderRecommendedAnime(list) {
 
 const container =
 document.getElementById(
@@ -1607,7 +1636,7 @@ container.innerHTML = "";
 if (!list.length) {
 
 container.innerHTML =
-"<p>おすすめアニメは設定されていません。</p>";
+"<p>おすすめアニメの設定はありません。</p>";
 
 return;
 
@@ -1647,28 +1676,37 @@ const element =
 document.createElement("div");
 
 element.className =
-"recommend-item";
+"item";
 
 element.innerHTML = `
 
-<div class="recommend-time">
-${escapeHTML(
-getTimeSlotName(item.time_slot)
-)}
-</div>
-
-<div class="recommend-title">
+<h3>
 ${escapeHTML(animeTitle)}
-</div>
+</h3>
 
-<div class="recommend-order">
-表示順：${escapeHTML(
-String(item.display_order)
-)}
-</div>
+<div>
 
-<div class="status ${statusClass}">
+<span class="recommend-order">
+順番 ${escapeHTML(item.display_order)}
+</span>
+
+<span class="status ${statusClass}">
 ${statusText}
+</span>
+
+</div>
+
+<div class="recommend-time">
+
+表示時間：
+${escapeHTML(
+formatTime(item.start_time)
+)}
+～
+${escapeHTML(
+formatTime(item.end_time)
+)}
+
 </div>
 
 <div class="actions">
@@ -1704,14 +1742,16 @@ item.is_active
 
 `;
 
-element.querySelector(".edit")
+element
+.querySelector(".edit")
 .addEventListener(
 "click",
 () =>
-editRecommendation(item)
+editRecommendedAnime(item)
 );
 
-element.querySelector(
+element
+.querySelector(
 item.is_active
 ?
 ".toggle-off"
@@ -1721,17 +1761,20 @@ item.is_active
 .addEventListener(
 "click",
 () =>
-toggleRecommendation(
+toggleRecommendedAnime(
 item.id,
 !item.is_active
 )
 );
 
-element.querySelector(".delete")
+element
+.querySelector(".delete")
 .addEventListener(
 "click",
 () =>
-deleteRecommendation(item.id)
+deleteRecommendedAnime(
+item.id
+)
 );
 
 container.appendChild(element);
@@ -1741,13 +1784,13 @@ container.appendChild(element);
 }
 
 
-/* ==================================================
+/* =====================================================
    おすすめアニメ編集
-================================================== */
+===================================================== */
 
-function editRecommendation(item) {
+function editRecommendedAnime(item) {
 
-editingRecommendationId =
+editingRecommendedId =
 item.id;
 
 document.getElementById(
@@ -1756,17 +1799,22 @@ document.getElementById(
 "おすすめアニメを編集";
 
 document.getElementById(
-"recommend-time"
-).value =
-item.time_slot;
-
-document.getElementById(
 "recommend-anime"
 ).value =
 item.anime_id;
 
 document.getElementById(
-"recommend-order"
+"start-time"
+).value =
+formatTime(item.start_time);
+
+document.getElementById(
+"end-time"
+).value =
+formatTime(item.end_time);
+
+document.getElementById(
+"display-order"
 ).value =
 item.display_order;
 
@@ -1784,22 +1832,26 @@ document.getElementById(
 ).style.display =
 "inline-block";
 
-window.scrollTo({
-top:
-document.body.scrollHeight,
-behavior:
-"smooth"
+document
+.getElementById(
+"recommend-form-title"
+)
+.scrollIntoView({
+behavior: "smooth",
+block: "start"
 });
 
 }
 
 
-/* ==================================================
+/* =====================================================
    おすすめアニメ保存
-================================================== */
+===================================================== */
 
 document
-.getElementById("recommend-form")
+.getElementById(
+"recommend-form"
+)
 .addEventListener(
 "submit",
 async function(e) {
@@ -1811,27 +1863,26 @@ document.getElementById(
 "recommend-message"
 );
 
-const button =
-document.querySelector(
-"#recommend-form button[type='submit']"
-);
-
-const timeSlot =
-document.getElementById(
-"recommend-time"
-).value;
-
 const animeId =
 document.getElementById(
 "recommend-anime"
 ).value;
 
-const displayOrder =
-parseInt(
+const startTime =
 document.getElementById(
-"recommend-order"
-).value,
-10
+"start-time"
+).value;
+
+const endTime =
+document.getElementById(
+"end-time"
+).value;
+
+const displayOrder =
+Number(
+document.getElementById(
+"display-order"
+).value
 );
 
 const isActive =
@@ -1839,6 +1890,7 @@ document.getElementById(
 "recommend-active"
 ).value ===
 "true";
+
 
 if (!animeId) {
 
@@ -1849,46 +1901,66 @@ return;
 
 }
 
-if (
-!Number.isInteger(displayOrder) ||
-displayOrder < 1
-) {
+
+if (!startTime || !endTime) {
 
 message.textContent =
-"表示順は1以上の数字にしてください。";
+"開始時刻と終了時刻を入力してください。";
 
 return;
 
 }
 
-button.disabled =
-true;
+
+/*
+   00:00 ～ 23:59 の通常範囲
+*/
+
+if (
+startTime === endTime
+) {
 
 message.textContent =
-"保存しています……";
+"開始時刻と終了時刻を同じにはできません。";
 
-try {
+return;
+
+}
+
 
 const values = {
 
 anime_id:
-animeId,
+Number(animeId),
 
-time_slot:
-timeSlot,
+start_time:
+startTime,
+
+end_time:
+endTime,
 
 display_order:
-displayOrder,
+Number.isFinite(displayOrder)
+?
+displayOrder
+:
+0,
 
 is_active:
 isActive
 
 };
 
+
+message.textContent =
+"保存しています……";
+
+
 let result;
 
+
 if (
-editingRecommendationId === null
+editingRecommendedId === null
 ) {
 
 result =
@@ -1904,60 +1976,43 @@ await supabaseClient
 .update(values)
 .eq(
 "id",
-editingRecommendationId
+editingRecommendedId
 );
 
 }
 
+
 if (result.error) {
 
-throw result.error;
+console.error(
+"おすすめアニメ保存エラー:",
+result.error
+);
+
+message.textContent =
+"保存に失敗しました。";
+
+return;
 
 }
+
 
 message.textContent =
 "おすすめアニメを保存しました。";
 
-resetRecommendationForm();
 
-await loadRecommendations();
+resetRecommendedForm();
 
-} catch (error) {
-
-console.error(
-"おすすめアニメ保存エラー:",
-error
-);
-
-if (
-error.code === "23505"
-) {
-
-message.textContent =
-"同じ作品を同じ時間帯に重複して登録することはできません。";
-
-} else {
-
-message.textContent =
-"おすすめアニメの保存に失敗しました。";
-
-}
-
-} finally {
-
-button.disabled =
-false;
-
-}
+await loadRecommendedAnime();
 
 });
 
 
-/* ==================================================
+/* =====================================================
    おすすめアニメ削除
-================================================== */
+===================================================== */
 
-async function deleteRecommendation(id) {
+async function deleteRecommendedAnime(id) {
 
 const ok =
 confirm(
@@ -1966,17 +2021,25 @@ confirm(
 
 if (!ok) return;
 
+
 const {
 error
 } =
 await supabaseClient
 .from("recommended_anime")
 .delete()
-.eq("id", id);
+.eq(
+"id",
+id
+);
+
 
 if (error) {
 
-console.error(error);
+console.error(
+"おすすめアニメ削除エラー:",
+error
+);
 
 document.getElementById(
 "recommend-message"
@@ -1987,21 +2050,23 @@ return;
 
 }
 
+
 document.getElementById(
 "recommend-message"
 ).textContent =
 "おすすめ設定を削除しました。";
 
-await loadRecommendations();
+
+await loadRecommendedAnime();
 
 }
 
 
-/* ==================================================
-   おすすめアニメ ON / OFF
-================================================== */
+/* =====================================================
+   おすすめON/OFF
+===================================================== */
 
-async function toggleRecommendation(
+async function toggleRecommendedAnime(
 id,
 isActive
 ) {
@@ -2020,9 +2085,13 @@ isActive
 id
 );
 
+
 if (error) {
 
-console.error(error);
+console.error(
+"おすすめ状態変更エラー:",
+error
+);
 
 document.getElementById(
 "recommend-message"
@@ -2033,42 +2102,51 @@ return;
 
 }
 
+
 document.getElementById(
 "recommend-message"
 ).textContent =
 isActive
 ?
-"おすすめアニメを表示しました。"
+"おすすめを表示しました。"
 :
-"おすすめアニメを非表示にしました。";
+"おすすめを非表示にしました。";
 
-await loadRecommendations();
+
+await loadRecommendedAnime();
 
 }
 
 
-/* ==================================================
+/* =====================================================
    おすすめフォームリセット
-================================================== */
+===================================================== */
 
-function resetRecommendationForm() {
+function resetRecommendedForm() {
 
-editingRecommendationId =
+editingRecommendedId =
 null;
 
-document.getElementById(
+document
+.getElementById(
 "recommend-form"
-).reset();
+)
+.reset();
 
 document.getElementById(
-"recommend-time"
+"start-time"
 ).value =
-"morning";
+"00:00";
 
 document.getElementById(
-"recommend-order"
+"end-time"
 ).value =
-"1";
+"23:59";
+
+document.getElementById(
+"display-order"
+).value =
+"0";
 
 document.getElementById(
 "recommend-active"
@@ -2078,7 +2156,7 @@ document.getElementById(
 document.getElementById(
 "recommend-form-title"
 ).textContent =
-"おすすめアニメを追加";
+"おすすめアニメを設定";
 
 document.getElementById(
 "recommend-cancel"
@@ -2087,55 +2165,111 @@ document.getElementById(
 
 }
 
-document.getElementById(
+
+document
+.getElementById(
 "recommend-cancel"
 )
 .addEventListener(
 "click",
-resetRecommendationForm
+resetRecommendedForm
 );
 
 
-/* ==================================================
-   おすすめアニメ時間帯フィルター
-================================================== */
+/* =====================================================
+   おすすめ検索
+===================================================== */
 
-document.getElementById(
-"recommend-filter"
+document
+.getElementById(
+"recommend-search"
 )
 .addEventListener(
-"change",
+"input",
 function() {
 
-const value =
-this.value;
+const keyword =
+this.value
+.trim()
+.toLowerCase();
 
-if (!value) {
+if (!keyword) {
 
-renderRecommendations(
-recommendationData
+renderRecommendedAnime(
+recommendedData
 );
 
 return;
 
 }
 
+
 const filtered =
-recommendationData.filter(
-item =>
-item.time_slot === value
+recommendedData.filter(
+item => {
+
+const anime =
+animeData.find(
+anime =>
+String(anime.id) ===
+String(item.anime_id)
 );
 
-renderRecommendations(
+const title =
+(
+anime
+?
+anime.title
+:
+""
+)
+.toLowerCase();
+
+const english =
+(
+anime
+?
+anime.english_title
+:
+""
+)
+.toLowerCase();
+
+const start =
+formatTime(
+item.start_time
+);
+
+const end =
+formatTime(
+item.end_time
+);
+
+return (
+
+title.includes(keyword) ||
+
+english.includes(keyword) ||
+
+start.includes(keyword) ||
+
+end.includes(keyword)
+
+);
+
+});
+
+
+renderRecommendedAnime(
 filtered
 );
 
 });
 
 
-/* ==================================================
+/* =====================================================
    コメント取得
-================================================== */
+===================================================== */
 
 async function loadComments() {
 
@@ -2181,9 +2315,9 @@ commentData
 }
 
 
-/* ==================================================
+/* =====================================================
    コメント表示
-================================================== */
+===================================================== */
 
 function renderComments(list) {
 
@@ -2252,7 +2386,8 @@ ${escapeHTML(animeTitle)}
 
 <div class="comment-meta">
 ${escapeHTML(
-comment.nickname || "名無し"
+comment.nickname ||
+"名無し"
 )}
 &nbsp;｜&nbsp;
 ${escapeHTML(date)}
@@ -2274,7 +2409,8 @@ comment.comment
 
 `;
 
-item.querySelector(".delete")
+item
+.querySelector(".delete")
 .addEventListener(
 "click",
 () =>
@@ -2290,9 +2426,9 @@ container.appendChild(item);
 }
 
 
-/* ==================================================
+/* =====================================================
    コメント削除
-================================================== */
+===================================================== */
 
 async function deleteComment(id) {
 
@@ -2309,7 +2445,10 @@ error
 await supabaseClient
 .from("anime_comments")
 .delete()
-.eq("id", id);
+.eq(
+"id",
+id
+);
 
 if (error) {
 
@@ -2337,11 +2476,12 @@ await loadComments();
 }
 
 
-/* ==================================================
+/* =====================================================
    コメント検索
-================================================== */
+===================================================== */
 
-document.getElementById(
+document
+.getElementById(
 "comment-search"
 )
 .addEventListener(
@@ -2400,11 +2540,17 @@ comment.comment ||
 
 return (
 
-animeTitle.includes(keyword) ||
+animeTitle.includes(
+keyword
+) ||
 
-nickname.includes(keyword) ||
+nickname.includes(
+keyword
+) ||
 
-text.includes(keyword)
+text.includes(
+keyword
+)
 
 );
 
@@ -2417,9 +2563,9 @@ filtered
 });
 
 
-/* ==================================================
+/* =====================================================
    広告取得
-================================================== */
+===================================================== */
 
 async function loadAdvertisements() {
 
@@ -2462,9 +2608,9 @@ advertisementData
 }
 
 
-/* ==================================================
+/* =====================================================
    広告表示
-================================================== */
+===================================================== */
 
 function renderAdvertisements(list) {
 
@@ -2546,7 +2692,9 @@ ad.description
 ?
 `
 <p>
-${escapeHTML(ad.description)}
+${escapeHTML(
+ad.description
+)}
 </p>
 `
 :
@@ -2560,7 +2708,9 @@ ad.image_url
 <div class="ad-preview">
 
 <img
-src="${escapeHTML(ad.image_url)}"
+src="${escapeHTML(
+ad.image_url
+)}"
 alt="広告画像"
 onerror="this.style.display='none';"
 >
@@ -2579,11 +2729,15 @@ ad.link_url
 リンク：
 <a
 class="ad-link"
-href="${escapeHTML(ad.link_url)}"
+href="${escapeHTML(
+ad.link_url
+)}"
 target="_blank"
 rel="noopener noreferrer">
 
-${escapeHTML(ad.link_url)}
+${escapeHTML(
+ad.link_url
+)}
 
 </a>
 </p>
@@ -2625,14 +2779,16 @@ ad.is_active
 
 `;
 
-item.querySelector(".edit")
+item
+.querySelector(".edit")
 .addEventListener(
 "click",
 () =>
 editAdvertisement(ad)
 );
 
-item.querySelector(
+item
+.querySelector(
 ad.is_active
 ?
 ".toggle-off"
@@ -2648,11 +2804,14 @@ ad.id,
 )
 );
 
-item.querySelector(".delete")
+item
+.querySelector(".delete")
 .addEventListener(
 "click",
 () =>
-deleteAdvertisement(ad.id)
+deleteAdvertisement(
+ad.id
+)
 );
 
 container.appendChild(item);
@@ -2662,9 +2821,9 @@ container.appendChild(item);
 }
 
 
-/* ==================================================
+/* =====================================================
    広告編集
-================================================== */
+===================================================== */
 
 function editAdvertisement(ad) {
 
@@ -2758,22 +2917,25 @@ document.getElementById(
 ).style.display =
 "inline-block";
 
-window.scrollTo({
-top:
-document.body.scrollHeight,
-behavior:
-"smooth"
+document
+.getElementById(
+"ad-form-title"
+)
+.scrollIntoView({
+behavior: "smooth"
 });
 
 }
 
 
-/* ==================================================
+/* =====================================================
    広告保存
-================================================== */
+===================================================== */
 
 document
-.getElementById("ad-form")
+.getElementById(
+"ad-form"
+)
 .addEventListener(
 "submit",
 async function(e) {
@@ -2822,7 +2984,8 @@ document.getElementById(
 );
 
 const file =
-fileInput.files[0] || null;
+fileInput.files[0] ||
+null;
 
 submitButton.disabled =
 true;
@@ -2847,7 +3010,8 @@ throw new Error(
 }
 
 let imageUrl =
-editingAdImageUrl || "";
+editingAdImageUrl ||
+"";
 
 if (file) {
 
@@ -2897,11 +3061,9 @@ adMessage.textContent =
 "広告画像をアップロードしています……";
 
 const {
-error:
-uploadError
+error: uploadError
 } =
-await supabaseClient
-.storage
+await supabaseClient.storage
 .from("advertisements")
 .upload(
 filePath,
@@ -2923,11 +3085,9 @@ throw uploadError;
 }
 
 const {
-data:
-publicUrlData
+data: publicUrlData
 } =
-supabaseClient
-.storage
+supabaseClient.storage
 .from("advertisements")
 .getPublicUrl(
 filePath
@@ -3018,9 +3178,9 @@ false;
 });
 
 
-/* ==================================================
+/* =====================================================
    広告削除
-================================================== */
+===================================================== */
 
 async function deleteAdvertisement(id) {
 
@@ -3065,9 +3225,9 @@ await loadAdvertisements();
 }
 
 
-/* ==================================================
+/* =====================================================
    広告ON/OFF
-================================================== */
+===================================================== */
 
 async function toggleAdvertisement(
 id,
@@ -3115,9 +3275,9 @@ await loadAdvertisements();
 }
 
 
-/* ==================================================
+/* =====================================================
    広告フォームリセット
-================================================== */
+===================================================== */
 
 function resetAdvertisementForm() {
 
@@ -3127,9 +3287,11 @@ null;
 editingAdImageUrl =
 "";
 
-document.getElementById(
+document
+.getElementById(
 "ad-form"
-).reset();
+)
+.reset();
 
 document.getElementById(
 "is_active"
@@ -3148,7 +3310,8 @@ document.getElementById(
 
 document.getElementById(
 "current-image"
-).textContent = "";
+).textContent =
+"";
 
 document.getElementById(
 "image-preview-img"
@@ -3164,7 +3327,8 @@ document.getElementById(
 
 }
 
-document.getElementById(
+document
+.getElementById(
 "ad-cancel"
 )
 .addEventListener(
@@ -3173,11 +3337,12 @@ resetAdvertisementForm
 );
 
 
-/* ==================================================
+/* =====================================================
    広告画像プレビュー
-================================================== */
+===================================================== */
 
-document.getElementById(
+document
+.getElementById(
 "image_file"
 )
 .addEventListener(
@@ -3202,7 +3367,11 @@ document.getElementById(
 "current-image"
 );
 
-if (!file) return;
+if (!file) {
+
+return;
+
+}
 
 if (
 ![
@@ -3210,15 +3379,17 @@ if (
 "image/png",
 "image/webp",
 "image/gif"
-]
-.includes(file.type)
+].includes(
+file.type
+)
 ) {
 
 alert(
 "JPEG・PNG・WebP・GIFの画像を選択してください。"
 );
 
-this.value = "";
+this.value =
+"";
 
 return;
 
@@ -3233,7 +3404,8 @@ alert(
 "画像サイズは10MB以下にしてください。"
 );
 
-this.value = "";
+this.value =
+"";
 
 return;
 
@@ -3261,11 +3433,12 @@ reader.readAsDataURL(file);
 });
 
 
-/* ==================================================
+/* =====================================================
    広告検索
-================================================== */
+===================================================== */
 
-document.getElementById(
+document
+.getElementById(
 "ad-search"
 )
 .addEventListener(
@@ -3293,21 +3466,36 @@ ad => {
 
 return (
 
-(ad.company_name || "")
+(
+ad.company_name ||
+""
+)
 .toLowerCase()
-.includes(keyword)
+.includes(
+keyword
+)
 
 ||
 
-(ad.title || "")
+(
+ad.title ||
+""
+)
 .toLowerCase()
-.includes(keyword)
+.includes(
+keyword
+)
 
 ||
 
-(ad.description || "")
+(
+ad.description ||
+""
+)
 .toLowerCase()
-.includes(keyword)
+.includes(
+keyword
+)
 
 );
 
@@ -3320,18 +3508,20 @@ filtered
 });
 
 
-/* ==================================================
+/* =====================================================
    ログアウト
-================================================== */
+===================================================== */
 
-document.getElementById(
+document
+.getElementById(
 "logout"
 )
 .addEventListener(
 "click",
 async function() {
 
-await supabaseClient.auth.signOut();
+await supabaseClient.auth
+.signOut();
 
 location.href =
 "admin.html";
@@ -3339,9 +3529,9 @@ location.href =
 });
 
 
-/* ==================================================
+/* =====================================================
    セッション監視
-================================================== */
+===================================================== */
 
 supabaseClient.auth
 .onAuthStateChange(
@@ -3360,9 +3550,9 @@ dashboard.style.display =
 });
 
 
-/* ==================================================
+/* =====================================================
    起動
-================================================== */
+===================================================== */
 
 checkSession();
 
