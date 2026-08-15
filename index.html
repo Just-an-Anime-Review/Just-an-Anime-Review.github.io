@@ -58,9 +58,11 @@ content="Just An Anime Review｜アニメレビュー・作品紹介">
 name="twitter:description"
 content="アニメ作品のあらすじ・作品情報・レビューを紹介しています。">
 
+
 <script
 src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 </script>
+
 
 <script type="application/ld+json">
 {
@@ -76,6 +78,7 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
   }
 }
 </script>
+
 
 <style>
 
@@ -112,6 +115,7 @@ color: inherit;
 
 header {
 background: #111;
+
 color: white;
 }
 
@@ -155,11 +159,14 @@ color: #ddd;
 text-decoration: none;
 
 font-size: 14px;
+
+cursor: pointer;
 }
 
 nav a:hover {
 color: white;
 }
+
 
 main {
 max-width: 1100px;
@@ -168,6 +175,11 @@ margin: auto;
 
 padding: 35px 20px 60px;
 }
+
+
+/* =========================================================
+   ヒーロー
+========================================================= */
 
 .hero {
 background: white;
@@ -208,7 +220,7 @@ display: flex;
 
 align-items: center;
 
-margin: 35px 0 15px;
+margin: 40px 0 15px;
 
 scroll-margin-top: 25px;
 }
@@ -233,10 +245,14 @@ repeat(3, minmax(0, 1fr));
 gap: 18px;
 
 /*
-  ここには白い枠を付けない。
-  アニメカードだけを白くする。
+外側の白い枠は作らない
 */
 }
+
+
+/* =========================================================
+   アニメカード
+========================================================= */
 
 .anime-card {
 background: white;
@@ -262,6 +278,8 @@ box-shadow:
 
 .anime-card a {
 text-decoration: none;
+
+display: block;
 }
 
 .anime-title {
@@ -369,6 +387,10 @@ box-shadow:
 0 3px 12px rgba(0,0,0,.05);
 
 border-top: 3px solid #111;
+}
+
+.recommendation-card a {
+display: block;
 }
 
 .recommendation-number {
@@ -537,7 +559,7 @@ opacity: .8;
 
 
 /* =========================================================
-   その他
+   空表示
 ========================================================= */
 
 .empty {
@@ -696,14 +718,22 @@ Just An Anime Review
 
 </a>
 
+
 <nav>
 
-<a href="index.html">
+<a
+href="index.html">
+
 ホーム
+
 </a>
 
-<a href="#anime-list">
+<a
+href="#anime-list"
+id="anime-nav">
+
 アニメ一覧
+
 </a>
 
 </nav>
@@ -771,6 +801,7 @@ class="recommendation-period">
 
 </div>
 
+
 <div
 id="recommendation-list"
 class="recommendation-grid">
@@ -790,7 +821,7 @@ class="recommendation-grid">
 
 <div
 class="section-title"
-id="anime-list-title">
+id="anime-list">
 
 <h2>
 アニメ一覧
@@ -800,7 +831,7 @@ id="anime-list-title">
 
 
 <section
-id="anime-list"
+id="anime-list-container"
 class="anime-grid">
 
 <div class="empty">
@@ -824,6 +855,7 @@ Just An Anime Review
 <p class="footer-description">
 アニメをもっと深く、もっと面白く。
 </p>
+
 
 <nav
 class="footer-links"
@@ -851,6 +883,7 @@ aria-label="フッターナビゲーション">
 
 </nav>
 
+
 <a
 href="admin.html"
 class="admin-login-link">
@@ -867,7 +900,7 @@ class="admin-login-link">
 <script>
 
 /* =========================================================
-   Supabase設定
+   Supabase
 ========================================================= */
 
 const SUPABASE_URL =
@@ -937,13 +970,12 @@ async function loadAnime() {
 
 const container =
 document.getElementById(
-"anime-list"
+"anime-list-container"
 );
 
-const {
-data,
-error
-} =
+try {
+
+const result =
 await supabaseClient
 .from("anime")
 .select(
@@ -956,14 +988,18 @@ ascending: true
 }
 );
 
-if (error) {
 
-console.error(error);
+if (result.error) {
+
+console.error(
+"anime取得エラー:",
+result.error
+);
 
 container.innerHTML = `
 
 <div class="empty">
-アニメ情報の取得に失敗しました。
+アニメ情報を取得できませんでした。
 </div>
 
 `;
@@ -973,8 +1009,11 @@ return;
 }
 
 
+const data =
+result.data || [];
+
+
 if (
-!data ||
 data.length === 0
 ) {
 
@@ -1110,6 +1149,24 @@ card
 
 });
 
+
+} catch (error) {
+
+console.error(
+"アニメ取得中のエラー:",
+error
+);
+
+container.innerHTML = `
+
+<div class="empty">
+アニメ情報を取得できませんでした。
+</div>
+
+`;
+
+}
+
 }
 
 
@@ -1143,7 +1200,7 @@ hour < endHour
 
 
 /* =========================================================
-   おすすめアニメ取得
+   おすすめアニメ
 ========================================================= */
 
 async function loadRecommendations() {
@@ -1158,6 +1215,8 @@ document.getElementById(
 "recommendation-period"
 );
 
+
+try {
 
 const {
 data: settings,
@@ -1214,11 +1273,8 @@ return;
 }
 
 
-const now =
-new Date();
-
 const currentHour =
-now.getHours();
+new Date().getHours();
 
 
 let currentPeriod =
@@ -1226,8 +1282,12 @@ settings.find(
 setting =>
 isHourInPeriod(
 currentHour,
-Number(setting.start_hour),
-Number(setting.end_hour)
+Number(
+setting.start_hour
+),
+Number(
+setting.end_hour
+)
 )
 );
 
@@ -1467,11 +1527,29 @@ card
 
 });
 
+
+} catch (error) {
+
+console.error(
+"おすすめアニメ取得中のエラー:",
+error
+);
+
+container.innerHTML = `
+
+<div class="recommendation-empty">
+おすすめアニメの取得に失敗しました。
+</div>
+
+`;
+
+}
+
 }
 
 
 /* =========================================================
-   広告取得
+   広告
 ========================================================= */
 
 async function loadAdvertisement() {
@@ -1514,7 +1592,7 @@ ascending: true
 if (error) {
 
 console.error(
-"広告の取得に失敗しました:",
+"広告取得エラー:",
 error
 );
 
@@ -1648,7 +1726,7 @@ section.style.display =
 } catch (error) {
 
 console.error(
-"広告読み込み中にエラーが発生しました:",
+"広告取得中のエラー:",
 error
 );
 
@@ -1658,23 +1736,129 @@ error
 
 
 /* =========================================================
+   アニメ一覧への移動
+========================================================= */
+
+function scrollToAnimeList(
+event
+) {
+
+event.preventDefault();
+
+const target =
+document.getElementById(
+"anime-list"
+);
+
+if (!target) {
+return;
+}
+
+target.scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
+
+
+/*
+URLにも #anime-list を付ける
+*/
+
+history.pushState(
+null,
+"",
+"#anime-list"
+);
+
+}
+
+
+/* =========================================================
+   ナビゲーション
+========================================================= */
+
+document
+.getElementById(
+"anime-nav"
+)
+.addEventListener(
+"click",
+scrollToAnimeList
+);
+
+
+/* =========================================================
+   フッターのアニメ一覧
+========================================================= */
+
+document
+.querySelectorAll(
+'.footer-links a[href="#anime-list"]'
+)
+.forEach(
+link => {
+
+link.addEventListener(
+"click",
+scrollToAnimeList
+);
+
+});
+
+
+/* =========================================================
    起動
 ========================================================= */
 
 document.addEventListener(
 "DOMContentLoaded",
+async () => {
+
+await loadRecommendations();
+
+await loadAnime();
+
+await loadAdvertisement();
+
+
+/*
+ページURLが
+index.html#anime-list
+の場合も自動的に移動
+*/
+
+if (
+window.location.hash ===
+"#anime-list"
+) {
+
+setTimeout(
 () => {
 
-loadRecommendations();
-
-loadAnime();
-
-loadAdvertisement();
-
-}
+const target =
+document.getElementById(
+"anime-list"
 );
 
+if (target) {
+
+target.scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
+
+}
+
+},
+100
+);
+
+}
+
+});
+
 </script>
+
 
 </body>
 
