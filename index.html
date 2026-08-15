@@ -5,10 +5,13 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Just An Anime Review｜アニメレビュー・作品紹介</title>
+<title>
+Just An Anime Review｜アニメレビュー・作品紹介
+</title>
 
 <meta
 name="description"
@@ -274,17 +277,20 @@ box-shadow:
 0 3px 12px rgba(0,0,0,.05);
 
 border-top: 3px solid #111;
+
+transition:
+transform .15s ease,
+box-shadow .15s ease;
+}
+
+.recommendation-card:hover {
+transform: translateY(-2px);
+
+box-shadow:
+0 6px 18px rgba(0,0,0,.08);
 }
 
 .recommendation-card a {
-display: block;
-
-color: inherit;
-
-text-decoration: none;
-}
-
-.recommendation-card a:hover {
 text-decoration: none;
 }
 
@@ -344,53 +350,50 @@ display: -webkit-box;
 overflow: hidden;
 }
 
-
-/* =========================================================
-   おすすめがない場合
-   ※白いエラー枠などは表示しない
-========================================================= */
-
 .recommendation-empty {
-display: none;
-}
+background: white;
 
+border-radius: 12px;
 
-/* =========================================================
-   アニメ一覧ボタン
-========================================================= */
-
-.anime-list-button-section {
-margin-top: 40px;
+padding: 30px;
 
 text-align: center;
+
+color: #777;
 }
 
-.anime-list-button {
+
+/* =========================================================
+   アニメ一覧へのリンク
+========================================================= */
+
+/*
+   ここは白いカード・枠を作らない。
+   「アニメ一覧」というリンクだけを表示する。
+*/
+
+.anime-list-link-section {
+margin-top: 45px;
+
+padding: 0;
+}
+
+.anime-list-link {
 display: inline-block;
 
-padding: 12px 26px;
+font-size: 22px;
 
-background: #111;
+font-weight: 700;
 
-color: white;
-
-border-radius: 7px;
+color: #171717;
 
 text-decoration: none;
 
-font-size: 15px;
-
-font-weight: 600;
-
-transition:
-opacity .15s ease,
-transform .15s ease;
+cursor: pointer;
 }
 
-.anime-list-button:hover {
-opacity: .85;
-
-transform: translateY(-1px);
+.anime-list-link:hover {
+text-decoration: underline;
 }
 
 
@@ -642,7 +645,7 @@ Just An Anime Review
 ホーム
 </a>
 
-<a href="anime.html">
+<a href="anime.html#anime-list">
 アニメ一覧
 </a>
 
@@ -679,27 +682,6 @@ Just An Anime Review
 
 
 <!-- =========================================================
-     広告
-========================================================= -->
-
-<section
-id="ad-section"
-class="ad-section"
-aria-label="広告">
-
-<div class="ad-label">
-ADVERTISEMENT
-</div>
-
-<div
-id="ad-container"
-class="ad-box">
-</div>
-
-</section>
-
-
-<!-- =========================================================
      おすすめアニメ
 ========================================================= -->
 
@@ -723,25 +705,51 @@ class="recommendation-period">
 <div
 id="recommendation-list"
 class="recommendation-grid">
+
+<div class="recommendation-empty">
+おすすめアニメを読み込み中……
+</div>
+
 </div>
 
 </section>
 
 
 <!-- =========================================================
-     アニメ一覧へのボタン
+     アニメ一覧へのリンク
 ========================================================= -->
 
 <section
-class="anime-list-button-section">
+class="anime-list-link-section">
 
 <a
-href="anime.html"
-class="anime-list-button">
+href="anime.html#anime-list"
+class="anime-list-link">
 
 アニメ一覧
 
 </a>
+
+</section>
+
+
+<!-- =========================================================
+     広告
+========================================================= -->
+
+<section
+id="ad-section"
+class="ad-section"
+aria-label="広告">
+
+<div class="ad-label">
+ADVERTISEMENT
+</div>
+
+<div
+id="ad-container"
+class="ad-box">
+</div>
 
 </section>
 
@@ -774,7 +782,7 @@ aria-label="フッターナビゲーション">
 ホーム
 </a>
 
-<a href="anime.html">
+<a href="anime.html#anime-list">
 アニメ一覧
 </a>
 
@@ -784,10 +792,6 @@ aria-label="フッターナビゲーション">
 
 <a href="privacy.html">
 プライバシーポリシー
-</a>
-
-<a href="site-guide.html">
-サイトの操作方法
 </a>
 
 </nav>
@@ -815,15 +819,8 @@ class="admin-login-link">
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
-
-/*
-   ここは現在の index.html に入っている
-   SUPABASE_KEY をそのまま使用してください。
-*/
-
 const SUPABASE_KEY =
-"ここに現在使用しているSUPABASE_KEY";
-
+"sb_publishable_-rZ4HusVezs5IlZQnU-Kw_SLUd8R0c";
 
 const supabaseClient =
 supabase.createClient(
@@ -856,7 +853,9 @@ return div.innerHTML;
 function isSafeURL(url) {
 
 if (!url) {
+
 return false;
+
 }
 
 try {
@@ -930,7 +929,28 @@ document.getElementById(
 );
 
 
+/*
+   念のため初期状態を設定。
+   取得失敗時にも不要な
+   「アニメの取得に失敗しました。」
+   は表示しない。
+*/
+
+container.innerHTML = `
+<div class="recommendation-empty">
+おすすめアニメを読み込み中……
+</div>
+`;
+
+periodText.textContent = "";
+
+
 try {
+
+
+/* =======================================================
+   おすすめ設定取得
+======================================================= */
 
 const {
 data: settings,
@@ -949,48 +969,49 @@ ascending: true
 );
 
 
-/* ---------------------------------------------------------
-   設定取得失敗
-   → ホームにはエラーメッセージを表示しない
---------------------------------------------------------- */
+/*
+   設定が存在しない場合。
+*/
 
-if (settingsError) {
+if (
+settingsError
+) {
 
 console.error(
 "おすすめ設定取得エラー:",
 settingsError
 );
 
-container.innerHTML = "";
-
-periodText.textContent = "";
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメは設定されていません。
+</div>
+`;
 
 return;
 
 }
 
-
-/* ---------------------------------------------------------
-   おすすめ設定なし
---------------------------------------------------------- */
 
 if (
 !settings ||
 settings.length === 0
 ) {
 
-container.innerHTML = "";
-
-periodText.textContent = "";
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメは設定されていません。
+</div>
+`;
 
 return;
 
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    現在時刻
---------------------------------------------------------- */
+======================================================= */
 
 const now =
 new Date();
@@ -1004,15 +1025,19 @@ settings.find(
 setting =>
 isHourInPeriod(
 currentHour,
-Number(setting.start_hour),
-Number(setting.end_hour)
+Number(
+setting.start_hour
+),
+Number(
+setting.end_hour
+)
 )
 );
 
 
 /*
-   該当時間帯がない場合
-   → 最初の設定を使用
+   現在の時間帯に該当しない場合は
+   最初の設定を使用。
 */
 
 if (!currentPeriod) {
@@ -1023,40 +1048,59 @@ settings[0];
 }
 
 
+if (
+currentPeriod.period_name
+) {
+
 periodText.textContent =
-currentPeriod.period_name || "";
+currentPeriod.period_name;
+
+}
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    おすすめ作品ID
---------------------------------------------------------- */
+======================================================= */
 
 const ids = [
 
 currentPeriod.anime_id_1,
+
 currentPeriod.anime_id_2,
+
 currentPeriod.anime_id_3
 
 ]
 .filter(
 id =>
 id !== null &&
-id !== undefined
+id !== undefined &&
+id !== ""
 );
 
 
-if (!ids.length) {
+/*
+   おすすめ作品が設定されていない場合。
+*/
 
-container.innerHTML = "";
+if (
+ids.length === 0
+) {
+
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、この時間帯のおすすめアニメは設定されていません。
+</div>
+`;
 
 return;
 
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    アニメ情報取得
---------------------------------------------------------- */
+======================================================= */
 
 const {
 data: animeData,
@@ -1073,39 +1117,39 @@ ids
 );
 
 
-if (animeError) {
+/*
+   おすすめ設定はあるが、
+   対応する作品を取得できなかった場合。
+*/
+
+if (
+animeError
+) {
 
 console.error(
-"おすすめアニメ取得エラー:",
+"おすすめ作品取得エラー:",
 animeError
 );
 
-container.innerHTML = "";
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメを表示できません。
+</div>
+`;
 
 return;
 
 }
 
 
-if (
-!animeData ||
-animeData.length === 0
-) {
-
-container.innerHTML = "";
-
-return;
-
-}
-
-
-/* ---------------------------------------------------------
-   ID → アニメ情報
---------------------------------------------------------- */
+/* =======================================================
+   順番を維持
+======================================================= */
 
 const animeMap =
 new Map(
-animeData.map(
+(animeData || [])
+.map(
 anime =>
 [
 String(anime.id),
@@ -1114,10 +1158,6 @@ anime
 )
 );
 
-
-/* ---------------------------------------------------------
-   管理画面の順番を維持
---------------------------------------------------------- */
 
 const orderedAnime =
 ids
@@ -1130,12 +1170,31 @@ String(id)
 .filter(Boolean);
 
 
+/*
+   作品が1件も見つからなかった場合。
+*/
+
+if (
+orderedAnime.length === 0
+) {
+
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメは設定されていません。
+</div>
+`;
+
+return;
+
+}
+
+
 container.innerHTML = "";
 
 
-/* ---------------------------------------------------------
-   カード生成
---------------------------------------------------------- */
+/* =======================================================
+   カード作成
+======================================================= */
 
 orderedAnime.forEach(
 (anime, index) => {
@@ -1160,10 +1219,9 @@ encodeURIComponent(
 anime.id
 );
 
+link.style.textDecoration =
+"none";
 
-/* -------------------------------------------------------
-   順番
-------------------------------------------------------- */
 
 const number =
 document.createElement(
@@ -1181,10 +1239,6 @@ number
 );
 
 
-/* -------------------------------------------------------
-   タイトル
-------------------------------------------------------- */
-
 const title =
 document.createElement(
 "h3"
@@ -1197,10 +1251,6 @@ link.appendChild(
 title
 );
 
-
-/* -------------------------------------------------------
-   英語タイトル
-------------------------------------------------------- */
 
 if (
 anime.english_title
@@ -1224,10 +1274,6 @@ english
 }
 
 
-/* -------------------------------------------------------
-   ジャンル
-------------------------------------------------------- */
-
 if (
 anime.genre
 ) {
@@ -1249,10 +1295,6 @@ genre
 
 }
 
-
-/* -------------------------------------------------------
-   あらすじ
-------------------------------------------------------- */
 
 if (
 anime.description
@@ -1294,7 +1336,17 @@ console.error(
 error
 );
 
-container.innerHTML = "";
+
+/*
+   ホーム全体にエラーを出さず、
+   おすすめ部分だけ静かに処理。
+*/
+
+container.innerHTML = `
+<div class="recommendation-empty">
+現在、おすすめアニメは設定されていません。
+</div>
+`;
 
 }
 
@@ -1370,9 +1422,9 @@ data[0];
 let html = "";
 
 
-/* ---------------------------------------------------------
-   画像
---------------------------------------------------------- */
+/* =======================================================
+   広告画像
+======================================================= */
 
 if (
 ad.image_url &&
@@ -1385,7 +1437,9 @@ html += `
 
 <img
 src="${escapeHTML(ad.image_url)}"
-alt="${escapeHTML(ad.title || "広告")}"
+alt="${escapeHTML(
+ad.title || "広告"
+)}"
 loading="lazy"
 onerror="this.style.display='none';"
 >
@@ -1395,9 +1449,9 @@ onerror="this.style.display='none';"
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    企業名
---------------------------------------------------------- */
+======================================================= */
 
 if (
 ad.company_name
@@ -1406,7 +1460,9 @@ ad.company_name
 html += `
 
 <div class="ad-company">
-${escapeHTML(ad.company_name)}
+${escapeHTML(
+ad.company_name
+)}
 </div>
 
 `;
@@ -1414,9 +1470,9 @@ ${escapeHTML(ad.company_name)}
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    タイトル
---------------------------------------------------------- */
+======================================================= */
 
 if (
 ad.title
@@ -1425,7 +1481,9 @@ ad.title
 html += `
 
 <div class="ad-title">
-${escapeHTML(ad.title)}
+${escapeHTML(
+ad.title
+)}
 </div>
 
 `;
@@ -1433,9 +1491,9 @@ ${escapeHTML(ad.title)}
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    説明
---------------------------------------------------------- */
+======================================================= */
 
 if (
 ad.description
@@ -1444,7 +1502,9 @@ ad.description
 html += `
 
 <div class="ad-description">
-${escapeHTML(ad.description)}
+${escapeHTML(
+ad.description
+)}
 </div>
 
 `;
@@ -1452,9 +1512,9 @@ ${escapeHTML(ad.description)}
 }
 
 
-/* ---------------------------------------------------------
+/* =======================================================
    リンク
---------------------------------------------------------- */
+======================================================= */
 
 if (
 ad.link_url &&
@@ -1467,7 +1527,9 @@ html += `
 
 <a
 class="ad-button"
-href="${escapeHTML(ad.link_url)}"
+href="${escapeHTML(
+ad.link_url
+)}"
 target="_blank"
 rel="noopener noreferrer nofollow">
 
@@ -1479,6 +1541,10 @@ rel="noopener noreferrer nofollow">
 
 }
 
+
+/*
+   表示できる内容がなければ広告自体を表示しない。
+*/
 
 if (
 !html.trim()
@@ -1514,7 +1580,7 @@ error
 
 document.addEventListener(
 "DOMContentLoaded",
-() => {
+function() {
 
 loadRecommendations();
 
