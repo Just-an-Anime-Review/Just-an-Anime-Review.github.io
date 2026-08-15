@@ -90,10 +90,6 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 
 <style>
 
-/* =========================
-   基本設定
-========================= */
-
 * {
 box-sizing: border-box;
 }
@@ -103,7 +99,6 @@ scroll-behavior: smooth;
 }
 
 body {
-
 margin: 0;
 
 font-family:
@@ -112,238 +107,248 @@ BlinkMacSystemFont,
 "Segoe UI",
 "Hiragino Kaku Gothic ProN",
 "Yu Gothic",
-Meiryo,
 sans-serif;
 
-background: #f7f7f7;
+background: #f5f6f8;
 
-color: #222;
+color: #171717;
 
 line-height: 1.7;
-
--webkit-text-size-adjust: 100%;
 }
 
-
-/* =========================
-   ヘッダー
-========================= */
+a {
+color: inherit;
+}
 
 header {
-
 background: #111;
-
 color: white;
 }
 
 .header-inner {
-
 max-width: 1100px;
 
 margin: auto;
 
-padding: 20px;
+padding:
+18px 20px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 20px;
 }
 
 .logo {
-
 color: white;
 
 text-decoration: none;
 
-font-size: 21px;
-
 font-weight: bold;
 
-display: inline-block;
+font-size: 17px;
 }
 
-.logo:hover {
+nav {
+display: flex;
 
-opacity: .85;
+gap: 18px;
+
+align-items: center;
 }
 
+nav a {
+color: #ddd;
 
-/* =========================
-   メイン
-========================= */
+text-decoration: none;
+
+font-size: 14px;
+}
+
+nav a:hover {
+color: white;
+}
 
 main {
-
 max-width: 1100px;
 
 margin: auto;
 
-padding: 60px 20px;
+padding:
+35px 20px
+60px;
 }
 
-
-/* =========================
-   ヒーロー
-========================= */
-
 .hero {
-
 background: white;
 
-border-radius: 15px;
+border-radius: 14px;
 
-padding: 60px 30px;
-
-text-align: center;
+padding: 35px;
 
 box-shadow:
-0 3px 15px rgba(0, 0, 0, .08);
+0 3px 15px
+rgba(0,0,0,.06);
+
+margin-bottom: 30px;
 }
 
 .hero h1 {
-
-font-size: 42px;
-
-line-height: 1.3;
-
 margin:
-0 0 20px;
+0 0 12px;
+
+font-size: 30px;
+
+line-height: 1.4;
 }
 
 .hero p {
+margin: 0;
 
 color: #666;
 
-line-height: 1.8;
+font-size: 14px;
+}
+
+.section-title {
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 15px;
 
 margin:
-8px 0;
+35px 0 15px;
 }
 
-
-/* =========================
-   アニメ一覧ボタン
-========================= */
-
-.anime-button {
-
-display: inline-block;
-
-margin-top: 20px;
-
-padding:
-12px 25px;
-
-background: #111;
-
-color: white;
-
-border-radius: 8px;
-
-text-decoration: none;
-
-font-weight: bold;
-
-transition:
-opacity .2s ease,
-transform .2s ease;
-}
-
-.anime-button:hover {
-
-opacity: .85;
-
-transform:
-translateY(-1px);
-}
-
-.anime-button:focus-visible {
-
-outline:
-3px solid #555;
-
-outline-offset:
-3px;
-}
-
-
-/* =========================
-   このサイトについて
-========================= */
-
-.about {
-
-margin-top: 35px;
-
-background: white;
-
-padding: 30px;
-
-border-radius: 15px;
-
-box-shadow:
-0 3px 15px rgba(0, 0, 0, .08);
-}
-
-.about h2 {
-
-margin-top: 0;
-
-font-size: 24px;
-}
-
-.about p {
-
-line-height: 1.9;
-
-color: #555;
-}
-
-
-/* =========================
-   サイト情報リンク
-========================= */
-
-.site-links {
-
-margin-top: 35px;
-
-background: white;
-
-padding: 30px;
-
-border-radius: 15px;
-
-box-shadow:
-0 3px 15px rgba(0, 0, 0, .08);
-}
-
-.site-links h2 {
-
-margin-top: 0;
+.section-title h2 {
+margin: 0;
 
 font-size: 22px;
 }
 
-.site-links ul {
+.section-title a {
+color: #666;
 
-margin: 0;
+font-size: 13px;
 
-padding-left: 20px;
+text-decoration: none;
 }
 
-.site-links li {
-
-margin:
-8px 0;
-}
-
-.site-links a {
-
-color: #333;
-
+.section-title a:hover {
 text-decoration: underline;
 }
 
-.site-links a:hover {
+.anime-grid {
+display: grid;
 
-opacity: .7;
+grid-template-columns:
+repeat(
+3,
+minmax(0,1fr)
+);
+
+gap: 18px;
+}
+
+.anime-card {
+background: white;
+
+border-radius: 12px;
+
+padding: 20px;
+
+box-shadow:
+0 3px 12px
+rgba(0,0,0,.05);
+
+transition:
+transform .15s ease,
+box-shadow .15s ease;
+}
+
+.anime-card:hover {
+transform:
+translateY(-2px);
+
+box-shadow:
+0 6px 18px
+rgba(0,0,0,.08);
+}
+
+.anime-card a {
+text-decoration: none;
+}
+
+.anime-title {
+margin: 0;
+
+font-size: 18px;
+
+line-height: 1.5;
+
+font-weight: 700;
+}
+
+.anime-english {
+margin-top: 3px;
+
+color: #888;
+
+font-size: 12px;
+}
+
+.anime-genre {
+display: inline-block;
+
+margin-top: 12px;
+
+padding:
+3px 8px;
+
+background: #f0f0f0;
+
+border-radius: 20px;
+
+color: #555;
+
+font-size: 12px;
+}
+
+.anime-description {
+margin-top: 13px;
+
+color: #555;
+
+font-size: 13px;
+
+line-height: 1.7;
+
+display:
+-webkit-box;
+
+-webkit-line-clamp: 3;
+
+-webkit-box-orient: vertical;
+
+overflow: hidden;
+}
+
+.empty {
+background: white;
+
+padding: 35px;
+
+border-radius: 12px;
+
+text-align: center;
+
+color: #777;
 }
 
 
@@ -352,90 +357,81 @@ opacity: .7;
 ========================= */
 
 .ad-section {
+margin:
+30px 0;
 
 display: none;
-
-margin-top: 35px;
 }
 
 .ad-label {
+margin-bottom: 7px;
 
 text-align: center;
 
-font-size: 11px;
+font-size: 10px;
+
+letter-spacing: .12em;
 
 color: #999;
-
-margin-bottom: 8px;
-
-letter-spacing: .05em;
 }
 
 .ad-box {
-
 background: white;
-
-border:
-1px solid #e5e5e5;
 
 border-radius: 12px;
 
-padding: 20px;
-
-text-align: center;
+padding: 18px;
 
 box-shadow:
-0 2px 10px rgba(0, 0, 0, .04);
+0 3px 12px
+rgba(0,0,0,.04);
+
+text-align: center;
 }
 
 .ad-box img {
-
 display: block;
 
-max-width: 100%;
+width: 100%;
 
-max-height: 180px;
+max-height: 320px;
 
-margin:
-0 auto 15px;
+object-fit: contain;
 
 border-radius: 8px;
 
-object-fit: contain;
+margin:
+0 auto 12px;
 }
 
 .ad-company {
+margin-top: 5px;
 
-font-size: 12px;
+font-size: 11px;
 
 color: #888;
-
-margin-bottom: 6px;
 }
 
 .ad-title {
+margin-top: 3px;
 
-font-size: 18px;
+font-size: 17px;
 
-font-weight: bold;
-
-margin-bottom: 8px;
+font-weight: 700;
 }
 
 .ad-description {
+margin-top: 5px;
+
+font-size: 13px;
 
 color: #666;
-
-font-size: 14px;
-
-line-height: 1.7;
 }
 
 .ad-button {
-
 display: inline-block;
 
-margin-top: 12px;
+margin-top: 13px;
 
 padding:
 8px 16px;
@@ -444,72 +440,15 @@ background: #111;
 
 color: white;
 
-text-decoration: none;
-
 border-radius: 6px;
 
 font-size: 13px;
 
-transition:
-opacity .2s ease;
+text-decoration: none;
 }
 
 .ad-button:hover {
-
-opacity: .85;
-}
-
-.ad-button:focus-visible {
-
-outline:
-3px solid #555;
-
-outline-offset:
-3px;
-}
-
-
-/* =========================
-   管理者ログイン
-========================= */
-
-.admin-login-link {
-
-position: fixed;
-
-right: 12px;
-
-bottom: 10px;
-
-font-size: 11px;
-
-color: #999;
-
-text-decoration: none;
-
-opacity: .65;
-
-z-index: 1000;
-
-padding: 3px 5px;
-}
-
-.admin-login-link:hover {
-
-opacity: 1;
-
-text-decoration: underline;
-}
-
-.admin-login-link:focus-visible {
-
-opacity: 1;
-
-outline:
-2px solid #555;
-
-outline-offset:
-2px;
+opacity: .8;
 }
 
 
@@ -518,159 +457,122 @@ outline-offset:
 ========================= */
 
 footer {
-
-margin-top: 70px;
-
 background: #111;
 
-color: white;
+color: #aaa;
+}
+
+.footer-inner {
+max-width: 1100px;
+
+margin: auto;
 
 padding:
 35px 20px;
 }
 
-.footer-inner {
+.footer-title {
+margin: 0;
 
-max-width: 1100px;
+font-size: 15px;
 
-margin: auto;
-}
-
-.footer-inner h2 {
-
-margin-top: 0;
+color: white;
 }
 
 .footer-description {
+margin:
+7px 0 0;
 
-color: #ddd;
+font-size: 13px;
 
-margin-bottom: 20px;
+color: #888;
 }
 
 .footer-links {
-
 display: flex;
 
 flex-wrap: wrap;
 
-gap:
-8px 18px;
+gap: 15px;
 
-margin-bottom: 20px;
+margin-top: 20px;
 }
 
 .footer-links a {
-
-color: #ddd;
-
-font-size: 13px;
+color: #aaa;
 
 text-decoration: none;
+
+font-size: 13px;
 }
 
 .footer-links a:hover {
-
 color: white;
 
 text-decoration: underline;
 }
 
-.copyright {
+.admin-login-link {
+display: inline-block;
 
-color: #aaa;
-
-font-size: 13px;
-
-margin-bottom: 0;
-}
-
-
-/* =========================
-   エラーメッセージ
-========================= */
-
-.ad-error {
-
-font-size: 13px;
+margin-top: 20px;
 
 color: #777;
 
-padding: 5px;
+font-size: 12px;
+
+text-decoration: none;
+}
+
+.admin-login-link:hover {
+color: white;
 }
 
 
-/* =========================
-   スマートフォン
-========================= */
+@media (max-width: 800px) {
 
-@media (max-width: 600px) {
+.anime-grid {
+grid-template-columns:
+repeat(
+2,
+minmax(0,1fr)
+);
+}
+
+}
+
+
+@media (max-width: 550px) {
+
+.header-inner {
+padding:
+15px;
+}
+
+nav {
+gap: 10px;
+}
+
+nav a {
+font-size: 12px;
+}
 
 main {
-
 padding:
-35px 15px;
+25px 15px
+45px;
 }
 
 .hero {
-
-padding:
-40px 20px;
+padding: 25px;
 }
 
 .hero h1 {
-
-font-size: 30px;
+font-size: 24px;
 }
 
-.hero p {
-
-font-size: 14px;
-}
-
-.about,
-.site-links {
-
-padding:
-25px 20px;
-}
-
-.ad-box {
-
-padding:
-18px 15px;
-}
-
-.footer-links {
-
-flex-direction: column;
-
-gap:
-8px;
-}
-
-}
-
-
-/* =========================
-   動きを減らす設定
-========================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-html {
-
-scroll-behavior: auto;
-}
-
-.anime-button {
-
-transition: none;
-}
-
-.ad-button {
-
-transition: none;
+.anime-grid {
+grid-template-columns: 1fr;
 }
 
 }
@@ -683,62 +585,55 @@ transition: none;
 <body>
 
 
-<!-- =========================
-     ヘッダー
-========================= -->
-
 <header>
 
 <div class="header-inner">
 
 <a
 href="index.html"
-class="logo"
-aria-label="Just An Anime Review ホーム">
+class="logo">
 
 Just An Anime Review
 
 </a>
+
+
+<nav>
+
+<a
+href="index.html">
+
+ホーム
+
+</a>
+
+<a
+href="anime.html">
+
+アニメ一覧
+
+</a>
+
+</nav>
 
 </div>
 
 </header>
 
 
-<!-- =========================
-     メイン
-========================= -->
-
 <main>
 
 
-<!-- =========================
-     ヒーロー
-========================= -->
+<section class="hero">
 
-<section
-class="hero"
-aria-labelledby="main-title">
-
-<h1 id="main-title">
+<h1>
 Just An Anime Review
 </h1>
 
 <p>
 アニメをもっと深く、もっと面白く。
+アニメ作品のあらすじ・作品情報・レビューを紹介しています。
 </p>
-
-<p>
-おすすめのアニメ作品を紹介・レビューしています。
-</p>
-
-<a
-href="anime.html"
-class="anime-button">
-
-アニメ一覧を見る
-
-</a>
 
 </section>
 
@@ -759,64 +654,38 @@ ADVERTISEMENT
 <div
 id="ad-container"
 class="ad-box">
-
 </div>
 
 </section>
 
 
 <!-- =========================
-     サイトについて
+     おすすめアニメ
 ========================= -->
 
-<section
-class="about"
-aria-labelledby="about-title">
+<div class="section-title">
 
-<h2 id="about-title">
-このサイトについて
+<h2>
+おすすめアニメ
 </h2>
 
-<p>
-Just An Anime Reviewでは、
-アニメ作品の紹介やレビューを掲載しています。
-</p>
+<a
+href="anime.html">
 
-<p>
-気になる作品を見つけたら、
-詳細ページから作品情報をご覧ください。
-</p>
+すべて見る →
 
-</section>
+</a>
 
+</div>
 
-<!-- =========================
-     利用規約・プライバシー
-========================= -->
 
 <section
-class="site-links"
-aria-labelledby="site-info-title">
+id="anime-list"
+class="anime-grid">
 
-<h2 id="site-info-title">
-サイト情報
-</h2>
-
-<ul>
-
-<li>
-<a href="terms.html">
-利用規約
-</a>
-</li>
-
-<li>
-<a href="privacy.html">
-プライバシーポリシー
-</a>
-</li>
-
-</ul>
+<div class="empty">
+読み込み中……
+</div>
 
 </section>
 
@@ -824,15 +693,11 @@ aria-labelledby="site-info-title">
 </main>
 
 
-<!-- =========================
-     フッター
-========================= -->
-
 <footer>
 
 <div class="footer-inner">
 
-<h2>
+<h2 class="footer-title">
 Just An Anime Review
 </h2>
 
@@ -840,59 +705,41 @@ Just An Anime Review
 アニメをもっと深く、もっと面白く。
 </p>
 
+
 <nav
 class="footer-links"
 aria-label="フッターナビゲーション">
 
-<a href="index.html">
+<a
+href="index.html">
+
 ホーム
+
 </a>
 
-<a href="anime.html">
+<a
+href="anime.html">
+
 アニメ一覧
+
 </a>
 
-<a href="terms.html">
+<a
+href="terms.html">
+
 利用規約
+
 </a>
 
-<a href="privacy.html">
+<a
+href="privacy.html">
+
 プライバシーポリシー
+
 </a>
 
 </nav>
 
-<p class="copyright">
-© 2026 Just An Anime Review
-</p>
-
-</div>
-
-</footer>
-.footer-links {
-    margin-top: 20px;
-}
-
-.footer-links a {
-    color: #aaaaaa;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.footer-links a:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-.footer-links span {
-    color: #555555;
-    margin: 0 6px;
-}
-
-
-<!-- =========================
-     管理者ログイン
-========================= -->
 
 <a
 href="admin.html"
@@ -902,18 +749,22 @@ class="admin-login-link">
 
 </a>
 
+</div>
+
+</footer>
+
 
 <script>
 
 /* =========================
-   Supabase
+   Supabase設定
 ========================= */
 
 const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+"sb_publishable_-rZ4HusVezs5IlZQnU-Kw_SLUd8R0c";
 
 const supabaseClient =
 supabase.createClient(
@@ -940,7 +791,7 @@ return div.innerHTML;
 
 
 /* =========================
-   広告URLの安全性確認
+   URL安全性確認
 ========================= */
 
 function isSafeURL(url) {
@@ -954,7 +805,7 @@ return false;
 try {
 
 const parsed =
-new URL(url, window.location.origin);
+new URL(url);
 
 return (
 parsed.protocol === "http:" ||
@@ -971,7 +822,198 @@ return false;
 
 
 /* =========================
-   広告読み込み
+   アニメ取得
+========================= */
+
+async function loadAnime() {
+
+const container =
+document.getElementById(
+"anime-list"
+);
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("anime")
+.select(
+"id,title,english_title,genre,description"
+)
+.order(
+"id",
+{
+ascending: true
+}
+);
+
+if (error) {
+
+console.error(
+"アニメの取得に失敗しました:",
+error
+);
+
+container.innerHTML = `
+
+<div class="empty">
+
+アニメ情報の取得に失敗しました。
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+if (
+!data ||
+data.length === 0
+) {
+
+container.innerHTML = `
+
+<div class="empty">
+
+登録されているアニメはありません。
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML = "";
+
+
+data.forEach(
+anime => {
+
+const card =
+document.createElement(
+"article"
+);
+
+card.className =
+"anime-card";
+
+
+const link =
+document.createElement(
+"a"
+);
+
+link.href =
+"anime-detail.html?id=" +
+encodeURIComponent(
+anime.id
+);
+
+
+const title =
+document.createElement(
+"h3"
+);
+
+title.className =
+"anime-title";
+
+title.textContent =
+anime.title || "";
+
+link.appendChild(
+title
+);
+
+
+if (
+anime.english_title
+) {
+
+const english =
+document.createElement(
+"div"
+);
+
+english.className =
+"anime-english";
+
+english.textContent =
+anime.english_title;
+
+link.appendChild(
+english
+);
+
+}
+
+
+if (
+anime.genre
+) {
+
+const genre =
+document.createElement(
+"div"
+);
+
+genre.className =
+"anime-genre";
+
+genre.textContent =
+anime.genre;
+
+link.appendChild(
+genre
+);
+
+}
+
+
+if (
+anime.description
+) {
+
+const description =
+document.createElement(
+"div"
+);
+
+description.className =
+"anime-description";
+
+description.textContent =
+anime.description;
+
+link.appendChild(
+description
+);
+
+}
+
+
+card.appendChild(
+link
+);
+
+container.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   広告取得
 ========================= */
 
 async function loadAdvertisement() {
@@ -987,38 +1029,27 @@ document.getElementById(
 );
 
 
-/* 初期状態では非表示 */
-
-section.style.display =
-"none";
-
-container.innerHTML =
-"";
-
-
 try {
 
-const { data, error } =
+const {
+data,
+error
+} =
 await supabaseClient
-
 .from("advertisements")
-
 .select(
 "id,company_name,title,description,image_url,link_url"
 )
-
 .eq(
 "is_active",
 true
 )
-
 .order(
 "id",
 {
 ascending: true
 }
 )
-
 .limit(1);
 
 
@@ -1060,13 +1091,17 @@ let html = "";
 
 if (
 ad.image_url &&
-isSafeURL(ad.image_url)
+isSafeURL(
+ad.image_url
+)
 ) {
 
 html += `
 
 <img
-src="${escapeHTML(ad.image_url)}"
+src="${escapeHTML(
+ad.image_url
+)}"
 alt="${escapeHTML(
 ad.title || "広告"
 )}"
@@ -1085,14 +1120,18 @@ this.style.display='none';
    会社名
 ========================= */
 
-if (ad.company_name) {
+if (
+ad.company_name
+) {
 
 html += `
 
 <div class="ad-company">
+
 ${escapeHTML(
 ad.company_name
 )}
+
 </div>
 
 `;
@@ -1104,14 +1143,18 @@ ad.company_name
    広告タイトル
 ========================= */
 
-if (ad.title) {
+if (
+ad.title
+) {
 
 html += `
 
 <div class="ad-title">
+
 ${escapeHTML(
 ad.title
 )}
+
 </div>
 
 `;
@@ -1123,14 +1166,18 @@ ad.title
    広告説明
 ========================= */
 
-if (ad.description) {
+if (
+ad.description
+) {
 
 html += `
 
 <div class="ad-description">
+
 ${escapeHTML(
 ad.description
 )}
+
 </div>
 
 `;
@@ -1144,14 +1191,18 @@ ad.description
 
 if (
 ad.link_url &&
-isSafeURL(ad.link_url)
+isSafeURL(
+ad.link_url
+)
 ) {
 
 html += `
 
 <a
 class="ad-button"
-href="${escapeHTML(ad.link_url)}"
+href="${escapeHTML(
+ad.link_url
+)}"
 target="_blank"
 rel="noopener noreferrer nofollow">
 
@@ -1168,7 +1219,9 @@ rel="noopener noreferrer nofollow">
    表示内容が存在する場合のみ表示
 ========================= */
 
-if (!html.trim()) {
+if (
+!html.trim()
+) {
 
 return;
 
@@ -1180,6 +1233,7 @@ html;
 
 section.style.display =
 "block";
+
 
 } catch (error) {
 
@@ -1200,6 +1254,8 @@ error
 document.addEventListener(
 "DOMContentLoaded",
 () => {
+
+loadAnime();
 
 loadAdvertisement();
 
