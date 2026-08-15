@@ -92,6 +92,7 @@ box-sizing: border-box;
 
 html {
 scroll-behavior: smooth;
+scroll-padding-top: 20px;
 }
 
 body {
@@ -229,28 +230,32 @@ font-size: 14px;
 margin: 35px 0 15px;
 }
 
-.section-title-link {
-display: inline-block;
-
-text-decoration: none;
-
-color: inherit;
-
-cursor: pointer;
-}
-
 .section-title h2 {
 margin: 0;
 
 font-size: 22px;
+}
 
-line-height: 1.4;
+
+/*
+   「すべて見る」は使用しない。
+   アニメ一覧の見出し自体をリンクとして使用する。
+*/
+
+.section-title-link {
+display: inline-block;
+
+color: #171717;
+
+text-decoration: none;
+
+border-radius: 6px;
 
 transition:
 opacity .15s ease;
 }
 
-.section-title-link:hover h2 {
+.section-title-link:hover {
 opacity: .65;
 }
 
@@ -258,11 +263,6 @@ opacity: .65;
 /* =========================================================
    アニメ一覧
 ========================================================= */
-
-/*
-   ここには白い外枠を作らない。
-   白い背景は各アニメカードだけに設定する。
-*/
 
 .anime-grid {
 display: grid;
@@ -272,8 +272,15 @@ repeat(3, minmax(0, 1fr));
 
 gap: 18px;
 
-scroll-margin-top: 25px;
+/*
+   外側の白い枠は作らない。
+*/
 }
+
+
+/* =========================================================
+   アニメカード
+========================================================= */
 
 .anime-card {
 background: white;
@@ -353,6 +360,23 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 
 overflow: hidden;
+}
+
+
+/* =========================================================
+   空状態
+========================================================= */
+
+.empty {
+background: transparent;
+
+padding: 25px 0;
+
+text-align: center;
+
+color: #777;
+
+grid-column: 1 / -1;
 }
 
 
@@ -472,14 +496,16 @@ display: -webkit-box;
 overflow: hidden;
 }
 
+.recommendation-empty {
+background: transparent;
 
-/*
-   おすすめがない場合は
-   何も表示しないためのクラス
-*/
+padding: 25px 0;
 
-.recommendation-hidden {
-display: none;
+text-align: center;
+
+color: #777;
+
+grid-column: 1 / -1;
 }
 
 
@@ -655,15 +681,6 @@ color: white;
 
 
 /* =========================================================
-   スクロール位置
-========================================================= */
-
-#anime-list {
-scroll-margin-top: 25px;
-}
-
-
-/* =========================================================
    レスポンシブ
 ========================================================= */
 
@@ -709,6 +726,10 @@ font-size: 24px;
 grid-template-columns: 1fr;
 }
 
+.section-title h2 {
+font-size: 21px;
+}
+
 }
 
 </style>
@@ -742,7 +763,8 @@ Just An Anime Review
 ホーム
 </a>
 
-<a href="anime.html">
+<a
+href="anime.html">
 アニメ一覧
 </a>
 
@@ -759,6 +781,10 @@ Just An Anime Review
 
 <main>
 
+
+<!-- =========================================================
+     ヒーロー
+========================================================= -->
 
 <section class="hero">
 
@@ -800,12 +826,12 @@ class="ad-box">
 ========================================================= -->
 
 <section
-id="recommendation-section"
-class="recommendation-section">
+class="recommendation-section"
+aria-labelledby="recommendation-title">
 
 <div class="recommendation-header">
 
-<h2>
+<h2 id="recommendation-title">
 おすすめアニメ
 </h2>
 
@@ -820,6 +846,7 @@ class="recommendation-period">
 <div
 id="recommendation-list"
 class="recommendation-grid">
+
 </div>
 
 </section>
@@ -829,12 +856,13 @@ class="recommendation-grid">
      アニメ一覧
 ========================================================= -->
 
-<div class="section-title">
+<div
+class="section-title"
+id="anime-section-title">
 
 <a
 href="#anime-list"
-class="section-title-link"
-aria-label="アニメ一覧へ移動">
+class="section-title-link">
 
 <h2>
 アニメ一覧
@@ -847,7 +875,8 @@ aria-label="アニメ一覧へ移動">
 
 <section
 id="anime-list"
-class="anime-grid">
+class="anime-grid"
+aria-label="アニメ一覧">
 
 </section>
 
@@ -884,6 +913,10 @@ aria-label="フッターナビゲーション">
 アニメ一覧
 </a>
 
+<a href="site-guide.html">
+サイトの操作方法
+</a>
+
 <a href="terms.html">
 利用規約
 </a>
@@ -911,7 +944,7 @@ class="admin-login-link">
 <script>
 
 /* =========================================================
-   Supabase
+   Supabase設定
 ========================================================= */
 
 const SUPABASE_URL =
@@ -951,9 +984,7 @@ return div.innerHTML;
 function isSafeURL(url) {
 
 if (!url) {
-
 return false;
-
 }
 
 try {
@@ -987,6 +1018,14 @@ document.getElementById(
 );
 
 
+/*
+   取得中は最低限の表示だけ。
+   エラーメッセージは表示しない。
+*/
+
+container.innerHTML = "";
+
+
 try {
 
 const {
@@ -1006,19 +1045,12 @@ ascending: true
 );
 
 
-/*
-   エラーの場合でも
-   エラーメッセージはサイトに表示しない。
-*/
-
 if (error) {
 
 console.error(
 "アニメ取得エラー:",
 error
 );
-
-container.innerHTML = "";
 
 return;
 
@@ -1030,7 +1062,13 @@ if (
 data.length === 0
 ) {
 
-container.innerHTML = "";
+container.innerHTML = `
+
+<div class="empty">
+登録されているアニメはありません。
+</div>
+
+`;
 
 return;
 
@@ -1164,12 +1202,6 @@ console.error(
 error
 );
 
-/*
-   サイト上には何も表示しない。
-*/
-
-container.innerHTML = "";
-
 }
 
 }
@@ -1216,11 +1248,6 @@ hour < endHour
 
 async function loadRecommendations() {
 
-const section =
-document.getElementById(
-"recommendation-section"
-);
-
 const container =
 document.getElementById(
 "recommendation-list"
@@ -1233,18 +1260,12 @@ document.getElementById(
 
 
 /*
-   最初は表示しておく。
-   データがなければ最後に非表示にする。
+   初期状態では何も表示しない。
 */
 
-section.style.display =
-"block";
+container.innerHTML = "";
 
-container.innerHTML =
-"";
-
-periodText.textContent =
-"";
+periodText.textContent = "";
 
 
 try {
@@ -1267,24 +1288,26 @@ ascending: true
 
 
 /*
-   おすすめ設定が存在しない場合
-   エラー文を出さず、
-   おすすめセクションそのものを非表示。
+   おすすめ設定がない場合は
+   エラー表示を出さない。
 */
 
-if (
-settingsError ||
-!settings ||
-settings.length === 0
-) {
+if (settingsError) {
 
 console.error(
 "おすすめ設定取得エラー:",
 settingsError
 );
 
-section.style.display =
-"none";
+return;
+
+}
+
+
+if (
+!settings ||
+settings.length === 0
+) {
 
 return;
 
@@ -1314,7 +1337,7 @@ setting.end_hour
 
 
 /*
-   現在の時間帯がない場合は
+   現在の時間帯に該当しない場合、
    最初の設定を使用。
 */
 
@@ -1359,9 +1382,6 @@ if (
 !ids.length
 ) {
 
-section.style.display =
-"none";
-
 return;
 
 }
@@ -1386,19 +1406,22 @@ ids
 );
 
 
-if (
-animeError ||
-!animeData ||
-animeData.length === 0
-) {
+if (animeError) {
 
 console.error(
 "おすすめ作品取得エラー:",
 animeError
 );
 
-section.style.display =
-"none";
+return;
+
+}
+
+
+if (
+!animeData ||
+animeData.length === 0
+) {
 
 return;
 
@@ -1406,7 +1429,7 @@ return;
 
 
 /* =========================================================
-   順番を維持
+   管理画面で設定した順番を維持
 ========================================================= */
 
 const animeMap =
@@ -1436,20 +1459,16 @@ if (
 !orderedAnime.length
 ) {
 
-section.style.display =
-"none";
-
 return;
 
 }
 
 
-container.innerHTML =
-"";
+container.innerHTML = "";
 
 
 /* =========================================================
-   カード生成
+   おすすめカード
 ========================================================= */
 
 orderedAnime.forEach(
@@ -1589,14 +1608,6 @@ console.error(
 error
 );
 
-/*
-   おすすめが取得できなくても
-   サイトにはエラー文を表示しない。
-*/
-
-section.style.display =
-"none";
-
 }
 
 }
@@ -1650,9 +1661,6 @@ console.error(
 error
 );
 
-section.style.display =
-"none";
-
 return;
 
 }
@@ -1663,9 +1671,6 @@ if (
 data.length === 0
 ) {
 
-section.style.display =
-"none";
-
 return;
 
 }
@@ -1674,9 +1679,12 @@ return;
 const ad =
 data[0];
 
-let html =
-"";
+let html = "";
 
+
+/* =========================================================
+   広告画像
+========================================================= */
 
 if (
 ad.image_url &&
@@ -1689,9 +1697,7 @@ html += `
 
 <img
 src="${escapeHTML(ad.image_url)}"
-alt="${escapeHTML(
-ad.title || "広告"
-)}"
+alt="${escapeHTML(ad.title || "広告")}"
 loading="lazy"
 onerror="this.style.display='none';"
 >
@@ -1701,6 +1707,10 @@ onerror="this.style.display='none';"
 }
 
 
+/* =========================================================
+   企業名
+========================================================= */
+
 if (
 ad.company_name
 ) {
@@ -1708,15 +1718,17 @@ ad.company_name
 html += `
 
 <div class="ad-company">
-${escapeHTML(
-ad.company_name
-)}
+${escapeHTML(ad.company_name)}
 </div>
 
 `;
 
 }
 
+
+/* =========================================================
+   タイトル
+========================================================= */
 
 if (
 ad.title
@@ -1725,15 +1737,17 @@ ad.title
 html += `
 
 <div class="ad-title">
-${escapeHTML(
-ad.title
-)}
+${escapeHTML(ad.title)}
 </div>
 
 `;
 
 }
 
+
+/* =========================================================
+   説明
+========================================================= */
 
 if (
 ad.description
@@ -1742,15 +1756,17 @@ ad.description
 html += `
 
 <div class="ad-description">
-${escapeHTML(
-ad.description
-)}
+${escapeHTML(ad.description)}
 </div>
 
 `;
 
 }
 
+
+/* =========================================================
+   リンク
+========================================================= */
 
 if (
 ad.link_url &&
@@ -1763,9 +1779,7 @@ html += `
 
 <a
 class="ad-button"
-href="${escapeHTML(
-ad.link_url
-)}"
+href="${escapeHTML(ad.link_url)}"
 target="_blank"
 rel="noopener noreferrer nofollow">
 
@@ -1778,12 +1792,13 @@ rel="noopener noreferrer nofollow">
 }
 
 
+/*
+   有効な広告内容がなければ表示しない。
+*/
+
 if (
 !html.trim()
 ) {
-
-section.style.display =
-"none";
 
 return;
 
@@ -1804,10 +1819,30 @@ console.error(
 error
 );
 
-section.style.display =
-"none";
+}
 
 }
+
+
+/* =========================================================
+   アニメ一覧へのスクロール
+========================================================= */
+
+function scrollToAnimeList() {
+
+const target =
+document.getElementById(
+"anime-list"
+);
+
+if (!target) {
+return;
+}
+
+target.scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
 
 }
 
@@ -1818,7 +1853,7 @@ section.style.display =
 
 document.addEventListener(
 "DOMContentLoaded",
-function() {
+() => {
 
 loadRecommendations();
 
@@ -1826,8 +1861,28 @@ loadAnime();
 
 loadAdvertisement();
 
-}
+
+/*
+   URLに #anime-list が付いている場合も
+   正しくアニメ一覧まで移動する。
+*/
+
+if (
+window.location.hash === "#anime-list"
+) {
+
+setTimeout(
+() => {
+
+scrollToAnimeList();
+
+},
+100
 );
+
+}
+
+});
 
 </script>
 
