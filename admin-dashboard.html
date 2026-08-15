@@ -418,7 +418,8 @@ placeholder="SF・タイムリープ"
 
 <textarea
 id="description"
-placeholder="あらすじ"></textarea>
+placeholder="あらすじ">
+</textarea>
 
 <label>
 レビュー
@@ -426,7 +427,8 @@ placeholder="あらすじ"></textarea>
 
 <textarea
 id="review"
-placeholder="レビュー"></textarea>
+placeholder="レビュー">
+</textarea>
 
 <label>
 公式サイトURL
@@ -762,7 +764,8 @@ placeholder="○○公式サイト"
 
 <textarea
 id="ad-description"
-placeholder="広告の説明文"></textarea>
+placeholder="広告の説明文">
+</textarea>
 
 <label>
 広告画像
@@ -891,7 +894,7 @@ const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnU-Kw_SLUd8R0c";
+"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
 
 const supabaseClient =
 supabase.createClient(
@@ -1010,87 +1013,6 @@ return String(time).slice(0,5);
 
 
 /* =====================================================
-   ★ 50音順ソート
-===================================================== */
-
-/*
-   日本語タイトルを基準に50音順で並べます。
-
-   localeCompare("ja") を使用することで、
-
-   あ → か → さ → た → な
-   → は → ま → や → ら → わ
-
-   の日本語順で比較します。
-*/
-
-const japaneseCollator =
-new Intl.Collator(
-"ja",
-{
-sensitivity: "base",
-numeric: true
-}
-);
-
-
-/*
-   タイトルの先頭にある
-   空白・括弧・記号などをある程度無視して
-   ソートしやすくします。
-*/
-
-function getAnimeSortTitle(title) {
-
-return String(title || "")
-.trim()
-.replace(
-/^[「『【［（〈《〔｛（\[\(【『「]+/,
-""
-)
-.normalize("NFKC");
-
-}
-
-
-/*
-   アニメ配列を50音順にする。
-*/
-
-function sortAnime50on(list) {
-
-return [...list].sort(
-(a, b) => {
-
-const titleA =
-getAnimeSortTitle(a.title);
-
-const titleB =
-getAnimeSortTitle(b.title);
-
-const result =
-japaneseCollator.compare(
-titleA,
-titleB
-);
-
-if (result !== 0) {
-return result;
-}
-
-
-/*
-   日本語タイトルが同じ場合はID順。
-*/
-
-return Number(a.id) - Number(b.id);
-
-});
-
-}
-
-
-/* =====================================================
    ログイン確認
 ===================================================== */
 
@@ -1156,6 +1078,12 @@ await supabaseClient
 .from("anime")
 .select(
 "id,title,english_title,genre,description,review,official_url"
+)
+.order(
+"id",
+{
+ascending: true
+}
 );
 
 if (error) {
@@ -1170,15 +1098,8 @@ return;
 
 }
 
-
-/*
-   ★ 取得した時点で50音順にする
-*/
-
 animeData =
-sortAnime50on(
-data || []
-);
+data || [];
 
 renderAnime(animeData);
 
@@ -1199,21 +1120,12 @@ document.getElementById("list");
 const count =
 document.getElementById("count");
 
-
-/*
-   ★ 表示する直前にも50音順にする。
-   これにより検索結果も50音順になります。
-*/
-
-const sortedList =
-sortAnime50on(list);
-
 count.textContent =
-`${sortedList.length}作品`;
+`${list.length}作品`;
 
 container.innerHTML = "";
 
-if (!sortedList.length) {
+if (!list.length) {
 
 container.innerHTML =
 "<p>該当する作品はありません。</p>";
@@ -1222,7 +1134,7 @@ return;
 
 }
 
-sortedList.forEach(anime => {
+list.forEach(anime => {
 
 const item =
 document.createElement("div");
@@ -1511,9 +1423,7 @@ document
 function() {
 
 const keyword =
-this.value
-.trim()
-.toLowerCase();
+this.value.trim().toLowerCase();
 
 if (!keyword) {
 
@@ -1554,14 +1464,7 @@ return (
 
 });
 
-
-/*
-   ★ 検索結果も50音順
-*/
-
-renderAnime(
-sortAnime50on(filtered)
-);
+renderAnime(filtered);
 
 });
 
@@ -1581,24 +1484,12 @@ const currentValue =
 select.value;
 
 select.innerHTML = `
-
 <option value="">
 アニメを選択してください
 </option>
-
 `;
 
-
-/*
-   ★ おすすめ選択欄も50音順
-*/
-
-const sortedAnime =
-sortAnime50on(
-animeData
-);
-
-sortedAnime.forEach(anime => {
+animeData.forEach(anime => {
 
 const option =
 document.createElement("option");
@@ -1614,10 +1505,8 @@ select.appendChild(option);
 });
 
 if (currentValue) {
-
 select.value =
 currentValue;
-
 }
 
 }
@@ -2017,10 +1906,8 @@ return;
 
 }
 
-if (
-startDate === endDate &&
-startTime === endTime
-) {
+if (startDate === endDate &&
+startTime === endTime) {
 
 message.textContent =
 "開始日時と終了日時を同じにはできません。";
@@ -2062,6 +1949,7 @@ isActive
 
 message.textContent =
 "保存しています……";
+
 
 let result;
 
@@ -2794,7 +2682,6 @@ ad.is_active
 :
 "toggle-on"
 }">
-
 ${
 ad.is_active
 ?
@@ -2802,7 +2689,6 @@ ad.is_active
 :
 "表示する"
 }
-
 </button>
 
 <button class="delete">
@@ -3027,11 +2913,9 @@ await supabaseClient.auth
 .getSession();
 
 if (!sessionData.session) {
-
 throw new Error(
 "ログインセッションがありません。"
 );
-
 }
 
 let imageUrl =
@@ -3090,9 +2974,7 @@ contentType: file.type
 );
 
 if (uploadError) {
-
 throw uploadError;
-
 }
 
 const {
@@ -3151,9 +3033,7 @@ await supabaseClient
 }
 
 if (result.error) {
-
 throw result.error;
-
 }
 
 adMessage.textContent =
