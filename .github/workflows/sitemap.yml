@@ -1,36 +1,50 @@
-name: Update Sitemap
+name: Generate Sitemap
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+
   schedule:
     - cron: "0 * * * *"
+
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  update-sitemap:
+  sitemap:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Generate sitemap
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_URL: https://bhgdjuwlxvbaeraaivmh.supabase.co
+          SUPABASE_KEY: sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c
         run: |
+
           python3 <<'PY'
-          import json
           import os
+          import json
           import urllib.request
-          from xml.sax.saxutils import escape
+          import xml.etree.ElementTree as ET
 
           SUPABASE_URL = os.environ["SUPABASE_URL"]
           SUPABASE_KEY = os.environ["SUPABASE_KEY"]
 
-          API_URL = (
+          BASE_URL = "https://just-an-anime-review.github.io"
+
+          headers = {
+              "apikey": SUPABASE_KEY,
+              "Authorization": f"Bearer {SUPABASE_KEY}"
+          }
+
+          url = (
               SUPABASE_URL
               + "/rest/v1/anime"
               + "?select=id"
@@ -38,74 +52,90 @@ jobs:
           )
 
           request = urllib.request.Request(
-              API_URL,
-              headers={
-                  "apikey": SUPABASE_KEY,
-                  "Authorization": "Bearer " + SUPABASE_KEY
-              }
+              url,
+              headers=headers
           )
 
           with urllib.request.urlopen(request) as response:
-              anime_list = json.load(response)
+              data = json.load(response)
 
-          BASE_URL = "https://just-an-anime-review.github.io"
+          urls = []
 
-          urls = [
-              BASE_URL + "/",
-              BASE_URL + "/anime.html"
-          ]
+          # トップページ
+          urls.append(
+              f"{BASE_URL}/"
+          )
 
-          for anime in anime_list:
+          # アニメ一覧
+          urls.append(
+              f"{BASE_URL}/anime.html"
+          )
+
+          # アニメ詳細ページ
+          for anime in data:
               anime_id = anime.get("id")
 
               if anime_id is None:
                   continue
 
               urls.append(
-                  BASE_URL
-                  + "/anime-detail.html?id="
-                  + str(anime_id)
+                  f"{BASE_URL}/anime-detail.html?id={anime_id}"
               )
 
-          xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-
-          xml += (
-              '<urlset '
-              'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-              '\n'
+          # sitemap.xml
+          urlset = ET.Element(
+              "urlset",
+              {
+                  "xmlns":
+                  "http://www.sitemaps.org/schemas/sitemap/0.9"
+              }
           )
 
-          for url in urls:
-              xml += "  <url>\n"
-              xml += "    <loc>" + escape(url) + "</loc>\n"
-              xml += "  </url>\n"
+          for page_url in urls:
 
-          xml += "</urlset>\n"
+              url_element = ET.SubElement(
+                  urlset,
+                  "url"
+              )
 
-          with open(
+              loc = ET.SubElement(
+                  url_element,
+                  "loc"
+              )
+
+              loc.text = page_url
+
+          tree = ET.ElementTree(urlset)
+
+          ET.indent(
+              tree,
+              space="  "
+          )
+
+          tree.write(
               "sitemap.xml",
-              "w",
-              encoding="utf-8"
-          ) as file:
-              file.write(xml)
+              encoding="utf-8",
+              xml_declaration=True
+          )
 
           print(
-              "Sitemap updated:",
-              len(urls),
-              "URLs"
+              f"Sitemap generated: {len(urls)} URLs"
           )
+
           PY
 
       - name: Commit sitemap
         run: |
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add sitemap.xml
 
           if git diff --cached --quiet; then
-            echo "No changes."
-          else
-            git commit -m "Update sitemap"
-            git push
+            echo "No changes to sitemap.xml"
+            exit 0
           fi
+
+          git commit -m "Update sitemap"
+          git push
