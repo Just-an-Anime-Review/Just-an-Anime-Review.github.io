@@ -1359,8 +1359,12 @@ async function loadAnime() {
             "";
 
 
+        /* =========================
+           SEO：ページタイトル
+        ========================= */
+
         document.title =
-            `${title} | Just An Anime Review`;
+            `${title}｜レビュー・あらすじ・感想・評価 | Just An Anime Review`;
 
 
         const metaDescription =
@@ -1401,11 +1405,15 @@ async function loadAnime() {
             );
 
 
+        /* =========================
+           SEO：OGPタイトル
+        ========================= */
+
         document
             .getElementById("og-title")
             .setAttribute(
                 "content",
-                `${title} | Just An Anime Review`
+                `${title}｜レビュー・あらすじ・感想・評価 | Just An Anime Review`
             );
 
 
