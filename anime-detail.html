@@ -1527,6 +1527,19 @@ async function loadAnime() {
             "url":
                 canonicalUrl,
 
+            "inLanguage":
+                "ja",
+
+            "about": {
+
+                "@type":
+                    "TVSeries",
+
+                "name":
+                    title
+
+            },
+
             "mainEntityOfPage": {
 
                 "@type":
@@ -1543,11 +1556,22 @@ async function loadAnime() {
                     "Organization",
 
                 "name":
-                    "Just An Anime Review"
+                    "Just An Anime Review",
+
+                "url":
+                    "https://just-an-anime-review.github.io/"
 
             }
 
         };
+
+
+        if (genre) {
+
+            structuredData.about.genre =
+                genre;
+
+        }
 
 
         const oldSchema =
