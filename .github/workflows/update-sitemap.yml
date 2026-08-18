@@ -25,12 +25,13 @@ jobs:
           import json
           import os
           import urllib.request
+          import urllib.parse
           from xml.sax.saxutils import escape
 
           supabase_url = os.environ["SUPABASE_URL"].rstrip("/")
           supabase_key = os.environ["SUPABASE_KEY"]
 
-          url = (
+          api_url = (
               supabase_url
               + "/rest/v1/anime"
               + "?select=id"
@@ -38,7 +39,7 @@ jobs:
           )
 
           request = urllib.request.Request(
-              url,
+              api_url,
               headers={
                   "apikey": supabase_key,
                   "Authorization": f"Bearer {supabase_key}"
@@ -61,11 +62,16 @@ jobs:
               if anime_id is None:
                   continue
 
-              urls.append(
+              detail_url = (
                   site_url
                   + "/anime-detail.html?id="
-                  + urllib.parse.quote(str(anime_id), safe="")
+                  + urllib.parse.quote(
+                      str(anime_id),
+                      safe=""
+                  )
               )
+
+              urls.append(detail_url)
 
           xml = [
               '<?xml version="1.0" encoding="UTF-8"?>',
@@ -74,11 +80,7 @@ jobs:
 
           for url in urls:
               xml.append("    <url>")
-              xml.append(
-                  "        <loc>"
-                  + escape(url)
-                  + "</loc>"
-              )
+              xml.append(f"        <loc>{escape(url)}</loc>")
               xml.append("    </url>")
 
           xml.append("</urlset>")
