@@ -909,6 +909,7 @@ class="back">
 
 </article>
 
+
 </main>
 
 
@@ -952,7 +953,7 @@ const SUPABASE_URL =
 "https://bhgdjuwlxvbaeraaivmh.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_-rZ4HusVezs5IlZQnUQ-Kw_SLUd8R0c";
+"sb_publishable_-rZ4HusVezs5IlQZnuU-Kw_SLUd8R0c";
 
 
 /* =========================================
@@ -1031,6 +1032,37 @@ const currentAnimeId =
     new URLSearchParams(
         window.location.search
     ).get("id");
+
+
+/* =========================================
+   SEO：canonical URL
+========================================= */
+
+if (currentAnimeId) {
+
+    const canonicalUrl =
+        window.location.origin +
+        window.location.pathname +
+        "?id=" +
+        encodeURIComponent(
+            currentAnimeId
+        );
+
+    document
+        .getElementById("canonical")
+        .setAttribute(
+            "href",
+            canonicalUrl
+        );
+
+    document
+        .getElementById("og-url")
+        .setAttribute(
+            "content",
+            canonicalUrl
+        );
+
+}
 
 
 /* =========================================
