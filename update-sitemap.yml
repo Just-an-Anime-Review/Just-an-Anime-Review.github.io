@@ -1,0 +1,132 @@
+name: Update Sitemap
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate sitemap
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          python3 <<'PY'
+          import os
+          import urllib.request
+          import urllib.parse
+          import xml.etree.ElementTree as ET
+
+          supabase_url = os.environ["SUPABASE_URL"].rstrip("/")
+          supabase_key = os.environ["SUPABASE_KEY"]
+
+          url = (
+              supabase_url
+              + "/rest/v1/anime"
+              + "?select=id"
+              + "&order=id.asc"
+          )
+
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "apikey": supabase_key,
+                  "Authorization": "Bearer " + supabase_key
+              }
+          )
+
+          with urllib.request.urlopen(request) as response:
+              data = response.read().decode("utf-8")
+
+          import json
+          anime_list = json.loads(data)
+
+          namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
+
+          ET.register_namespace("", namespace)
+
+          urlset = ET.Element(
+              "{%s}urlset" % namespace
+          )
+
+          base_urls = [
+              "https://just-an-anime-review.github.io/",
+              "https://just-an-anime-review.github.io/anime.html"
+          ]
+
+          for page_url in base_urls:
+              url_element = ET.SubElement(
+                  urlset,
+                  "{%s}url" % namespace
+              )
+
+              loc = ET.SubElement(
+                  url_element,
+                  "{%s}loc" % namespace
+              )
+
+              loc.text = page_url
+
+          for anime in anime_list:
+
+              anime_id = anime.get("id")
+
+              if anime_id is None:
+                  continue
+
+              page_url = (
+                  "https://just-an-anime-review.github.io/"
+                  "anime-detail.html?id="
+                  + urllib.parse.quote(str(anime_id), safe="")
+              )
+
+              url_element = ET.SubElement(
+                  urlset,
+                  "{%s}url" % namespace
+              )
+
+              loc = ET.SubElement(
+                  url_element,
+                  "{%s}loc" % namespace
+              )
+
+              loc.text = page_url
+
+          tree = ET.ElementTree(urlset)
+
+          tree.write(
+              "sitemap.xml",
+              encoding="utf-8",
+              xml_declaration=True
+          )
+          PY
+
+      - name: Check sitemap
+        run: |
+          cat sitemap.xml
+
+      - name: Commit sitemap
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add sitemap.xml
+
+          if git diff --cached --quiet; then
+            echo "Sitemap is already up to date."
+            exit 0
+          fi
+
+          git commit -m "Update sitemap"
+          git push
